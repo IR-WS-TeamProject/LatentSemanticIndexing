@@ -3,7 +3,7 @@
 		{{title}}
 	</h1>
 	<div class="content">
-		<input [(ngModel)]="query" placeholder="Query">
+		<input [(ngModel)]="query" placeholder="Query" (keyup.enter)="updateSearchResults(query)">
 		<ul>
 			<li *ngFor="let result of results">
 				<a [href]="result.url">

@@ -16,8 +16,14 @@ export class AppComponent implements OnInit {
   constructor(private searchResultService: SearchResultsService) { }
 
   ngOnInit() {
-  	this.searchResultService.getSearchResults('initial query?')
+  	/* this.searchResultService.getSearchResults('initial query?')
   		.then(searchResults => this.results = searchResults)
+      .catch(() => {}) // nice error handling tho */
+  }
+
+  updateSearchResults(query: string): void {
+    this.searchResultService.getSearchResults(query)
+      .then(searchResults => this.results = searchResults)
       .catch(() => {}) // nice error handling tho
   }
 }

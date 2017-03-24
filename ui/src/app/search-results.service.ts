@@ -14,12 +14,13 @@ export class SearchResultsService {
   constructor(private http: Http) { }
 
   getSearchResults(query: string): Promise<SearchResult[]> {
-  	// return Promise.resolve(SEARCH_RESULTS)
-  	const url = `${this.apiUrl}${encodeURI(query)}`
+    console.log(`Find documents for: ${query}`)
+  	return Promise.resolve(SEARCH_RESULTS)
+  	/* const url = `${this.apiUrl}${encodeURI(query)}`
   	return this.http.get(url)
      .toPromise()
      .then(response => response.json().data as SearchResult[])
-     .catch(this.handleError)
+     .catch(this.handleError) */
   }
 
   private handleError(error: any): Promise<any> {

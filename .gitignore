@@ -27,3 +27,6 @@ JavaModule/.settings/
 # Maven
 log/
 JavaModule/target/
+
+# Jupyter Notebook
+.ipynb_checkpoints

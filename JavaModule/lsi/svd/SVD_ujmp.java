@@ -10,7 +10,7 @@ public class SVD_ujmp {
 	public static void main(String[] args) {
 		SparseMatrix m = SparseMatrix.Factory.zeros(2, 2);
 		m.setAsDouble(1.0, 0, 0);
-		m.setAsDouble(1.0, 0, 0);
+		m.setAsDouble(1.0, 1, 0);
 		
 		Matrix[] svd = m.svd();
 		

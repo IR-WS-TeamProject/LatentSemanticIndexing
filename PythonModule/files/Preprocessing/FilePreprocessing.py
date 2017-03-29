@@ -30,32 +30,48 @@ def getPathsToAllResourceFiles (rootDirectory):
 ################################################################
 # Next steps
 # 1) write a "bag of words" method that accepts a string
-#    - delete punctuation [Problems: Telephone numbers e.g. (716) 837-2475 and times e.g. 11:57:19 and prices e.g. $4.95]
-#    - toLowerCase
+#    - delete punctuation [Problems: Telephone numbers e.g. (716) 837-2475 and times e.g. 11:57:19 and prices e.g. $4.95] -> started
+#    - toLowerCase -> DONE
 #    - stem (use external library)
-#    - tokenize [Problems: Numbers that belong together e.g. 071 831 7723]
+#    - tokenize [Problems: Numbers that belong together e.g. 071 831 7723] -> started
 ################################################################
 
 
+# this method returns a string array with the words of the document
 def getBagOfWords(inputString):
 
     # does it really work like this? Do I have to cast the input Parameter?! I hate this ducktyping...
     returnString = str(inputString)
+
+    # lower case transformation
     returnString = returnString.lower()
 
     # TODO: how to handle special characters etc. ?!?!
 
-    """
-        # very cumbersome and not performant, but one way would be:
-        returnString = ''.join(i for i in returnString if ord(i) < 128) # this limits the allowed characters to ASCI II
-        
-        # take care of special characters...
-        returnString = returnString.replace(": ", "")
-        returnString = returnString.replace(". ", "")
-        returnString = returnString.replace(", ", "")
-        returnString = returnString.replace("(", "")
-        returnString = returnSTring.replace(")", "")
-    """
+
+    #------------------------------------------------------------------
+
+    # very cumbersome and not performant, but one way would be:
+    returnString = ''.join(i for i in returnString if ord(i) < 128) # this limits the allowed characters to ASCI II
+
+    # take care of special characters...
+    returnString = returnString.replace(": ", " ") # allows for tokens like "12:00:30"
+    returnString = returnString.replace(". ", " ") # allows for tokens like "10.50" or dates like "2017.03.05"
+    returnString = returnString.replace(", ", " ")
+    returnString = returnString.replace("(", "")
+    returnString = returnString.replace(")", "")
+    returnString = returnString.replace("$", "")
+    returnString = returnString.replace("]", "")
+    returnString = returnString.replace("[", "")
+    returnString = returnString.replace(", ", " ") # allows for tokens like 5,5 (German decimal)
+    returnString = returnString.replace(";", "")
+    returnString = returnString.replace("-", "")
+    returnString = returnString.replace(">", "")
+    returnString = returnString.replace("<", "")
+    # TODO: Cover all ASCII special characters (not that many)
+
+    #------------------------------------------------------------------
+
 
     #handle line breaks
     returnString = returnString.replace("\n", " ")
@@ -77,5 +93,7 @@ print (allFiles) # print all files
 # Read the first file as a single string and output
 with open(allFiles[0], 'rt') as f:
     data = f.read()
+    print(data)
+    print ("BOW:")
     print(getBagOfWords(data))
 

@@ -1,5 +1,6 @@
 import os.path
-import string
+import re
+from nltk.stem.porter import *
 
 
 # this method returns a string-array with the complete file paths for each file for further processing
@@ -27,6 +28,14 @@ def getPathsToAllResourceFiles (rootDirectory):
 
 
 
+def multiple_replace(text, adict):
+    rx = re.compile('|'.join(map(re.escape, adict)))
+    def one_xlat(match):
+        return adict[match.group(0)]
+    return rx.sub(one_xlat, text)
+
+
+
 ################################################################
 # Next steps
 # 1) write a "bag of words" method that accepts a string
@@ -47,66 +56,68 @@ def getBagOfWords(inputString):
     returnString = returnString.lower()
 
     # TODO: how to handle special characters etc. ?!?!
+    # TODO: Cover all ASCII special characters (not that many)
 
     #------------------------------------------------------------------
 
     # very cumbersome and not performant, but one way would be:
     returnString = ''.join(i for i in returnString if ord(i) < 128) # this limits the allowed characters to ASCI II
 
-    # exclude header parameters
-    returnString = returnString.replace("from:", "")
-    returnString = returnString.replace("subject:", "")
-    returnString = returnString.replace("re:", "")
-    returnString = returnString.replace("organization:", "")
-    returnString = returnString.replace("distribution:", "")
-    returnString = returnString.replace("lines:", "")
-    returnString = returnString.replace("reply-to:", "")
+    adict = {
+        "from:": "",
+        "subject:": "",
+        "re:": "",
+        "organization:": "",
+        "distribution:": "",
+        "lines:": "",
+        "reply-to:": "",
 
+        ": ": " ",              # allows for tokens like "12:00:30"
+        ". ": " ",              # allows for tokens like "10.50" or dates like "2017.03.05"
+        ", ": " ",              # allows for tokens like 5,5 (German decimal)
 
-    # take care of special characters...
-    returnString = returnString.replace(": ", " ")  # allows for tokens like "12:00:30"
-    returnString = returnString.replace(". ", " ")  # allows for tokens like "10.50" or dates like "2017.03.05"
-    returnString = returnString.replace(", ", " ")  # allows for tokens like 5,5 (German decimal)
+        "\n": " ",              # handle line breaks
+        ".\n": " ",
+        "..": " ",
+        ",\n": " ",
+        ":\n": " ",
 
-    returnString = returnString.replace("", "")     # ascii 32: space
-    returnString = returnString.replace("!", "")    # ascii 33
-    returnString = returnString.replace('\"', "")   # ascii 34: quotation marks
-    returnString = returnString.replace("#", "")    # ascii 35
-    returnString = returnString.replace("$", "")    # ascii 36
-    returnString = returnString.replace("%", "")    # ascii 37
-    returnString = returnString.replace("&", "")    # ascii 38
-    returnString = returnString.replace("\'", "")   # ascii 39: single quote
-    returnString = returnString.replace("(", "")    # ascii 40
-    returnString = returnString.replace(")", "")    # ascii 41
-    returnString = returnString.replace("*", "")    # ascii 42
-    returnString = returnString.replace("+", "")    # ascii 43
-    returnString = returnString.replace("-", "")    # ascii 45
-    returnString = returnString.replace("/", "")   # ascii 47
+        "!": "",                # ascii 33
+        '\"': "",               # ascii 34: quotation marks
+        "#": "",                # ascii 35
+        "$": "",                # ascii 36
+        "%": "",                # ascii 37
+        "&": "",                # ascii 38
+        "\'": "",               # ascii 39: single quote
+        "(": "",                # ascii 40
+        ")": "",                # ascii 41
+        "*": "",                # ascii 42
+        "+": "",                # ascii 43
+        "-": "",                # ascii 45
+        "/": "",                # ascii 47
 
-    returnString = returnString.replace(";", "")    # ascii 59
-    returnString = returnString.replace("<", "")    # ascii 60
-    returnString = returnString.replace("=", "")    # ascii 61
-    returnString = returnString.replace(">", "")    # ascii 62
-    returnString = returnString.replace("?", "")    # ascii 63
+        ";": "",                # ascii 59
+        "<": "",                # ascii 60
+        "=": "",                # ascii 61
+        ">": "",                # ascii 62
+        "?": "",                # ascii 63
 
-    returnString = returnString.replace("[", "")    # ascii 91
-    returnString = returnString.replace("\\", "")   # ascii 92
-    returnString = returnString.replace("]", "")    # ascii 93
-    returnString = returnString.replace("", "")     # ascii 94
-    #returnString = returnString.replace("_", "")   # ascii 95
+        "[": "",                # ascii 91
+        "\\": "",               # ascii 92
+        "]": "",                # ascii 93
+        "^": "",                # ascii 94
+        "_": "",                # ascii 95
+        "`": "",                # ascii 96
 
-    returnString = returnString.replace("{", "")    # ascii 123
-    returnString = returnString.replace("|", "")    # ascii 124
-    returnString = returnString.replace("}", "")    # ascii 125
-    returnString = returnString.replace("~", "")    # ascii 126
+        "{": "",                # ascii 123
+        "|": "",                # ascii 124
+        "}": "",                # ascii 125
+        "~": ""                 # ascii 126
+    }
 
-    # TODO: Cover all ASCII special characters (not that many)
+    returnString = multiple_replace(returnString, adict)
 
     #------------------------------------------------------------------
-
-
-    #handle line breaks
-    returnString = returnString.replace("\n", " ")
 
     # create tokens
     returnString = returnString.split(" ")
@@ -114,9 +125,17 @@ def getBagOfWords(inputString):
     #remove empty entries
     returnString = [x for x in returnString if x]
 
+
+    # apply stemming by porter
+    stemmer = PorterStemmer()
+    words = [stemmer.stem(x) for x in returnString]
+
+    returnString = ' '.join(words)
+
+    # create tokens
+    returnString = returnString.split(" ")
+
     return returnString
-
-
 
 
 # example of how to call the method
@@ -125,9 +144,8 @@ allFiles = getPathsToAllResourceFiles(myRootDirectory)
 # print (allFiles) # print all files
 
 # Read the first file as a single string and output
-with open(allFiles[0], 'rt') as f:
+with open(allFiles[0], 'rt', encoding='utf-8', errors='replace') as f:
     data = f.read()
     print(data)
     print ("BOW:")
     print(getBagOfWords(data))
-

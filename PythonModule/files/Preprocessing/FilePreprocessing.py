@@ -36,3 +36,11 @@ with open(allFiles[0], 'rt') as f:
     data = f.read()
     print(data)
 
+
+################################################################
+# Next steps
+# 1) write a "bag of words" method that accepts a string
+#    - delete punctuation [Problems: Telephone numbers e.g. (716) 837-2475 and times e.g. 11:57:19 and prices e.g. $4.95]
+#    - toLowerCase
+#    - stem (use external library)
+#    - tokenize [Problems: Numbers that belong together e.g. 071 831 7723]

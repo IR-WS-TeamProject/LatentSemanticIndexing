@@ -34,5 +34,8 @@ JavaModule/target/
 # python
 __pycache__
 
+# batch files
+*.bat
+
 # data
 data

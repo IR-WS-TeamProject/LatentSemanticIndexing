@@ -31,5 +31,8 @@ JavaModule/target/
 # Jupyter Notebook
 .ipynb_checkpoints
 
+# python
+__pycache__
+
 # data
 data

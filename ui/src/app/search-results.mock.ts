@@ -1,9 +1,9 @@
 import { SearchResult } from './search-result'
 
 export const SEARCH_RESULTS: SearchResult[] = [{
-	title: 'Hello World',
-	url: 'https://en.wikipedia.org/wiki/%22Hello,_World!%22_program'
+	doc: 'Hello World',
+	rank: 1
 }, {
-	title: 'Dwight Howard',
-	url: 'https://en.wikipedia.org/wiki/Dwight_Howard'
+	doc: 'Dwight Howard',
+	rank: 2
 }]

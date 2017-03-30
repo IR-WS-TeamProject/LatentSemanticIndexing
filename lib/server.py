@@ -40,6 +40,17 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
 			self.send_header('Content-type',contenttype)
 			self.end_headers()
 			self.wfile.write(bytearray(body, 'utf-8'))
+		elif self.path.startswith('/api?doc='):
+			doc = self.path.replace('/api?doc=', '')
+			path = './data/20news-bydate/20news-bydate-train/' + doc
+			contenttype = 'text/plain'
+			print("path: ", path)
+			f = f = open(path, 'rb')
+			self.send_response(200)
+			self.send_header('Content-type',contenttype)
+			self.end_headers()
+			self.wfile.write(f.read())
+			f.close()
 		else:
 			path = './ui/dist' + self.path
 			contenttype = 'application/javascript'

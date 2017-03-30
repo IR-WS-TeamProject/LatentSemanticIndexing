@@ -2,15 +2,18 @@
 	<h1>
 		{{title}}
 	</h1>
+	<input [(ngModel)]="query" placeholder="Query" (keyup.enter)="updateSearchResults(query)">
 	<div class="content">
-		<input [(ngModel)]="query" placeholder="Query" (keyup.enter)="updateSearchResults(query)">
 		<ul>
 			<li *ngFor="let result of results">
-				<a>
+				<a (click)="updateDocument(result.doc)">
 					<h2>{{result.doc}}</h2>
 					<p>{{result.rank}}</p>
 			  	</a>
 			</li>
 		</ul>
+		<div class="document">
+			{{document}}
+		</div>
 	</div>
 </div>

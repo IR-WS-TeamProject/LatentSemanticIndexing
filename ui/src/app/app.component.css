@@ -1,4 +1,4 @@
-.content {
+.content, input {
 	margin: 0 0 0 20px;
 }
 
@@ -12,6 +12,7 @@ ul {
 	padding: 0;
 	margin: 15px 0 0 0;
 	width: 40%;
+	float: left;
 }
 
 li {
@@ -26,4 +27,11 @@ li:hover {
 
 li h2 {
 	margin: 0 0 4px 0;
+}
+
+.document {
+	white-space: pre-wrap;
+	float: right;
+	width: 40%;
+	margin: 0 15% 0 0;
 }

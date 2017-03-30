@@ -1,6 +1,10 @@
 import http.server
 import socketserver
 from os import curdir, sep
+import urllib
+import json
+
+import queryexec
 
 #https://docs.python.org/3/library/http.server.html
 
@@ -16,16 +20,36 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
 		if self.path == '/':
 			path = './ui/dist/index.html'
 			contenttype = 'text/html'
+			print("path: ", path)
+			f = f = open(path, 'rb')
+			self.send_response(200)
+			self.send_header('Content-type',contenttype)
+			self.end_headers()
+			self.wfile.write(f.read())
+			f.close()
+		elif self.path.startswith('/api?query='):
+			query = self.path.replace('/api?query=', '')
+			query = urllib.parse.unquote(query)
+			print('query: ', query)
+			## TODO resolve mock
+			rankedList = queryexec.getRankedListMock()
+			##
+			contenttype = 'application/json'
+			body = json.dumps(rankedList)
+			self.send_response(200)
+			self.send_header('Content-type',contenttype)
+			self.end_headers()
+			self.wfile.write(bytearray(body, 'utf-8'))
 		else:
 			path = './ui/dist' + self.path
 			contenttype = 'application/javascript'
-		print("path: ", path)
-		f = f = open(path, 'rb')
-		self.send_response(200)
-		self.send_header('Content-type',contenttype)
-		self.end_headers()
-		self.wfile.write(f.read())
-		f.close()
+			print("path: ", path)
+			f = f = open(path, 'rb')
+			self.send_response(200)
+			self.send_header('Content-type',contenttype)
+			self.end_headers()
+			self.wfile.write(f.read())
+			f.close()
 		return
 
 with socketserver.TCPServer(("", PORT), MyHandler) as httpd:

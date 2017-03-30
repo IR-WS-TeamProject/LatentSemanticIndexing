@@ -34,9 +34,9 @@ def computeRankedList(cosineVector = MOCK_COS, docs = MOCK_DOCS):
 
 	rankedDocs = []
 	for i in range(0, cosineVector.shape[1]):
-		rankedDocs.append((docs[i], cosineVector[0,i]))
+		rankedDocs.append({'doc': docs[i], 'rank': cosineVector[0,i]})
 
-	rankedDocs.sort(key=lambda tup: tup[1], reverse = True)
+	rankedDocs.sort(key=lambda obj: obj['rank'], reverse = True)
 	return rankedDocs
 
 def getRankedList(query, docs, uk, sk, vkTransposed):
@@ -50,4 +50,3 @@ def getRankedListMock():
 	dk = mapVectorToLowerRank(d, MOCK_Sk, MOCK_Uk)
 	cosVector = computeCosineSimilarities(dk, MOCK_VkTRANSPOSED)
 	return computeRankedList(cosVector, MOCK_DOCS)
-

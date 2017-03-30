@@ -6,9 +6,9 @@
 		<input [(ngModel)]="query" placeholder="Query" (keyup.enter)="updateSearchResults(query)">
 		<ul>
 			<li *ngFor="let result of results">
-				<a [href]="result.url">
-			  		<h2>{{result.title}}</h2>
-			  		<p>{{result.url}}</p>
+				<a>
+					<h2>{{result.doc}}</h2>
+					<p>{{result.rank}}</p>
 			  	</a>
 			</li>
 		</ul>

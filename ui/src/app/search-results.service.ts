@@ -15,12 +15,12 @@ export class SearchResultsService {
 
   getSearchResults(query: string): Promise<SearchResult[]> {
     console.log(`Find documents for: ${query}`)
-  	return Promise.resolve(SEARCH_RESULTS)
-  	/* const url = `${this.apiUrl}${encodeURI(query)}`
+  	// return Promise.resolve(SEARCH_RESULTS)
+  	const url = `${this.apiUrl}${encodeURI(query)}`
   	return this.http.get(url)
      .toPromise()
-     .then(response => response.json().data as SearchResult[])
-     .catch(this.handleError) */
+     .then(response => response.json() as SearchResult[])
+     .catch(this.handleError)
   }
 
   private handleError(error: any): Promise<any> {

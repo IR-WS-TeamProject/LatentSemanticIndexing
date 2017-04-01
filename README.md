@@ -48,5 +48,5 @@ Repository for Task 3: Latent Semantic Indexing.
 - Cosine similarity
 
 
-6) Connect to Frontend [David]
+##### 6) Connect to Frontend [David]
 - write service

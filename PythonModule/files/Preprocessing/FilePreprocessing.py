@@ -1,6 +1,9 @@
 import os.path
-import re
+import json
 from nltk.stem.porter import *
+from nltk.corpus import stopwords
+import nltk
+
 
 
 # this method returns a string-array with the complete file paths for each file for further processing
@@ -34,16 +37,6 @@ def multiple_replace(text, adict):
         return adict[match.group(0)]
     return rx.sub(one_xlat, text)
 
-
-
-################################################################
-# Next steps
-# 1) write a "bag of words" method that accepts a string
-#    - delete punctuation [Problems: Telephone numbers e.g. (716) 837-2475 and times e.g. 11:57:19 and prices e.g. $4.95] -> started
-#    - toLowerCase -> DONE
-#    - stem (use external library)
-#    - tokenize [Problems: Numbers that belong together e.g. 071 831 7723] -> started
-################################################################
 
 
 # this method returns a string array with the words of the document
@@ -125,6 +118,9 @@ def getBagOfWords(inputString):
     #remove empty entries
     returnString = [x for x in returnString if x]
 
+    #remove stopwords
+    stopWordList = set(stopwords.words('english'))
+    returnString = [x for x in returnString if x not in stopWordList]
 
     # apply stemming by porter
     stemmer = PorterStemmer()
@@ -138,14 +134,47 @@ def getBagOfWords(inputString):
     return returnString
 
 
-# example of how to call the method
-myRootDirectory = "/Users/alexandrahofmann/Documents/Master Uni MA/2. Semester/Information Retrieval and Web Search/Team Project/20news-bydate-train"
-allFiles = getPathsToAllResourceFiles(myRootDirectory)
-# print (allFiles) # print all files
 
-# Read the first file as a single string and output
-with open(allFiles[0], 'rt', encoding='utf-8', errors='replace') as f:
-    data = f.read()
-    print(data)
-    print ("BOW:")
-    print(getBagOfWords(data))
+def getAndSaveBagOfWordForAllFiles(pathToCorpus):
+    # dictionary for data structure: filepath -> BOW
+    allFiles = getPathsToAllResourceFiles(pathToCorpus)
+    collection = {}
+
+    # Loop over all files
+    for file in allFiles:
+
+        # open file, process content and add to dictionary
+        with open(allFiles[0], 'rt', encoding='utf-8', errors='replace') as f:
+            print('Processing File ' + file)
+            regexToGetNewFileName = "(?<=20news-bydate-train\\/)(.*)" # This regex will select the filename after 20news-bydate-train in the filepath; demasked: (?<=20news-bydate-train\/)(.*)
+            regexer = re.search(regexToGetNewFileName, file)
+            key = regexer.group(0) # get filename
+            data = f.read()
+            value = getBagOfWords(data)
+            collection[key] = value # write filename (key) and BOW (value) into collection
+
+    # save the dictionary
+    with open('bow.dict', 'w+') as outfile:
+        json.dump(collection, outfile)
+
+    return collection
+
+
+
+
+#################################################################################################################
+# Execute Preprocessing
+#################################################################################################################
+
+
+# IMPORTANT: When used first, you have to download the stopword list. Therefore, uncomment the following line and execute. Download only the stowords list.
+# nltk.download()
+
+# "/Users/alexandrahofmann/Documents/Master Uni MA/2. Semester/Information Retrieval and Web Search/Team Project/20news-bydate-train"
+myRootDirectory = "C:/Users/D060249/Documents/Mannheim/Semester 2/Information Retrieval and Web Search/IR Team Project/20news-bydate-train"
+getAndSaveBagOfWordForAllFiles(myRootDirectory)
+
+
+
+
+

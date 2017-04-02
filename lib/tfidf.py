@@ -4,39 +4,42 @@ import json
 import sys
 
 class TFIDFHandler:
-    #Input: Dict or filepath to json encoded dict
+    #Input: Dict or filepath to json encoded dict, or a path to load from/save to, a flag to indicate if stored files should be loaded (false = re-calculation)
     #returns TFIDF COO-Matrix and sorted Vocabulary + IDF-Vector
-    def __init__(self, docs = None, loadPath = None):
+    def __init__(self, docs = None, path = None, load = True):
         #Handle input formats (target: dict)
-        load = True
-        if(loadPath is not None): #try to load
-            print("TF-IDF: Try to load from file")
+        if(load and path is not None): #try to load
             try:
-                self.tdm = load_npz(loadPath + "tfidf.tdm.npz")
+                self.tdm = load_npz(path + "tfidf.tdm.npz")
 
-                self.docpaths = np.load(loadPath + "tfidf.docs.npy")
-                self.vocab = np.load(loadPath + "tfidf.vocab.npy")
-                self.idf= np.load(loadPath + "tfidf.idf.npy")
+                self.docpaths = np.load(path + "tfidf.docs.npy")
+                self.vocab = np.load(path + "tfidf.vocab.npy")
+                self.idf= np.load(path + "tfidf.idf.npy")
 
+                print("TF-IDF: Loaded from files")
             except:
-                print("TF-IDF: Load from file failed - ", sys.exc_info()[0], " (",sys.exc_info()[1],")")
+                print("TF-IDF: Load from files failed - ", sys.exc_info()[0], " (",sys.exc_info()[1],")")
 
                 load = False
-        else:
-            load = False
 
-        if(not load and docs is not None): #Docs provided, but no path (forced initial load) or load failed (implicit initial load)
+        if(not load and docs is not None): #Docs provided and data not loaded -> load docs and calculate TF-IDF
             if not isinstance(docs,dict):
                 if isinstance(docs, str):
                     print("TF-IDF: Load docs from file")
-                    with open(docs, 'r') as infile:
-                        docs = json.load(infile)
+                    try:
+                        with open(docs, 'r') as infile:
+                            docs = json.load(infile)
+                    except:
+                        print("TF-IDF: Error: Load of docs failed - ", sys.exc_info()[0], " (", sys.exc_info()[1], ")")
+                        return
                 else:
-                    print("TF-IDF: Error: Unsupported format of documents as input!")
+                    print("TF-IDF: Error: Load of docs failed - Unsupported format of documents as input!")
                     return
             self.__createTFIDF__(docs)
-            if(loadPath is not None):
-                self.__save__(loadPath)
+            if(path is not None):
+                self.__save__(path)
+        elif(not load and docs is None):
+            print("TF-IDF: Error: No load of existing TF-IDF and no Docs specified")
         return
 
 

@@ -48,12 +48,7 @@ def getBagOfWords(inputString):
     # lower case transformation
     returnString = returnString.lower()
 
-    # TODO: how to handle special characters etc. ?!?!
-    # TODO: Cover all ASCII special characters (not that many)
 
-    #------------------------------------------------------------------
-
-    # very cumbersome and not performant, but one way would be:
     returnString = ''.join(i for i in returnString if ord(i) < 128) # this limits the allowed characters to ASCI II
 
     adict = {
@@ -71,6 +66,8 @@ def getBagOfWords(inputString):
 
         "\n": " ",              # handle line breaks
         ".\n": " ",
+        ".\"" : " ",
+        ".\'" : " ",
         "..": " ",
         ",\n": " ",
         ":\n": " ",
@@ -108,9 +105,8 @@ def getBagOfWords(inputString):
         "~": ""                 # ascii 126
     }
 
+    # delete/replace special characters
     returnString = multiple_replace(returnString, adict)
-
-    #------------------------------------------------------------------
 
     # create tokens
     returnString = returnString.split(" ")
@@ -118,18 +114,30 @@ def getBagOfWords(inputString):
     #remove empty entries
     returnString = [x for x in returnString if x]
 
-    #remove stopwords
+    #stopword list
     stopWordList = set(stopwords.words('english'))
-    returnString = [x for x in returnString if x not in stopWordList]
 
-    # apply stemming by porter
+    # porter stemmer
     stemmer = PorterStemmer()
-    words = [stemmer.stem(x) for x in returnString]
 
-    returnString = ' '.join(words)
+    # Stopword Removal and Stemming
+    # Remarks: the current nltk porter stemmer has some known issues with "oed"
+    newReturnString = []
+    for currentToken in returnString:
+        if (currentToken not in stopWordList) and currentToken != "oed": #porter stemmer cannot handle that
 
-    # create tokens
-    returnString = returnString.split(" ")
+            # handling cases when the last character is a '.' (this should not be the case but causes an exception with the stemmer)
+            if currentToken.endswith("."):
+                currentToken = currentToken[:len(currentToken) - 1]
+
+            # print(currentToken)
+            stemmer.stem(currentToken)
+            newReturnString.append(currentToken)
+
+        elif currentToken == "oed": # add oed without stemming
+            newReturnString.append("oed")
+
+    returnString = newReturnString
 
     return returnString
 
@@ -144,7 +152,7 @@ def getAndSaveBagOfWordForAllFiles(pathToCorpus):
     for file in allFiles:
 
         # open file, process content and add to dictionary
-        with open(allFiles[0], 'rt', encoding='utf-8', errors='replace') as f:
+        with open(file, 'rt', encoding='utf-8', errors='replace') as f:
             print('Processing File ' + file)
             regexToGetNewFileName = "(?<=20news-bydate-train\\/)(.*)" # This regex will select the filename after 20news-bydate-train in the filepath; demasked: (?<=20news-bydate-train\/)(.*)
             regexer = re.search(regexToGetNewFileName, file)
@@ -152,6 +160,8 @@ def getAndSaveBagOfWordForAllFiles(pathToCorpus):
             data = f.read()
             value = getBagOfWords(data)
             collection[key] = value # write filename (key) and BOW (value) into collection
+
+    print("Number of files processed: " + len(collection))
 
     # save the dictionary
     with open('bow.dict', 'w+') as outfile:

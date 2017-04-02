@@ -10,21 +10,22 @@ class SVDHandler:
 
     # Input: Term-Document-Matrix (Sparse COO), vector of DocPaths [, k]
     # returns U, S, V
-    def __init__(self, tdm, docs, k = 50):
+    def __init__(self, tdm, docs, maxK = 50):
         if isinstance(tdm, coo_matrix):
             self.docs = docs
 
             #calc SVD
-            self.U, s, self.V = svds(tdm, k = k)
+            self.U, s, self.V = svds(tdm, k = maxK)
             # TODO: own k determination and reduction accordingly
 
             #Further precalculations:
             self.S = np.diag(s)
             self.SiUt = inv(self.S).dot(self.U.transpose())
             self.Vt = self.V.transpose()
-            tempNorms = np.diag(self.Vt).dot(self.V)
-            tempNorms[tempNorms < 0] = 0
-            self.docNorms = np.sqrt(tempNorms)
+            #tempNorms = np.diag(self.Vt).dot(self.V)
+            #tempNorms[tempNorms < 0] = 0
+            #self.docNorms = np.sqrt(tempNorms)
+            self.docNorms = np.sum(self.Vt**2,axis=-1)**(1./2)
 
             return
         else:
@@ -52,12 +53,14 @@ def testSVD(docs = {
         'file3': ['alle', 'guten', 'Dinge', 'sind', 'drei'],
         'file4': ['ein', 'test', 'für', 'Dokument', 'drei'],
     }):
-    tdm, vocab, idf, docPaths = tfidf.createTFIDFMatrix(docs)
+    tfidfHandler = tfidf.TFIDFHandler(docs)
     #tfidf.convertDocToVec()   pick first instead:
-    vec = tdm.toarray()[:, 0]
-    print("Input Doc:",docPaths[0],"Vec:",vec )
+    query = ['ein', 'ein', 'weiteres', 'Dokument']
+    print("Query:", query)
+    vec = tfidfHandler.convertDocToVec(query)
+    print("Vec:", vec)
 
-    svdHandler = SVDHandler(tdm, docPaths, k = 3)
+    svdHandler = SVDHandler(tfidfHandler.getTDM(), tfidfHandler.getDocs(), k = 3)
     docs, sims = svdHandler.getRanking(vec)
 
     print("Ranked Docs:", docs )

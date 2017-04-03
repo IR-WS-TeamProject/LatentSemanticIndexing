@@ -1,8 +1,7 @@
+import os
 
 class AbstractFilePreprocessing:
 
-    def __init__(self):
-        ...
 
     def stringTransformation(inputString):
         pass
@@ -32,4 +31,9 @@ class AbstractFilePreprocessing:
                 allFiles.append(completePathToFile)
 
         return allFiles
+
+    def __str__(self):
+        return str(self.id)
+
+
 

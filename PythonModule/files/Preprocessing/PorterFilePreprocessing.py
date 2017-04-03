@@ -1,7 +1,7 @@
+from AbstractFilePreprocessing import AbstractFilePreprocessing # this import works even though there is a syntax error in IntelliJ
 import json
 from nltk.stem.porter import *
 from nltk.corpus import stopwords
-from .AbstractFilePreprocessing import AbstractFilePreprocessing
 
 
 class PorterFilePreprocessing(AbstractFilePreprocessing):
@@ -136,12 +136,12 @@ class PorterFilePreprocessing(AbstractFilePreprocessing):
                 value = PorterFilePreprocessing.stringTransformation(data)
                 collection[key] = value # write filename (key) and BOW (value) into collection
 
-        print("Number of files processed: " + len(collection))
-
         # save the dictionary
         with open('bow_porter.dict', 'w+') as outfile:
             json.dump(collection, outfile)
 
+        print("Number of files processed: " + str(len(collection)) )
+        print("Result saved in bow_porter.dict")
         return collection
 
 

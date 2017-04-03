@@ -13,10 +13,11 @@ class SVDHandler:
         if(load):
             if(path is not None):
                 try:
+                    self.k          = np.load(path + "svd.k.npy")
                     self.s          = np.load(path + "svd.s.npy")
                     self.Ut         = np.load(path + "svd.Ut.npy")
                     #self.SiUt       = np.load(path + "svd.SiUt.npy")
-                    self.Vt         = np.load(path + "svd.Vt.npy")
+                    self.V         = np.load(path + "svd.V.npy")
                     self.docNorms   = np.load(path + "svd.docNorms.npy")
                     self.docs = np.load(path + "svd.docs.npy")
 
@@ -36,17 +37,26 @@ class SVDHandler:
                 self.docs = docs
 
                 #calc SVD
-                U, self.s, V = svds(tdm, k = maxK)
-                # TODO: own k determination and reduction accordingly
+                U, s, Vt = svds(tdm, k = maxK)
+                # TODO: own k determination -> set s = 0 for truncation
+                #test (truncate lowest eigenvalue):
+                s[0] = 0
+
+                #truncate SVD (s is ordered ascending! -> find min index where s is non-zero)
+                s_min = np.min(s.nonzero())
+                self.s = s[s_min:]
+                self.k = len(self.s)
+                U = U[:,s_min:]
+                Vt = Vt[s_min:,:]
 
                 #Further precalculations:
                 self.Ut = U.transpose()
                 self.SiUt = inv(np.diag(self.s)).dot(self.Ut)
-                self.Vt = V.transpose()
+                self.V = Vt.transpose()
                 #tempNorms = np.diag(self.Vt).dot(self.V)
                 #tempNorms[tempNorms < 0] = 0
                 #self.docNorms = np.sqrt(tempNorms)
-                self.docNorms = np.sum(self.Vt**2,axis=-1)**(1./2)
+                self.docNorms = np.sum(self.V**2,axis=-1)**(1./2)
 
                 if(path is not None):
                     self.__save__(path)
@@ -55,10 +65,11 @@ class SVDHandler:
         return
 
     def __save__(self,path):
+        np.save(path + "svd.k", self.k)
         np.save(path + "svd.s", self.s)
         np.save(path + "svd.Ut", self.Ut)
         #np.save(path + "svd.SiUt", self.SiUt)
-        np.save(path + "svd.Vt", self.Vt)
+        np.save(path + "svd.V", self.V)
         np.save(path + "svd.docNorms", self.docNorms)
         np.save(path + "svd.docs", self.docs)
         print("SVD: Saved to files")
@@ -71,7 +82,7 @@ class SVDHandler:
         dv = self.SiUt.dot(vec)
 
         #Calculate similarity
-        sim = (self.Vt.dot(dv))/(self.docNorms * norm(dv))
+        sim = (self.V.dot(dv))/(self.docNorms * norm(dv))
 
         #Top-n result indices
         topn = np.argsort(sim)[::-1][:n] #descending order

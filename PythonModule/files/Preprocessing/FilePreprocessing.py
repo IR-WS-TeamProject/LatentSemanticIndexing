@@ -40,7 +40,8 @@ def multiple_replace(text, adict):
 
 
 # this method returns a string array with the words of the document
-def getBagOfWords(inputString):
+# it needs to be used for query preprocessing as well
+def stringTransformation(inputString):
 
     # does it really work like this? Do I have to cast the input Parameter?! I hate this ducktyping...
     returnString = str(inputString)
@@ -158,13 +159,13 @@ def getAndSaveBagOfWordForAllFiles(pathToCorpus):
             regexer = re.search(regexToGetNewFileName, file)
             key = regexer.group(0) # get filename
             data = f.read()
-            value = getBagOfWords(data)
+            value = stringTransformation(data)
             collection[key] = value # write filename (key) and BOW (value) into collection
 
     print("Number of files processed: " + len(collection))
 
     # save the dictionary
-    with open('bow.dict', 'w+') as outfile:
+    with open('bow_porter.dict', 'w+') as outfile:
         json.dump(collection, outfile)
 
     return collection
@@ -182,8 +183,12 @@ def getAndSaveBagOfWordForAllFiles(pathToCorpus):
 
 # "/Users/alexandrahofmann/Documents/Master Uni MA/2. Semester/Information Retrieval and Web Search/Team Project/20news-bydate-train"
 myRootDirectory = "C:/Users/D060249/Documents/Mannheim/Semester 2/Information Retrieval and Web Search/IR Team Project/20news-bydate-train"
+
+# This process might take a while. If you already have a .dict file, you skip the following line.
 getAndSaveBagOfWordForAllFiles(myRootDirectory)
 
+# Example Query String Transformation
+print(stringTransformation("Hello World, this is my Query!"))
 
 
 

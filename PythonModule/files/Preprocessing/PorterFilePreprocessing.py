@@ -2,6 +2,7 @@ from AbstractFilePreprocessing import AbstractFilePreprocessing # this import wo
 import json
 from nltk.stem.porter import *
 from nltk.corpus import stopwords
+import nltk
 
 
 class PorterFilePreprocessing(AbstractFilePreprocessing):
@@ -152,11 +153,14 @@ class PorterFilePreprocessing(AbstractFilePreprocessing):
 #################################################################################################################
 
 
-# IMPORTANT: When used first, you have to download the stopword list. Therefore, uncomment the following line and execute. Download only the stowords list.
+# IMPORTANT:
+# When used first, you have to download the stopword list.
+# Therefore, uncomment the following line and execute.
+# Click on "Corpora", search for "stopwords" and download only the stopwords list.
 # nltk.download()
 
-# "/Users/alexandrahofmann/Documents/Master Uni MA/2. Semester/Information Retrieval and Web Search/Team Project/20news-bydate-train"
-myRootDirectory = "C:/Users/D060249/Documents/Mannheim/Semester 2/Information Retrieval and Web Search/IR Team Project/20news-bydate-train"
+# "C:/Users/D060249/Documents/Mannheim/Semester 2/Information Retrieval and Web Search/IR Team Project/20news-bydate-train"
+myRootDirectory = "/Users/alexandrahofmann/Documents/Master Uni MA/2. Semester/Information Retrieval and Web Search/Team Project/20news-bydate-train"
 
 # This process might take a while. If you already have a .dict file, you skip the following line.
 PorterFilePreprocessing.saveBOW(myRootDirectory)

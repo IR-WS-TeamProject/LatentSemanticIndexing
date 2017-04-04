@@ -9,7 +9,7 @@ import tfidf
 class SVDHandler:
 
     # Input: Term-Document-Matrix (Sparse COO), vector of DocPaths , maximum k, path to save to/load from file, indicator if load should be used (false = re-calculation)
-    def __init__(self, tdm, docs, maxK = 50, path = None, load = True):
+    def __init__(self, tdm, docs, maxK=50, path=None, load=True):
         if(load):
             if(path is not None):
                 try:
@@ -53,7 +53,7 @@ class SVDHandler:
 
                 #Further precalculations:
                 self.Ut = U.transpose()
-                self.SiUt = inv(np.diag(self.s)).dot(self.Ut)
+                self.SiUt = inv(np.diag(self.s)).dot(self.Ut) #numpy.dot: For 2-D arrays it is the matrix product
                 self.V = Vt.transpose()
                 #tempNorms = np.diag(self.Vt).dot(self.V)
                 #tempNorms[tempNorms < 0] = 0
@@ -87,7 +87,7 @@ class SVDHandler:
         sim = (self.V.dot(dv))/(self.docNorms * norm(dv))
 
         #Top-n result indices
-        topn = np.argsort(sim)[::-1][:n] #descending order
+        topn = np.argsort(sim)[::-1][:n] #descending order, taking top N
 
         #return sorted results
         return self.docs[topn], sim[topn]
@@ -99,14 +99,14 @@ def testSVD(docs = {
         'file3': ['alle', 'guten', 'Dinge', 'sind', 'drei'],
         'file4': ['ein', 'test', 'für', 'Dokument', 'drei'],
     }):
-    tfidfHandler = tfidf.TFIDFHandler(docs)
+    tfidfHandler = tfidf.TFIDFHandler(docs= docs, load = False)
     #tfidf.convertDocToVec()   pick first instead:
     query = ['ein', 'ein', 'weiteres', 'Dokument']
     print("Query:", query)
     vec = tfidfHandler.convertDocToVec(query)
     print("Vec:", vec)
 
-    svdHandler = SVDHandler(tfidfHandler.getTDM(), tfidfHandler.getDocs(), k = 3)
+    svdHandler = SVDHandler(tfidfHandler.getTDM(), tfidfHandler.getDocs(), maxK= 3)
     docs, sims = svdHandler.getRanking(vec)
 
     print("Ranked Docs:", docs )

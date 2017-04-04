@@ -35,19 +35,21 @@ class SVDHandler:
             print("SVD: Start calculation")
             if isinstance(tdm, coo_matrix) and docs is not None:
                 self.docs = docs
+                #Preperation: Normalize tdm
+                #TODO: normalize TDM
 
                 #calc SVD
                 U, s, Vt = svds(tdm, k = maxK)
                 # TODO: own k determination -> set s = 0 for truncation
                 #test (truncate lowest eigenvalue):
-                s[0] = 0
+                #s[:-22] = 0
 
                 #truncate SVD (s is ordered ascending! -> find min index where s is non-zero)
                 s_min = np.min(s.nonzero())
-                self.s = s[s_min:]
+                self.s = s[s_min:]#-1]
                 self.k = len(self.s)
-                U = U[:,s_min:]
-                Vt = Vt[s_min:,:]
+                U = U[:,s_min:]#-1]
+                Vt = Vt[s_min:,:]#-1,:]
 
                 #Further precalculations:
                 self.Ut = U.transpose()

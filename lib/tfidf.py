@@ -55,7 +55,7 @@ class TFIDFHandler:
         # Init Count of Non-Zero Values
         n_nonzero = 0
 
-        # Iterate over documents an create vocabulary
+        # Iterate over documents to create vocabulary
         for docterms in docs.values():
             unique_terms = set(docterms)  # all unique terms of this doc (set of terms)
             vocab |= unique_terms  # set union: add unique terms of this doc
@@ -93,13 +93,17 @@ class TFIDFHandler:
             # count the unique terms of the document and get their vocabulary indices
             uniq_indices, counts = np.unique(term_indices, return_counts=True)
 
+            #adapt tf to consider doc length and dampen effect of large counts
+            #tf(t, d) = (1 + log10(ft, d)) / (1 + log10(max{ft’, d: t’ ∈ d}))
+            tf = (1 + np.log10(counts) / (1 + np.log10(np.max(counts))))
+
             # add (unique) indices of current doc to a list which is later on used for df
             global_indices.extend(uniq_indices)
 
             n_vals = len(uniq_indices)  # = number of unique terms
             ind_end = ind + n_vals  # to  is the slice that we will fill with data
 
-            data[ind:ind_end] = counts  # save the counts (term frequencies)
+            data[ind:ind_end] = tf  # save the counts (term frequencies)
             rows[ind:ind_end] = uniq_indices  # save the row index: index in
             doc_idx = np.where(self.docpaths == docpath)  # get the document index for the document name
             cols[ind:ind_end] = np.repeat(doc_idx, n_vals)  # save it as repeated value
@@ -110,7 +114,7 @@ class TFIDFHandler:
         global_unique_indices, global_counts = np.unique(global_indices, return_counts=True)
 
         # calculation of idf
-        self.idf = np.array(ndocs / global_counts)
+        self.idf = np.log10(ndocs / np.array(global_counts))
 
         # select idf according to indices in "rows" vector for DTM and multiply it with "data"(tf) vector -> tf-idf
         data = np.multiply(data, self.idf[rows])
@@ -135,12 +139,13 @@ class TFIDFHandler:
     def convertDocToVec(self,doc):
         #identifiy which indicies of term-vector match
         indices = [np.where(self.vocab == item) for i, item in enumerate(doc) if item in self.vocab]
-        #count how often which index occures
+        #count how often which index occures and calculate tf
         indices_unique, counts = np.unique(indices, return_counts=True)
+        tf = (1 + np.log10(counts) / (1 + np.log10(np.max(counts))))
         #init target vec with zeros
         vec = np.zeros(len(self.vocab), dtype=np.float32)
         #fill vec according to tf-idf
-        vec[indices_unique] = counts * self.idf[indices_unique]
+        vec[indices_unique] = tf * self.idf[indices_unique]
         return vec
 
     def __save__(self, path):

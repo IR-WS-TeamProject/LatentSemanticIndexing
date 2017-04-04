@@ -10,8 +10,8 @@ class LSIHandler:
     def __init__(self,
                  files_path=os.pardir + "/files/",
                  load_tfidf=True,
-                 load_svd=True,
-                 max_k=30):
+                 load_svd=False,
+                 max_k=100):
         """Initialize all handlers (once and not per query)"""
 
         #TF-IDF
@@ -191,4 +191,4 @@ def testLSI():
     #print("Result - Runtimes: Init: ", timeit.timeit(LSIHandler,number=1))
     #print("Result - Runtimes: Rank: ", timeit.timeit(lsi_handler.getRanking,number=1))
 
-#testLSI()
+testLSI()

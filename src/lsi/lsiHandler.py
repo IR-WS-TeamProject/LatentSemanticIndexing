@@ -191,4 +191,4 @@ def testLSI():
     #print("Result - Runtimes: Init: ", timeit.timeit(LSIHandler,number=1))
     #print("Result - Runtimes: Rank: ", timeit.timeit(lsi_handler.getRanking,number=1))
 
-testLSI()
+#testLSI()

@@ -1,7 +1,6 @@
-from AbstractFilePreprocessing import AbstractFilePreprocessing # this import works even though there is a syntax error in IntelliJ
-import json
+from AbstractFilePreprocessing import AbstractFilePreprocessing # if a syntax error is shown, right click the preprocessing directory and mark as source
 from nltk.stem.porter import *
-from nltk.corpus import stopwords
+import json
 import nltk
 
 
@@ -19,80 +18,7 @@ class PorterFilePreprocessing(AbstractFilePreprocessing):
     # it needs to be used for query preprocessing as well
     def stringTransformation(inputString):
 
-        # does it really work like this? Do I have to cast the input Parameter?! I hate this ducktyping...
-        returnString = str(inputString)
-
-        # lower case transformation
-        returnString = returnString.lower()
-
-
-        returnString = ''.join(i for i in returnString if ord(i) < 128) # this limits the allowed characters to ASCI II
-
-        adict = {
-            "from:": "",
-            "subject:": "",
-            "re:": "",
-            "organization:": "",
-            "distribution:": "",
-            "lines:": "",
-            "reply-to:": "",
-
-            ": ": " ",              # allows for tokens like "12:00:30"
-            ". ": " ",              # allows for tokens like "10.50" or dates like "2017.03.05"
-            ", ": " ",              # allows for tokens like 5,5 (German decimal)
-
-            "\n": " ",              # handle line breaks
-            ".\n": " ",
-            ".\"" : " ",
-            ".\'" : " ",
-            "..": " ",
-            ",\n": " ",
-            ":\n": " ",
-
-            "!": "",                # ascii 33
-            '\"': "",               # ascii 34: quotation marks
-            "#": "",                # ascii 35
-            "$": "",                # ascii 36
-            "%": "",                # ascii 37
-            "&": "",                # ascii 38
-            "\'": "",               # ascii 39: single quote
-            "(": "",                # ascii 40
-            ")": "",                # ascii 41
-            "*": "",                # ascii 42
-            "+": "",                # ascii 43
-            "-": "",                # ascii 45
-            "/": "",                # ascii 47
-
-            ";": "",                # ascii 59
-            "<": "",                # ascii 60
-            "=": "",                # ascii 61
-            ">": "",                # ascii 62
-            "?": "",                # ascii 63
-
-            "[": "",                # ascii 91
-            "\\": "",               # ascii 92
-            "]": "",                # ascii 93
-            "^": "",                # ascii 94
-            "_": "",                # ascii 95
-            "`": "",                # ascii 96
-
-            "{": "",                # ascii 123
-            "|": "",                # ascii 124
-            "}": "",                # ascii 125
-            "~": ""                 # ascii 126
-        }
-
-        # delete/replace special characters
-        returnString = PorterFilePreprocessing.multiple_replace(returnString, adict)
-
-        # create tokens
-        returnString = returnString.split(" ")
-
-        #remove empty entries
-        returnString = [x for x in returnString if x]
-
-        #stopword list
-        stopWordList = set(stopwords.words('english'))
+        returnString = AbstractFilePreprocessing.tokenization(inputString)
 
         # porter stemmer
         stemmer = PorterStemmer()
@@ -101,18 +27,16 @@ class PorterFilePreprocessing(AbstractFilePreprocessing):
         # Remarks: the current nltk porter stemmer has some known issues with "oed"
         newReturnString = []
         for currentToken in returnString:
-            if (currentToken not in stopWordList) and currentToken != "oed": #porter stemmer cannot handle that
+            if currentToken != "oed" and currentToken != "aing":  # porter stemmer cannot handle that
 
-                # handling cases when the last character is a '.' (this should not be the case but causes an exception with the stemmer)
-                if currentToken.endswith("."):
-                    currentToken = currentToken[:len(currentToken) - 1]
-
-                # print(currentToken)
                 stemmer.stem(currentToken)
                 newReturnString.append(currentToken)
 
             elif currentToken == "oed": # add oed without stemming
                 newReturnString.append("oed")
+
+            elif currentToken == "aing":
+                newReturnString.append("aing")
 
         returnString = newReturnString
 
@@ -145,7 +69,15 @@ class PorterFilePreprocessing(AbstractFilePreprocessing):
         print("Result saved in bow_porter.dict")
         return collection
 
+    def testing(self):
+        # "C:/Users/D060249/Documents/Mannheim/Semester 2/Information Retrieval and Web Search/IR Team Project/20news-bydate-train"
+        myRootDirectory = "/Users/alexandrahofmann/Documents/Master Uni MA/2. Semester/Information Retrieval and Web Search/Team Project/20news-bydate-train"
 
+        # This process might take a while. If you already have a .dict file, you skip the following line.
+        PorterFilePreprocessing.saveBOW(myRootDirectory)
+
+        # Example Query String Transformation
+        print(PorterFilePreprocessing.stringTransformation("Hello World, this is my Query!"))
 
 
 #################################################################################################################
@@ -156,18 +88,10 @@ class PorterFilePreprocessing(AbstractFilePreprocessing):
 # IMPORTANT:
 # When used first, you have to download the stopword list.
 # Therefore, uncomment the following line and execute.
-# Click on "Corpora", search for "stopwords" and download only the stopwords list.
+# A download explorer opens. Click on "Corpora", search for "stopwords" and download only the stopwords list.
 # nltk.download()
 
-# "C:/Users/D060249/Documents/Mannheim/Semester 2/Information Retrieval and Web Search/IR Team Project/20news-bydate-train"
-myRootDirectory = "/Users/alexandrahofmann/Documents/Master Uni MA/2. Semester/Information Retrieval and Web Search/Team Project/20news-bydate-train"
-
-# This process might take a while. If you already have a .dict file, you skip the following line.
-PorterFilePreprocessing.saveBOW(myRootDirectory)
-
-# Example Query String Transformation
-print(PorterFilePreprocessing.stringTransformation("Hello World, this is my Query!"))
-
+# PorterFilePreprocessing.testing()
 
 
 

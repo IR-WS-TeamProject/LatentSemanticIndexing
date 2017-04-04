@@ -1,7 +1,9 @@
 import os
+import re
+from nltk.corpus import stopwords
+
 
 class AbstractFilePreprocessing:
-
 
     def stringTransformation(inputString):
         pass
@@ -32,8 +34,48 @@ class AbstractFilePreprocessing:
 
         return allFiles
 
-    def __str__(self):
-        return str(self.id)
+    # input: one string with the whole content
+    # output: bag of words containing only charachters and with stopwords removed
+    def tokenization(inputString):
+
+        returnString = inputString.lower()
+
+        # include all replace statements in this variable
+        replaceVocabulary = {
+            "from:": " ",
+            "subject:": " ",
+            "re:": "",
+            "organization:": " ",
+            "distribution:": " ",
+            "lines:": " ",
+            "reply-to:": " "
+        }
+
+        # replace headers
+        returnString = __multiple_replace__(returnString, replaceVocabulary)
+
+        # only leave characters from a-z, numbers and other letters in there
+        returnString = re.sub("[^a-z0-9üäößáàéè]", " ", returnString)
+
+        # create tokens
+        returnString = returnString.split(" ")
+
+        # remove empty entries
+        returnString = [x for x in returnString if x]
+
+        # english stopword list
+        stopWordList = set(stopwords.words('english'))
+        # stopword removal
+        returnString = [i for i in returnString if i not in stopWordList]
+
+        return returnString
 
 
+# private method
+def __multiple_replace__(text, adict):
+    rx = re.compile('|'.join(map(re.escape, adict)))
 
+    def one_xlat(match):
+        return adict[match.group(0)]
+
+    return rx.sub(one_xlat, text)

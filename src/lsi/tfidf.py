@@ -6,7 +6,10 @@ import sys
 class TFIDFHandler:
     #Input: Dict or filepath to json encoded dict, or a path to load from/save to, a flag to indicate if stored files should be loaded (false = re-calculation)
     #returns TFIDF COO-Matrix and sorted Vocabulary + IDF-Vector
-    def __init__(self, docs = None, path = None, load = True):
+    def __init__(self,
+                 docs=None,
+                 path=None,
+                 load=True):
         #Handle input formats (target: dict)
         if(load and path is not None): #try to load
             try:
@@ -130,13 +133,13 @@ class TFIDFHandler:
     def getTDM(self):
         return self.tdm
 
-    def getVocab(self):
+    def getVocabulary(self):
         return self.vocab
 
-    def getDocs(self):
+    def getDocuments(self):
         return self.docpaths
 
-    def convertDocToVec(self,doc):
+    def convertBoWToTermVector(self, doc):
         #identifiy which indicies of term-vector match
         indices = [np.where(self.vocab == item) for i, item in enumerate(doc) if item in self.vocab]
         #count how often which index occures and calculate tf
@@ -172,12 +175,12 @@ def testTFIDF(docs = {
     tfidfHandler = TFIDFHandler(docs)
 
     print("TFIDF:",tfidfHandler.getTDM().toarray())
-    print("Vocab:", tfidfHandler.getVocab())
-    print("DocPaths:", tfidfHandler.getDocs())
+    print("Vocab:", tfidfHandler.getVocabulary())
+    print("DocPaths:", tfidfHandler.getDocuments())
 
     query = ['ein','ein','weiteres','Dokument']
     print("Query:", query)
-    print("Vec:",tfidfHandler.convertDocToVec(query))
+    print("Vec:", tfidfHandler.convertBoWToTermVector(query))
 
     return
 

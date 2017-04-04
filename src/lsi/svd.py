@@ -3,13 +3,16 @@ from scipy.sparse import coo_matrix
 from scipy.sparse.linalg import svds
 from scipy.linalg import inv, norm
 import sys
-import tfidf
+import lsi.tfidf
 
 
 class SVDHandler:
 
     # Input: Term-Document-Matrix (Sparse COO), vector of DocPaths , maximum k, path to save to/load from file, indicator if load should be used (false = re-calculation)
-    def __init__(self, tdm, docs, maxK=50, path=None, load=True):
+    def __init__(self, tdm, docs,
+                 max_k=50,
+                 path=None,
+                 load=True):
         if(load):
             if(path is not None):
                 try:
@@ -39,7 +42,7 @@ class SVDHandler:
                 #TODO: normalize TDM
 
                 #calc SVD
-                U, s, Vt = svds(tdm, k = maxK)
+                U, s, Vt = svds(tdm, k = max_k)
                 # TODO: own k determination -> set s = 0 for truncation
                 #test (truncate lowest eigenvalue):
                 #s[:-22] = 0
@@ -99,14 +102,14 @@ def testSVD(docs = {
         'file3': ['alle', 'guten', 'Dinge', 'sind', 'drei'],
         'file4': ['ein', 'test', 'für', 'Dokument', 'drei'],
     }):
-    tfidfHandler = tfidf.TFIDFHandler(docs= docs, load = False)
+    tfidfHandler = lsi.tfidf.TFIDFHandler(docs= docs, load = False)
     #tfidf.convertDocToVec()   pick first instead:
     query = ['ein', 'ein', 'weiteres', 'Dokument']
     print("Query:", query)
-    vec = tfidfHandler.convertDocToVec(query)
+    vec = tfidfHandler.convertBoWToTermVector(query)
     print("Vec:", vec)
 
-    svdHandler = SVDHandler(tfidfHandler.getTDM(), tfidfHandler.getDocs(), maxK= 3)
+    svdHandler = SVDHandler(tfidfHandler.getTDM(), tfidfHandler.getDocs(), max_k= 3)
     docs, sims = svdHandler.getRanking(vec)
 
     print("Ranked Docs:", docs )

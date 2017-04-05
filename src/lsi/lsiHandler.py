@@ -9,8 +9,8 @@ import numpy as np
 class LSIHandler:
     def __init__(self,
                  files_path=os.pardir + "/files/",
-                 load_tfidf=True,
-                 load_svd=False,
+                 load_tfidf=True, #set to False if TF-IDF Matrix should be recalculated rather than loaded from disk
+                 load_svd=True, #set to False if SVD should be recalculated rather than loaded from disk
                  max_k=100):
         """Initialize all handlers (once and not per query)"""
 
@@ -191,4 +191,4 @@ def testLSI():
     #print("Result - Runtimes: Init: ", timeit.timeit(LSIHandler,number=1))
     #print("Result - Runtimes: Rank: ", timeit.timeit(lsi_handler.getRanking,number=1))
 
-testLSI()
+#testLSI()

@@ -1,98 +1,99 @@
-from AbstractFilePreprocessing import AbstractFilePreprocessing # if a syntax error is shown, right click the preprocessing directory and mark as source
 from nltk.stem.porter import *
+# if a syntax error is shown, right click the preprocessing directory and mark as source
+from .AbstractFilePreprocessing import AbstractFilePreprocessing
 import json
-import nltk # this is required in order to be able to download the stopword list
+# this is required in order to be able to download the stopword list
+import nltk
 
 
 class PorterFilePreprocessing(AbstractFilePreprocessing):
 
-    @staticmethod
-    def multiple_replace(text, adict):
-        rx = re.compile('|'.join(map(re.escape, adict)))
-        def one_xlat(match):
-            return adict[match.group(0)]
-        return rx.sub(one_xlat, text)
-
-
     # this method returns a string array with the words of the document
     # it needs to be used for query preprocessing as well
     @staticmethod
-    def stringTransformation(inputString):
+    def string_transformation(input_string):
 
-        returnString = AbstractFilePreprocessing.tokenization(inputString)
+        return_string = AbstractFilePreprocessing.tokenization(input_string)
 
         # porter stemmer
         stemmer = PorterStemmer()
 
         # Stopword Removal and Stemming
         # Remarks: the current nltk porter stemmer has some known issues with "oed"
-        newReturnString = []
-        for currentToken in returnString:
-            if currentToken != "oed" and currentToken != "aing":  # porter stemmer cannot handle that
+        new_return_string = []
+        for current_token in return_string:
+            # porter stemmer cannot handle those terms
+            if current_token != "oed" and current_token != "aing":
 
-                stemmer.stem(currentToken)
-                newReturnString.append(currentToken)
+                stemmer.stem(current_token)
+                new_return_string.append(current_token)
 
-            elif currentToken == "oed": # add oed without stemming
-                newReturnString.append("oed")
+            # add words without stemming
+            elif current_token == "oed":
+                new_return_string.append("oed")
+            elif current_token == "aing":
+                new_return_string.append("aing")
 
-            elif currentToken == "aing":
-                newReturnString.append("aing")
+        return_string = new_return_string
 
-        returnString = newReturnString
-
-        return returnString
+        return return_string
 
     @staticmethod
-    def saveBagOfWords(pathToCorpus, nameOfTargetFile):
+    def save_bag_of_words(path_to_corpus, name_of_target_file):
         # dictionary for data structure: filepath -> BOW
-        allFiles = PorterFilePreprocessing.getPathsToAllResourceFiles(pathToCorpus)
+        all_files = PorterFilePreprocessing.getPathsToAllResourceFiles(path_to_corpus)
         collection = {}
 
         # Loop over all files
-        for file in allFiles:
+        for file in all_files:
 
             # open file, process content and add to dictionary
             with open(file, 'rt', encoding='utf-8', errors='replace') as f:
                 print('Processing File ' + file)
-                regexToGetNewFileName = "(?<=20news-bydate-train\\/)(.*)" # This regex will select the filename after 20news-bydate-train in the filepath; demasked: (?<=20news-bydate-train\/)(.*)
-                regexer = re.search(regexToGetNewFileName, file)
+                # This regex will select the filename after 20news-bydate-train in the filepath;
+                # demasked: (?<=20news-bydate-train\/)(.*)
+                regex_to_get_new_file_name = "(?<=20news-bydate-train\\/)(.*)"
+                regexer = re.search(regex_to_get_new_file_name, file)
                 key = regexer.group(0) # get filename
                 data = f.read()
-                value = PorterFilePreprocessing.stringTransformation(data)
+                value = PorterFilePreprocessing.string_transformation(data)
                 collection[key] = value # write filename (key) and BOW (value) into collection
 
         # save the dictionary
-        with open(nameOfTargetFile, 'w+') as outfile:
+        with open(name_of_target_file, 'w+') as outfile:
             json.dump(collection, outfile)
 
-        print("Number of files processed: " + str(len(collection)) )
+        print("Number of files processed: " + str(len(collection)))
         print("Result saved in bow_porter.dict")
         return collection
 
     @staticmethod
     def testing():
-        # myRootDirectory = "/Users/alexandrahofmann/Documents/Master Uni MA/2. Semester/Information Retrieval and Web Search/Team Project/20news-bydate-train"
-        myRootDirectory = "C:/Users/D060249/Documents/Mannheim/Semester 2/Information Retrieval and Web Search/IR Team Project/20news-bydate-train"
+        # my_root_directory = "/Users/alexandrahofmann/Documents/Master Uni MA/
+        # 2. Semester/Information Retrieval and Web Search/Team Project/20news-bydate-train"
+        my_root_directory = "C:/Users/D060249/Documents/Mannheim/Semester 2/Information Retrieval and Web Search/IR Team Project/20news-bydate-train"
 
-        nameOfTargetFile = "bow_porter.dict"
+        name_of_target_file = "bow_porter.dict"
 
-        # This process might take a while. If you already have a .dict file, you skip the following line.
-        PorterFilePreprocessing.saveBagOfWords(myRootDirectory, nameOfTargetFile)
+        # This process might take a while.
+        # If you already have a .dict file, you skip the following line.
+        PorterFilePreprocessing.save_bag_of_words(my_root_directory, name_of_target_file)
 
         # Example Query String Transformation
-        print(PorterFilePreprocessing.stringTransformation("Hello World, this is my Query!"))
+        print(PorterFilePreprocessing.
+              string_transformation("Hello World, this is my Query!"))
 
 
-#################################################################################################################
+######################################################################
 # Execute Preprocessing
-#################################################################################################################
+######################################################################
 
 
 # IMPORTANT:
 # When used first, you have to download the stopword list.
 # Therefore, uncomment the following line and execute.
-# A download explorer opens. Click on "Corpora", search for "stopwords" and download only the stopwords list.
+# A download explorer opens. Click on "Corpora",
+# search for "stopwords" and download only the stopwords list.
 # nltk.download()
 
 # PorterFilePreprocessing.testing()

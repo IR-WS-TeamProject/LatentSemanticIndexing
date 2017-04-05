@@ -6,11 +6,11 @@ from nltk.corpus import stopwords
 class AbstractFilePreprocessing:
 
     @staticmethod
-    def stringTransformation(inputString):
+    def string_transformation(inputString):
         pass
 
     @staticmethod
-    def saveBagOfWords(pathToCorpus, nameOfTargetFile):
+    def save_bag_of_words(pathToCorpus, nameOfTargetFile):
         pass
 
     # this method returns a string-array with the complete file paths for each file for further processing

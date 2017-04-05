@@ -1,12 +1,12 @@
 from AbstractFilePreprocessing import AbstractFilePreprocessing # if a syntax error is shown, right click the preprocessing directory and mark as source
 from nltk.stem.porter import *
 import json
-import nltk
+import nltk # this is required in order to be able to download the stopword list
 
 
 class PorterFilePreprocessing(AbstractFilePreprocessing):
 
-
+    @staticmethod
     def multiple_replace(text, adict):
         rx = re.compile('|'.join(map(re.escape, adict)))
         def one_xlat(match):
@@ -16,6 +16,7 @@ class PorterFilePreprocessing(AbstractFilePreprocessing):
 
     # this method returns a string array with the words of the document
     # it needs to be used for query preprocessing as well
+    @staticmethod
     def stringTransformation(inputString):
 
         returnString = AbstractFilePreprocessing.tokenization(inputString)
@@ -42,8 +43,8 @@ class PorterFilePreprocessing(AbstractFilePreprocessing):
 
         return returnString
 
-
-    def saveBOW(pathToCorpus):
+    @staticmethod
+    def saveBagOfWords(pathToCorpus, nameOfTargetFile):
         # dictionary for data structure: filepath -> BOW
         allFiles = PorterFilePreprocessing.getPathsToAllResourceFiles(pathToCorpus)
         collection = {}
@@ -62,19 +63,22 @@ class PorterFilePreprocessing(AbstractFilePreprocessing):
                 collection[key] = value # write filename (key) and BOW (value) into collection
 
         # save the dictionary
-        with open('bow_porter.dict', 'w+') as outfile:
+        with open(nameOfTargetFile, 'w+') as outfile:
             json.dump(collection, outfile)
 
         print("Number of files processed: " + str(len(collection)) )
         print("Result saved in bow_porter.dict")
         return collection
 
-    def testing(self):
-        # "C:/Users/D060249/Documents/Mannheim/Semester 2/Information Retrieval and Web Search/IR Team Project/20news-bydate-train"
-        myRootDirectory = "/Users/alexandrahofmann/Documents/Master Uni MA/2. Semester/Information Retrieval and Web Search/Team Project/20news-bydate-train"
+    @staticmethod
+    def testing():
+        # myRootDirectory = "/Users/alexandrahofmann/Documents/Master Uni MA/2. Semester/Information Retrieval and Web Search/Team Project/20news-bydate-train"
+        myRootDirectory = "C:/Users/D060249/Documents/Mannheim/Semester 2/Information Retrieval and Web Search/IR Team Project/20news-bydate-train"
+
+        nameOfTargetFile = "bow_porter.dict"
 
         # This process might take a while. If you already have a .dict file, you skip the following line.
-        PorterFilePreprocessing.saveBOW(myRootDirectory)
+        PorterFilePreprocessing.saveBagOfWords(myRootDirectory, nameOfTargetFile)
 
         # Example Query String Transformation
         print(PorterFilePreprocessing.stringTransformation("Hello World, this is my Query!"))

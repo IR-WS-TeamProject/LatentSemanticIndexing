@@ -1,22 +1,25 @@
-from nltk.stem.porter import *
+""" import statements """
+import re
+import json
+# import porter stemmer
+from nltk.stem import porter
 # if a syntax error is shown, right click the preprocessing directory and mark as source
 from .AbstractFilePreprocessing import AbstractFilePreprocessing
-import json
-# this is required in order to be able to download the stopword list
-import nltk
 
 
 class PorterFilePreprocessing(AbstractFilePreprocessing):
+    """ This class implements porter stemming and is based on an abstract method """
 
-    # this method returns a string array with the words of the document
-    # it needs to be used for query preprocessing as well
+
     @staticmethod
     def string_transformation(input_string):
+        """ This method returns a string array with the words of the document.
+            It needs to be used for query preprocessing as well. """
 
         return_string = AbstractFilePreprocessing.tokenization(input_string)
 
         # porter stemmer
-        stemmer = PorterStemmer()
+        stemmer = porter.PorterStemmer()
 
         # Stopword Removal and Stemming
         # Remarks: the current nltk porter stemmer has some known issues with "oed"
@@ -40,24 +43,24 @@ class PorterFilePreprocessing(AbstractFilePreprocessing):
 
     @staticmethod
     def save_bag_of_words(path_to_corpus, name_of_target_file):
-        # dictionary for data structure: filepath -> BOW
-        all_files = PorterFilePreprocessing.getPathsToAllResourceFiles(path_to_corpus)
+        """ creates a dictionary as data structure: filepath -> bag of words """
+
+        all_files = AbstractFilePreprocessing.__get_paths_to_resource_files__(path_to_corpus)
         collection = {}
 
         # Loop over all files
-        for file in all_files:
-
-            # open file, process content and add to dictionary
-            with open(file, 'rt', encoding='utf-8', errors='replace') as f:
-                print('Processing File ' + file)
+        for file_path in all_files:
+            # open file_path, process content and add to dictionary
+            with open(file_path, 'rt', encoding='utf-8', errors='replace') as file:
+                print('Processing File ' + file_path)
                 # This regex will select the filename after 20news-bydate-train in the filepath;
                 # demasked: (?<=20news-bydate-train\/)(.*)
                 regex_to_get_new_file_name = "(?<=20news-bydate-train\\/)(.*)"
-                regexer = re.search(regex_to_get_new_file_name, file)
-                key = regexer.group(0) # get filename
-                data = f.read()
+                regexer = re.search(regex_to_get_new_file_name, file_path)
+                key = regexer.group(0)  # get filename
+                data = file.read()
                 value = PorterFilePreprocessing.string_transformation(data)
-                collection[key] = value # write filename (key) and BOW (value) into collection
+                collection[key] = value  # write filename (key) and BOW (value) into collection
 
         # save the dictionary
         with open(name_of_target_file, 'w+') as outfile:
@@ -69,14 +72,18 @@ class PorterFilePreprocessing(AbstractFilePreprocessing):
 
     @staticmethod
     def testing():
-        # my_root_directory = "/Users/alexandrahofmann/Documents/Master Uni MA/
-        # 2. Semester/Information Retrieval and Web Search/Team Project/20news-bydate-train"
-        my_root_directory = "C:/Users/D060249/Documents/Mannheim/Semester 2/Information Retrieval and Web Search/IR Team Project/20news-bydate-train"
+        """ method used for testing purposes """
+
+        my_root_directory = "/Users/alexandrahofmann/Documents/Master Uni MA/2. Semester/" \
+                            "Information Retrieval and Web Search/Team Project/20news-bydate-train"
+        # my_root_directory = "C:/Users/D060249/Documents/Mannheim/Semester 2/" \
+        #             "Information Retrieval and Web Search/IR Team Project/20news-bydate-train"
 
         name_of_target_file = "bow_porter.dict"
 
         # This process might take a while.
         # If you already have a .dict file, you skip the following line.
+
         PorterFilePreprocessing.save_bag_of_words(my_root_directory, name_of_target_file)
 
         # Example Query String Transformation
@@ -97,6 +104,3 @@ class PorterFilePreprocessing(AbstractFilePreprocessing):
 # nltk.download()
 
 # PorterFilePreprocessing.testing()
-
-
-

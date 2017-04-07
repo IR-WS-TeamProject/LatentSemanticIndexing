@@ -1,32 +1,27 @@
-import lsi.tfidf as tfidf
-import lsi.svd as svd
-import os
-#import PorterFilePreprocessing as fp
+from lsi.lsiHandler import LSIHandler
 
-# ---------- Init (once and not per query)
+############################## TESTING ################################################
+def testLSI(load_tfidf=True,
+            load_svd=False,
+            max_k=150):
+    #import timeit
 
-#TF-IDF
-filesPath =  os.pardir + "/files/"
-tfidfHandler = tfidf.TFIDFHandler(docs=filesPath+"bow.dict", path=filesPath , load = True)
-#SVD
-svdHandler = svd.SVDHandler(tdm=tfidfHandler.getTDM(), docs=tfidfHandler.getDocs(), max_k = 30, path=filesPath, load = False)
+    # In server: create instance just once on startup
+    lsi_handler = LSIHandler(load_tfidf=load_tfidf,
+                             load_svd=load_svd,
+                             max_k=max_k)
 
-# -------- Handle Single Query
-query = "MIT Lincoln LaboratoryDistribution: source of orbital element sets other than UAF/Space Command. I believe there is one on CompuServe." # Doc sci.space/60158
+    # In server: per query
+    documents, similarities = lsi_handler.getRanking(
+        query="source of orbital element sets other than UAF/Space Command",  # Doc sci.space/60158
+    )
 
-#Convert into term vector
-#bow = fp.stringTransformation(query)
-bow  = ['underground','underwater','wireless','communications'] #Doc sci.electronics/52434
-print("Test TermVec:", bow)
+    print("Result - Top-10 Docs:", documents)
+    print("Result - Similarities:", similarities)
+    #print("Result - Ranking 2:", lsi_handler.getRanking2()) -> Error
 
-#convert into topic vector (SVD)
-termVec = tfidfHandler.convertBoWToTermVector(bow)
-print("TopicVec, Non-Zero pos:", termVec.nonzero())
-print("TopicVec, Non-Zero values:", termVec[termVec.nonzero()])
-print("TopicVec, size:", termVec.size)
+    #Perf. Measurement:
+    #print("Result - Runtimes: Init: ", timeit.timeit(LSIHandler,number=1))
+    #print("Result - Runtimes: Rank: ", timeit.timeit(lsi_handler.getRanking,number=1))
 
-#Calc. LSI ranking
-docs, sims = svdHandler.getRanking(termVec, n = 10)
-print("Top-10 Docs:", docs )
-print("Similarities:", sims)
-
+testLSI()

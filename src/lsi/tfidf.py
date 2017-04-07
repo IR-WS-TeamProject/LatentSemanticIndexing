@@ -10,7 +10,6 @@ class TFIDFHandler:
                  docs=None,
                  path=None,
                  load=True):
-        #Handle input formats (target: dict)
         if(load and path is not None): #try to load
             try:
                 self.tdm = load_npz(path + "tfidf.tdm.npz")
@@ -26,21 +25,12 @@ class TFIDFHandler:
                 load = False
 
         if(not load and docs is not None): #Docs provided and data not loaded -> load docs and calculate TF-IDF
-            if not isinstance(docs,dict):
-                if isinstance(docs, str):
-                    print("TF-IDF: Load docs from file")
-                    try:
-                        with open(docs, 'r') as infile:
-                            docs = json.load(infile)
-                    except:
-                        print("TF-IDF: Error: Load of docs failed - ", sys.exc_info()[0], " (", sys.exc_info()[1], ")")
-                        return
-                else:
-                    print("TF-IDF: Error: Load of docs failed - Unsupported format of documents as input!")
-                    return
-            self.__createTFIDF__(docs)
-            if(path is not None):
-                self.__save__(path)
+            print("TF-IDF: Load docs from file")
+            docs = self.__handleBoWInput__(docs)
+            if (docs != None):
+                self.__createTFIDF__(docs)
+                if(path is not None):
+                    self.__save__(path)
         elif(not load and docs is None):
             print("TF-IDF: Error: No load of existing TF-IDF and no Docs specified")
         return
@@ -140,8 +130,9 @@ class TFIDFHandler:
         return self.docpaths
 
     def convertBoWToTermVector(self, doc):
+        """Returns a dense Term Vector"""
         #identifiy which indicies of term-vector match
-        indices = [np.where(self.vocab == item) for i, item in enumerate(doc) if item in self.vocab]
+        indices = [np.where(self.vocab == item) for item in doc if item in self.vocab]
         #count how often which index occures and calculate tf
         indices_unique, counts = np.unique(indices, return_counts=True)
         tf = (1 + np.log10(counts) / (1 + np.log10(np.max(counts))))
@@ -150,6 +141,55 @@ class TFIDFHandler:
         #fill vec according to tf-idf
         vec[indices_unique] = tf * self.idf[indices_unique]
         return vec
+
+    def convertBoWToTermVectorBatch(self, bow_dic):
+        """Returns a sparse matrix containing of term vectors"""
+        print("TF-IDF: Load test docs from file")
+        bow_dic=self.__handleBoWInput__(bow_dic)
+        if(bow_dic != None):
+            docpaths = np.array(list(bow_dic.keys()))
+            n_nonzero = 0
+            #iterate over documents and count number of nonzero values to calc value vector size
+            #once we are looking up the terms in the vocab -> replace with indices so no further look ups
+            for docpath, bow in bow_dic.items():
+                indices = [np.where(self.vocab == item) for item in bow if item in self.vocab]
+                bow_dic[docpath] = indices
+                n_nonzero += len(np.unique(indices))
+
+            data = np.empty(n_nonzero, dtype=np.float32)  # all non-zero term frequencies at data[i,k]
+            rows = np.empty(n_nonzero, dtype=np.intc)  # row index for [i,k]th data item (ith term freq.)
+            cols = np.empty(n_nonzero, dtype=np.intc)  # column index for [i,k]th data item (kth document)
+            ind = 0
+
+            for docpath, indices in bow_dic.items():
+                indices_unique, counts = np.unique(indices,return_counts=True)
+                tf = (1 + np.log10(counts) / (1 + np.log10(np.max(counts))))
+
+                n_vals = len(indices_unique)  # = number of unique terms
+                ind_end = ind + n_vals  # to  is the slice that we will fill with data
+
+                data[ind:ind_end] = tf * self.idf[indices_unique]  # save the counts (term frequencies)
+                rows[ind:ind_end] = indices_unique  # save the row index: index in
+                doc_idx = np.where(docpaths == docpath)  # get the document index for the document name
+                cols[ind:ind_end] = np.repeat(doc_idx, n_vals)  # save it as repeated value
+
+                ind = ind_end  # resume with next document -> add data to the end
+
+        return coo_matrix((data, (rows, cols)), shape=(len(self.vocab), len(docpaths)), dtype=np.float32)
+
+    def __handleBoWInput__(self, bow_dict):
+        if not isinstance(bow_dict, dict):
+            if isinstance(bow_dict, str):
+                try:
+                    with open(bow_dict, 'r') as infile:
+                        bow_dict = json.load(infile)
+                except:
+                    print("TF-IDF: Error: Load of docs failed - ", sys.exc_info()[0], " (", sys.exc_info()[1], ")")
+                    return
+            else:
+                print("TF-IDF: Error: Load of docs failed - Unsupported format of documents as input!")
+                return
+        return bow_dict
 
     def __save__(self, path):
         save_npz(path + "tfidf.tdm",self.tdm) #sparse save

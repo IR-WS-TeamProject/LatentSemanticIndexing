@@ -1,7 +1,8 @@
-from AbstractFilePreprocessing import AbstractFilePreprocessing # if a syntax error is shown, right click the preprocessing directory and mark as source
-from nltk.stem.porter import *
 import json
-import nltk # this is required in order to be able to download the stopword list
+import re
+from AbstractFilePreprocessing import AbstractFilePreprocessing
+from nltk.stem.porter import *
+# import nltk # this is required in order to be able to download the stopword list
 
 
 class PorterFilePreprocessing(AbstractFilePreprocessing):
@@ -18,6 +19,9 @@ class PorterFilePreprocessing(AbstractFilePreprocessing):
     # it needs to be used for query preprocessing as well
     @staticmethod
     def stringTransformation(inputString):
+        """This method transforms the input string into a BOW. 
+        It should also be used for the query transformation. 
+        """
 
         returnString = AbstractFilePreprocessing.tokenization(inputString)
 
@@ -26,20 +30,20 @@ class PorterFilePreprocessing(AbstractFilePreprocessing):
 
         # Stopword Removal and Stemming
         # Remarks: the current nltk porter stemmer has some known issues with "oed"
-        newReturnString = []
+        transformedInput = []
         for currentToken in returnString:
             if currentToken != "oed" and currentToken != "aing":  # porter stemmer cannot handle that
 
                 stemmer.stem(currentToken)
-                newReturnString.append(currentToken)
+                transformedInput.append(currentToken)
 
             elif currentToken == "oed": # add oed without stemming
-                newReturnString.append("oed")
+                transformedInput.append("oed")
 
             elif currentToken == "aing":
-                newReturnString.append("aing")
+                transformedInput.append("aing")
 
-        returnString = newReturnString
+        returnString = transformedInput
 
         return returnString
 
@@ -55,7 +59,16 @@ class PorterFilePreprocessing(AbstractFilePreprocessing):
             # open file, process content and add to dictionary
             with open(file, 'rt', encoding='utf-8', errors='replace') as f:
                 print('Processing File ' + file)
-                regexToGetNewFileName = "(?<=20news-bydate-train\\/)(.*)" # This regex will select the filename after 20news-bydate-train in the filepath; demasked: (?<=20news-bydate-train\/)(.*)
+
+                if pathToCorpus.endswith("test"):
+                    # FOR TEST DATA
+                    regexToGetNewFileName = "(?<=20news-bydate-test\\/)(.*)"
+
+                if pathToCorpus.endswith("train"):
+                    # FOR TRAIN DATA
+                    # This regex will select the filename after 20news-bydate-train in the filepath;
+                    # demasked: (?<=20news-bydate-train\/)(.*)
+                    regexToGetNewFileName = "(?<=20news-bydate-train\\/)(.*)"
                 regexer = re.search(regexToGetNewFileName, file)
                 key = regexer.group(0) # get filename
                 data = f.read()
@@ -67,15 +80,18 @@ class PorterFilePreprocessing(AbstractFilePreprocessing):
             json.dump(collection, outfile)
 
         print("Number of files processed: " + str(len(collection)) )
-        print("Result saved in bow_porter.dict")
+        print("Result saved in " + nameOfTargetFile)
         return collection
 
     @staticmethod
     def testing():
+        """This is just a method for testing."""
         # myRootDirectory = "/Users/alexandrahofmann/Documents/Master Uni MA/2. Semester/Information Retrieval and Web Search/Team Project/20news-bydate-train"
-        myRootDirectory = "C:/Users/D060249/Documents/Mannheim/Semester 2/Information Retrieval and Web Search/IR Team Project/20news-bydate-train"
+        # C:/Users/D060249/Documents/Mannheim/Semester 2/Information Retrieval and Web Search/IR Team Project/20news-bydate-test
+        # C:/Users/D060249/Documents/Mannheim/Semester 2/Information Retrieval and Web Search/IR Team Project/20news-bydate-train
+        myRootDirectory = "C:/Users/D060249/Documents/Mannheim/Semester 2/Information Retrieval and Web Search/IR Team Project/20news-bydate-test"
 
-        nameOfTargetFile = "bow_porter.dict"
+        nameOfTargetFile = "bow_porter_testData.dict"
 
         # This process might take a while. If you already have a .dict file, you skip the following line.
         PorterFilePreprocessing.saveBagOfWords(myRootDirectory, nameOfTargetFile)
@@ -91,11 +107,11 @@ class PorterFilePreprocessing(AbstractFilePreprocessing):
 
 # IMPORTANT:
 # When used first, you have to download the stopword list.
-# Therefore, uncomment the following line and execute.
+# Therefore, uncomment the import statement "import nltk" and execute: nltk.download()
 # A download explorer opens. Click on "Corpora", search for "stopwords" and download only the stopwords list.
 # nltk.download()
 
-# PorterFilePreprocessing.testing()
+PorterFilePreprocessing.testing()
 
 
 

@@ -1,8 +1,9 @@
 from lsi.lsiHandler import LSIHandler
+from lsi.evaluation import LSIEvaluator
 
 ############################## TESTING ################################################
 def testLSI(load_tfidf=True,
-            load_svd=False,
+            load_svd=True,
             max_k=150):
     #import timeit
 
@@ -24,4 +25,14 @@ def testLSI(load_tfidf=True,
     #print("Result - Runtimes: Init: ", timeit.timeit(LSIHandler,number=1))
     #print("Result - Runtimes: Rank: ", timeit.timeit(lsi_handler.getRanking,number=1))
 
-testLSI()
+#testLSI()
+
+def testEvaluator():
+    evaluator = LSIEvaluator()
+    evaluator.train(bag_of_words="bow_porter.dict",
+                    max_k=150,
+                    load_svd=True) # False: forces recalculation of SVD
+    evaluator.evaluate(bag_of_words="bow_porter_testData.dict",
+                       load_tdm=True) # reuse TDM, if new bag of words stays same: set to False!
+
+testEvaluator()

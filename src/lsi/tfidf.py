@@ -10,28 +10,26 @@ class TFIDFHandler:
                  docs=None,
                  path=None,
                  load=True):
+        self.isValid = True
         if(load and path is not None): #try to load
             try:
-                self.tdm = load_npz(path + "tfidf.tdm.npz")
-
-                self.docpaths = np.load(path + "tfidf.docs.npy")
-                self.vocab = np.load(path + "tfidf.vocab.npy")
-                self.idf= np.load(path + "tfidf.idf.npy")
-
+                self.__load__(path)
                 print("TF-IDF: Loaded from files")
             except:
                 print("TF-IDF: Load from files failed - ", sys.exc_info()[0], " (",sys.exc_info()[1],")")
-
                 load = False
 
         if(not load and docs is not None): #Docs provided and data not loaded -> load docs and calculate TF-IDF
             print("TF-IDF: Load docs from file")
             docs = self.__handleBoWInput__(docs)
-            if (docs != None):
-                self.__createTFIDF__(docs)
-                if(path is not None):
-                    self.__save__(path)
+            if (docs is None):
+                self.isValid = False
+                return
+            self.__createTFIDF__(docs)
+            if(path is not None):
+                self.__save__(path)
         elif(not load and docs is None):
+            self.isValid = False
             print("TF-IDF: Error: No load of existing TF-IDF and no Docs specified")
         return
 
@@ -60,7 +58,7 @@ class TFIDFHandler:
         self.vocab = np.array(list(vocab))
 
         # Array containing sorted indices
-        vocab_sorter = np.argsort(self.vocab)
+        self.vocab_sorter = np.argsort(self.vocab)
 
         # print(vocab_sorter) #sorted indizes
         # print(vocab[vocab_sorter]) #outputs sorted vocabulary
@@ -81,7 +79,7 @@ class TFIDFHandler:
             # find indices into  such that, if the corresponding elements in  were
             # inserted before the indices, the order of  would be preserved
             # -> array of indices of  in
-            term_indices = vocab_sorter[np.searchsorted(self.vocab, terms, sorter=vocab_sorter)]
+            term_indices = self.vocab_sorter[np.searchsorted(self.vocab, terms, sorter=self.vocab_sorter)]
 
             # count the unique terms of the document and get their vocabulary indices
             uniq_indices, counts = np.unique(term_indices, return_counts=True)
@@ -126,13 +124,17 @@ class TFIDFHandler:
     def getVocabulary(self):
         return self.vocab
 
-    def getDocuments(self):
-        return self.docpaths
+    def getDocuments(self, doc_indices=None):
+        if(doc_indices is None):
+            return self.docpaths
+        else:
+            return self.docpaths[doc_indices]
 
     def convertBoWToTermVector(self, doc):
         """Returns a dense Term Vector"""
         #identifiy which indicies of term-vector match
-        indices = [np.where(self.vocab == item) for item in doc if item in self.vocab]
+        #indices = [np.where(self.vocab == item) for item in doc if item in self.vocab]
+        indices = self.vocab_sorter[np.searchsorted(self.vocab, doc, sorter=self.vocab_sorter)]
         #count how often which index occures and calculate tf
         indices_unique, counts = np.unique(indices, return_counts=True)
         tf = (1 + np.log10(counts) / (1 + np.log10(np.max(counts))))
@@ -144,38 +146,37 @@ class TFIDFHandler:
 
     def convertBoWToTermVectorBatch(self, bow_dic):
         """Returns a sparse matrix containing of term vectors"""
-        print("TF-IDF: Load test docs from file")
-        bow_dic=self.__handleBoWInput__(bow_dic)
-        if(bow_dic != None):
-            docpaths = np.array(list(bow_dic.keys()))
-            n_nonzero = 0
-            #iterate over documents and count number of nonzero values to calc value vector size
-            #once we are looking up the terms in the vocab -> replace with indices so no further look ups
-            for docpath, bow in bow_dic.items():
-                indices = [np.where(self.vocab == item) for item in bow if item in self.vocab]
-                bow_dic[docpath] = indices
-                n_nonzero += len(np.unique(indices))
+        bow_dic = self.__handleBoWInput__(bow_dic)
+        if (bow_dic is None):
+            return
+        docpaths = np.array(list(bow_dic.keys()))
+        n_nonzero = 0
+        #iterate over documents and count number of nonzero values to calc value vector size
+        for bow in bow_dic.values():
+            n_nonzero += len(set(bow)) #unique count of terms
 
-            data = np.empty(n_nonzero, dtype=np.float32)  # all non-zero term frequencies at data[i,k]
-            rows = np.empty(n_nonzero, dtype=np.intc)  # row index for [i,k]th data item (ith term freq.)
-            cols = np.empty(n_nonzero, dtype=np.intc)  # column index for [i,k]th data item (kth document)
-            ind = 0
+        data = np.empty(n_nonzero, dtype=np.float32)  # all non-zero term frequencies at data[i,k]
+        rows = np.empty(n_nonzero, dtype=np.intc)  # row index for [i,k]th data item (ith term freq.)
+        cols = np.empty(n_nonzero, dtype=np.intc)  # column index for [i,k]th data item (kth document)
+        ind = 0
 
-            for docpath, indices in bow_dic.items():
-                indices_unique, counts = np.unique(indices,return_counts=True)
-                tf = (1 + np.log10(counts) / (1 + np.log10(np.max(counts))))
+        for docpath, bow in bow_dic.items():
+            indices = self.vocab_sorter[np.searchsorted(self.vocab, bow, sorter=self.vocab_sorter)]
+            indices_unique, counts = np.unique(indices,return_counts=True)
+            tf = (1 + np.log10(counts) / (1 + np.log10(np.max(counts))))
 
-                n_vals = len(indices_unique)  # = number of unique terms
-                ind_end = ind + n_vals  # to  is the slice that we will fill with data
+            n_vals = len(indices_unique)  # = number of unique terms
+            ind_end = ind + n_vals  # to  is the slice that we will fill with data
 
-                data[ind:ind_end] = tf * self.idf[indices_unique]  # save the counts (term frequencies)
-                rows[ind:ind_end] = indices_unique  # save the row index: index in
-                doc_idx = np.where(docpaths == docpath)  # get the document index for the document name
-                cols[ind:ind_end] = np.repeat(doc_idx, n_vals)  # save it as repeated value
+            data[ind:ind_end] = tf * self.idf[indices_unique]  # save the counts (term frequencies)
+            rows[ind:ind_end] = indices_unique  # save the row index: index in
+            doc_idx = np.where(docpaths == docpath)  # get the document index for the document name
+            cols[ind:ind_end] = np.repeat(doc_idx, n_vals)  # save it as repeated value
 
-                ind = ind_end  # resume with next document -> add data to the end
+            ind = ind_end  # resume with next document -> add data to the end
 
-        return coo_matrix((data, (rows, cols)), shape=(len(self.vocab), len(docpaths)), dtype=np.float32)
+        print("TF-IDF: COO matrix created based on existing vocabulary and IDF")
+        return coo_matrix((data, (rows, cols)), shape=(len(self.vocab), len(docpaths)), dtype=np.float32),docpaths
 
     def __handleBoWInput__(self, bow_dict):
         if not isinstance(bow_dict, dict):
@@ -197,10 +198,19 @@ class TFIDFHandler:
         np.save(path + "tfidf.docs",self.docpaths)
         np.save(path + "tfidf.vocab", self.vocab)
         np.save(path + "tfidf.idf", self.idf)
+        np.save(path + "tfidf.vocab_sorter", self.vocab_sorter)
 
         print("TF-IDF: Saved")
         return
 
+    def __load__(self, path):
+        self.tdm = load_npz(path + "tfidf.tdm.npz")
+
+        self.docpaths = np.load(path + "tfidf.docs.npy")
+        self.vocab = np.load(path + "tfidf.vocab.npy")
+        self.idf = np.load(path + "tfidf.idf.npy")
+        self.vocab_sorter = np.load(path + "tfidf.vocab_sorter.npy")
+        return
 
 def testTFIDF(docs = {
         'file1': ['ein', 'test', 'für', 'Dokument', 'eins'],

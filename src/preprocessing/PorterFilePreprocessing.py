@@ -3,6 +3,7 @@ import re
 import json
 # import porter stemmer
 from nltk.stem import porter
+from nltk.corpus import stopwords
 # if a syntax error is shown, right click the preprocessing directory and mark as source
 from .AbstractFilePreprocessing import AbstractFilePreprocessing
 
@@ -12,11 +13,50 @@ class PorterFilePreprocessing(AbstractFilePreprocessing):
 
 
     @staticmethod
+    def tokenization(input_string):
+        """ input: one string with the whole content
+            output: bag of words containing only charachters and with stopwords removed """
+
+        return_string = input_string.lower()
+
+        # include all replace statements in this variable
+        vocabulary = {
+            "from:": " ",
+            "subject:": " ",
+            "re:": "",
+            "organization:": " ",
+            "distribution:": " ",
+            "lines:": " ",
+            "reply-to:": " "
+        }
+
+        # replace headers
+        return_string = AbstractFilePreprocessing.__multiple_replace__(return_string, vocabulary)
+
+        # only leave characters from a-z, numbers and other letters in there
+        return_string = re.sub("[^a-z0-9üäößáàéè]", " ", return_string)
+
+        # create tokens
+        return_string = return_string.split(" ")
+
+        # remove empty entries
+        return_string = [x for x in return_string if x]
+
+        # english stopword list
+        stopword_list = set(stopwords.words('english'))
+
+        # stopword removal
+        return_string = [i for i in return_string if i not in stopword_list]
+
+        return return_string
+
+
+    @staticmethod
     def string_transformation(input_string):
         """ This method returns a string array with the words of the document.
             It needs to be used for query preprocessing as well. """
 
-        return_string = AbstractFilePreprocessing.tokenization(input_string)
+        return_string = PorterFilePreprocessing.tokenization(input_string)
 
         # porter stemmer
         stemmer = porter.PorterStemmer()
@@ -111,4 +151,4 @@ class PorterFilePreprocessing(AbstractFilePreprocessing):
 # search for "stopwords" and download only the stopwords list.
 # nltk.download()
 
-PorterFilePreprocessing.testing()
+#PorterFilePreprocessing.testing()

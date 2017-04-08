@@ -8,7 +8,7 @@ from .AbstractFilePreprocessing import AbstractFilePreprocessing
 
 
 class PorterFilePreprocessing(AbstractFilePreprocessing):
-    """ This class implements porter stemming and is based on an abstract method """
+    """ This class implements porter stemming and is based on an abstract method. """
 
 
     @staticmethod
@@ -53,9 +53,16 @@ class PorterFilePreprocessing(AbstractFilePreprocessing):
             # open file_path, process content and add to dictionary
             with open(file_path, 'rt', encoding='utf-8', errors='replace') as file:
                 print('Processing File ' + file_path)
-                # This regex will select the filename after 20news-bydate-train in the filepath;
-                # demasked: (?<=20news-bydate-train\/)(.*)
-                regex_to_get_new_file_name = "(?<=20news-bydate-train\\/)(.*)"
+
+                if path_to_corpus.endswith("test"):
+                    # FOR TEST DATA
+                    regex_to_get_new_file_name = "(?<=20news-bydate-test\\/)(.*)"
+
+                if path_to_corpus.endswith("train"):
+                    # FOR TRAIN DATA
+                    # demasked: (?<=20news-bydate-train\/)(.*)
+                    regex_to_get_new_file_name = "(?<=20news-bydate-train\\/)(.*)"
+
                 regexer = re.search(regex_to_get_new_file_name, file_path)
                 key = regexer.group(0)  # get filename
                 data = file.read()
@@ -74,10 +81,11 @@ class PorterFilePreprocessing(AbstractFilePreprocessing):
     def testing():
         """ method used for testing purposes """
 
-        my_root_directory = "/Users/alexandrahofmann/Documents/Master Uni MA/2. Semester/" \
-                            "Information Retrieval and Web Search/Team Project/20news-bydate-train"
-        # my_root_directory = "C:/Users/D060249/Documents/Mannheim/Semester 2/" \
-        #             "Information Retrieval and Web Search/IR Team Project/20news-bydate-train"
+        # my_root_directory = "/Users/alexandrahofmann/Documents/Master Uni MA/2. Semester/" \
+        #                    "Information Retrieval and Web Search/Team Project/20news-bydate-train"
+        my_root_directory = "C:/Users/D060249/Documents/Mannheim/Semester 2/" \
+                            "Information Retrieval and Web Search/IR Team Project/" \
+                            "20news-bydate-train"
 
         name_of_target_file = "bow_porter.dict"
 
@@ -103,4 +111,4 @@ class PorterFilePreprocessing(AbstractFilePreprocessing):
 # search for "stopwords" and download only the stopwords list.
 # nltk.download()
 
-# PorterFilePreprocessing.testing()
+PorterFilePreprocessing.testing()

@@ -3,7 +3,7 @@ import json
 import re
 from nltk.stem import WordNetLemmatizer
 # if a syntax error is shown, right click the preprocessing directory and mark as source
-from .AbstractFilePreprocessing import AbstractFilePreprocessing
+from AbstractFilePreprocessing import AbstractFilePreprocessing
 
 
 class LemmatizationFilePreprocessing(AbstractFilePreprocessing):
@@ -41,11 +41,11 @@ class LemmatizationFilePreprocessing(AbstractFilePreprocessing):
         collection = {}
 
         # Loop over all files
-        for file in all_files:
+        for file_path in all_files:
 
             # open file, process content and add to dictionary
-            with open(file, 'rt', encoding='utf-8', errors='replace') as file:
-                print('Processing File ' + file)
+            with open(file_path, 'rt', encoding='utf-8', errors='replace') as file:
+                print('Processing File ' + file_path)
 
                 if path_to_corpus.endswith("test"):
                     # FOR TEST DATA
@@ -57,7 +57,7 @@ class LemmatizationFilePreprocessing(AbstractFilePreprocessing):
                     # demasked: (?<=20news-bydate-train\/)(.*)
                     regex_to_get_new_file_name = "(?<=20news-bydate-train\\/)(.*)"
 
-                regexer = re.search(regex_to_get_new_file_name, file)
+                regexer = re.search(regex_to_get_new_file_name, file_path)
                 key = regexer.group(0)  # get filename
                 data = file.read()
                 value = LemmatizationFilePreprocessing.string_transformation(data)

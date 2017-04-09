@@ -3,6 +3,7 @@ import lsi.svd as svd
 from preprocessing.PorterFilePreprocessing import PorterFilePreprocessing as fp
 import os
 from scipy.sparse import save_npz , load_npz
+from scipy.sparse.linalg import norm
 
 import lsi.queryexec as qe
 import numpy as np
@@ -86,9 +87,12 @@ class LSIHandler:
             similarities = self.svd_handler.getRankingBatch(new_docs_tdm)
         else:
             train_tdm = self.tfidf_handler.getTDM()
+            new_docs_tdm = new_docs_tdm.tocsc()
             # rows of transposed train TDM  = docs -> element-wise dot with cols of new_docs_tdm (docs as well)
-            similarities = train_tdm.transpose().tocsr().dot(new_docs_tdm.tocsc())
-            print("Ranking: Batch - calculated VSM similarities")
+            train_dtm = train_tdm.transpose().tocsr()
+            norms = np.outer(norm(train_dtm, axis=1),norm(new_docs_tdm, axis=0)) # Normalize
+            similarities = np.array(train_dtm.dot(new_docs_tdm) / norms)
+            print("Ranking: Batch - calculated VSM similarities. Shape ",similarities.shape)
 
         #Save for further analysis?
         #np.save(files_path + "eval.similarities", similarities)

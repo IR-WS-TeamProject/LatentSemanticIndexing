@@ -52,7 +52,7 @@ class SVDHandler:
                 #tempNorms = np.diag(self.Vt).dot(self.V)
                 #tempNorms[tempNorms < 0] = 0
                 #self.docNorms = np.sqrt(tempNorms)
-                self.docNorms = np.sum(self.V**2,axis=-1)**(1./2)
+                self.docNorms = np.linalg.norm(self.V,axis=1)#np.sum(self.V**2,axis=-1)**(1./2)
 
                 if(path is not None):
                     self.__save__(path)

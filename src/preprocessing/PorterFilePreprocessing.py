@@ -5,7 +5,7 @@ import json
 from nltk.stem import porter
 from nltk.corpus import stopwords
 # if a syntax error is shown, right click the preprocessing directory and mark as source
-from .AbstractFilePreprocessing import AbstractFilePreprocessing
+from preprocessing.AbstractFilePreprocessing import AbstractFilePreprocessing
 
 
 class PorterFilePreprocessing(AbstractFilePreprocessing):
@@ -13,7 +13,7 @@ class PorterFilePreprocessing(AbstractFilePreprocessing):
 
 
     @staticmethod
-    def tokenization(input_string):
+    def __tokenization(input_string):
         """ input: one string with the whole content
             output: bag of words containing only charachters and with stopwords removed """
 
@@ -33,8 +33,8 @@ class PorterFilePreprocessing(AbstractFilePreprocessing):
         # replace headers
         return_string = AbstractFilePreprocessing.__multiple_replace__(return_string, vocabulary)
 
-        # only leave characters from a-z, numbers and other letters in there
-        return_string = re.sub("[^a-z0-9üäößáàéè]", " ", return_string)
+        # only leave characters from a-z and other letters in there
+        return_string = re.sub("[^a-züäößáàéè]", " ", return_string)
 
         # create tokens
         return_string = return_string.split(" ")
@@ -56,7 +56,7 @@ class PorterFilePreprocessing(AbstractFilePreprocessing):
         """ This method returns a string array with the words of the document.
             It needs to be used for query preprocessing as well. """
 
-        return_string = PorterFilePreprocessing.tokenization(input_string)
+        return_string = PorterFilePreprocessing.__tokenization(input_string)
 
         # porter stemmer
         stemmer = porter.PorterStemmer()

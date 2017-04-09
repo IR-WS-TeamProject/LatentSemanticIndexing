@@ -1,10 +1,12 @@
 """ import statements """
 import json
 import re
+import nltk
 from nltk.stem import WordNetLemmatizer
-from .PorterFilePreprocessing import PorterFilePreprocessing
+from nltk.corpus import wordnet
+from nltk.corpus import stopwords
 # if a syntax error is shown, right click the preprocessing directory and mark as source
-from .AbstractFilePreprocessing import AbstractFilePreprocessing
+from preprocessing.AbstractFilePreprocessing import AbstractFilePreprocessing
 
 
 class LemmatizationFilePreprocessing(AbstractFilePreprocessing):
@@ -15,24 +17,71 @@ class LemmatizationFilePreprocessing(AbstractFilePreprocessing):
         """ This method returns a string array with the words of the document.
             It needs to be used for query preprocessing as well. """
 
-        # initialize return structure and tokenize inputString
         transformed_input = []
 
-        # another method will be used later on
-        tokens = PorterFilePreprocessing.tokenization(input_string)
+        # tokenize words
+        tokenized_string = nltk.word_tokenize(input_string)
+
+        # POS tagging
+        pos_tagged_tokens = nltk.pos_tag(tokenized_string)
 
         # initialize lemmatizer
         wordnet_lemmatizer = WordNetLemmatizer()
 
-        #        We need a POS tagger to determine whether the word is a noun or a verb
-        #       (currently: everything is considered to be a noun when lemmatizing).
-
-
         # lemmatize
-        for token in tokens:
-            transformed_input.append(wordnet_lemmatizer.lemmatize(token, pos="n"))
+        for pos_tagged_token in pos_tagged_tokens:
+            word, part_of_speech = pos_tagged_token
 
-        return transformed_input
+            if str(part_of_speech).startswith("N"):
+                #token is a noun
+                transformed_input.append(wordnet_lemmatizer.lemmatize(word, pos=wordnet.NOUN))
+
+            elif str(part_of_speech).startswith("V"):
+                #token is a verb
+                transformed_input.append(wordnet_lemmatizer.lemmatize(word, pos=wordnet.VERB))
+
+            elif str(part_of_speech).startswith("J"):
+                #token is an adjective
+                transformed_input.append(wordnet_lemmatizer.lemmatize(word, pos=wordnet.ADJ))
+
+            elif str(part_of_speech).startswith("R"):
+                #token is adverb
+                #note: lemmatizer does not handle adverbs
+
+                extended_adverb = word + ".r.1"
+
+                # handle the exception that no lemma is found
+                try:
+                    lemmas = wordnet.synset(extended_adverb).lemmas()
+                    lemmatized_adverb = lemmas[0].pertainyms()[0].name()
+                except (IndexError, AttributeError, nltk.corpus.reader.wordnet.WordNetError):
+                    lemmatized_adverb = word
+
+                # add base form
+                transformed_input.append(lemmatized_adverb)
+
+            else:
+                #token is not tagged -> simply add token
+                transformed_input.append(word)
+
+        # initialize return structure
+        return_structure = []
+
+        # delete everything except characters
+        for token in transformed_input:
+            # replace with empty string
+            return_structure.append(re.sub("[^a-züäößáàéè]", "", str(token).lower()))
+
+            # remove empty entries
+            return_structure = [x for x in return_structure if x]
+
+        # english stopword list
+        stopword_list = set(stopwords.words('english'))
+
+        # stopword removal
+        return_structure = [i for i in return_structure if i not in stopword_list]
+
+        return return_structure
 
 
     @staticmethod
@@ -92,9 +141,10 @@ class LemmatizationFilePreprocessing(AbstractFilePreprocessing):
         LemmatizationFilePreprocessing.save_bag_of_words(my_root_directory, name_of_target_file)
 
         # testing the stringTransformation method
-        test_string = "I just love dogs and cats and playing with them."
+        test_string = "I just love dogs and cats and playing with them. 123I love it :)" \
+                      "He enjoys my jokes - that's what makes it so special to me."
         result = LemmatizationFilePreprocessing.string_transformation(test_string)
         print(result)
 
 
-#LemmatizationFilePreprocessing.testing()
+LemmatizationFilePreprocessing.testing()

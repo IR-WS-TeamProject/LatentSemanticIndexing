@@ -1,89 +1,60 @@
+""" import statements """
 import os
 import re
-from nltk.corpus import stopwords
 
 
 class AbstractFilePreprocessing:
+    """ abstract class for preprocessing """
+
 
     @staticmethod
-    def stringTransformation(inputString):
+    def string_transformation(input_string):
+        """ Performs a string transformation on a string object with stemming/lemmatization. """
         pass
 
+
     @staticmethod
-    def saveBagOfWords(pathToCorpus, nameOfTargetFile):
+    def save_bag_of_words(path_to_corpus, name_of_target_file):
+        """ Creates a dictionary as data structure: filepath -> bag of words. """
         pass
 
-    # this method returns a string-array with the complete file paths for each file for further processing
-    # it accepts the rootDirectory of the resource files (String format)
+
+
+    # private methods
+
     @staticmethod
-    def getPathsToAllResourceFiles(rootDirectory):
-        # this is the root path where the news training data is located
+    def __get_paths_to_resource_files__(root_directory):
+        """ This method returns a string-array with complete file paths for each file.
+            It accepts the rootDirectory of the resource files (String format). """
 
         # get all subdirectories in pathToSourceDirectory
-        subdirectories = [path for path in os.listdir(rootDirectory)
-                          if os.path.isdir(os.path.join(rootDirectory, path))]
+        subdirectories = [path for path in os.listdir(root_directory)
+                          if os.path.isdir(os.path.join(root_directory, path))]
 
         # list with all files
-        allFiles = []
+        all_files = []
 
         # get all files
         for directory in subdirectories:
-            completePathToDirectory = rootDirectory + "/" + directory
-            filesInDirectory = [file for file in os.listdir(completePathToDirectory)
-                                if os.path.isfile(os.path.join(completePathToDirectory, file))]
-            for file in filesInDirectory:
-                completePathToFile = completePathToDirectory + "/" + file
-                allFiles.append(completePathToFile)
+            complete_path_to_directory = root_directory + "/" + directory
+            files_in_directory = [file for file in os.listdir(complete_path_to_directory)
+                                  if os.path.isfile(os.path.join(complete_path_to_directory, file))]
+            for file in files_in_directory:
+                complete_path_to_file = complete_path_to_directory + "/" + file
+                all_files.append(complete_path_to_file)
 
-        return allFiles
+        return all_files
 
-    # input: one string with the whole content
-    # output: bag of words containing only charachters and with stopwords removed
-    @staticmethod
-    def tokenization(inputString):
-
-        returnString = inputString.lower()
-
-        # include all replace statements in this variable
-        replaceVocabulary = {
-            "from:": " ",
-            "subject:": " ",
-            "re:": "",
-            "organization:": " ",
-            "distribution:": " ",
-            "lines:": " ",
-            "reply-to:": " "
-        }
-
-        # replace headers
-        returnString = AbstractFilePreprocessing.__multiple_replace__(returnString, replaceVocabulary)
-
-        # only leave characters from a-z, numbers and other letters in there
-        returnString = re.sub("[^a-z0-9üäößáàéè]", " ", returnString)
-
-        # create tokens
-        returnString = returnString.split(" ")
-
-        # remove empty entries
-        returnString = [x for x in returnString if x]
-
-        # english stopword list
-        stopWordList = set(stopwords.words('english'))
-        # stopword removal
-        returnString = [i for i in returnString if i not in stopWordList]
-
-        return returnString
-
-        # private method
 
     @staticmethod
-    def __multiple_replace__(text, adict):
-        rx = re.compile('|'.join(map(re.escape, adict)))
+    def __multiple_replace__(text, adictionary):
+        """ input: text where occurrences specified in the input dictionary will be replaced
+            output: string with replaced parts """
 
-        def one_xlat(match):
-            return adict[match.group(0)]
+        word = re.compile('|'.join(map(re.escape, adictionary)))
 
-        return rx.sub(one_xlat, text)
+        def get_match(match):
+            """ return match of dictionary array """
+            return adictionary[match.group(0)]
 
-
-
+        return word.sub(get_match, text)

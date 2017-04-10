@@ -114,7 +114,7 @@ class TFIDFHandler:
         self.tdm = coo_matrix((data, (rows, cols)), shape=(nvocab, ndocs), dtype=np.float32)
         #self.vocab = vocab[vocab_sorter]
 
-        print("TF-IDF: Finished creation")
+        print("TF-IDF: Finished creation based on ",ndocs," documents and vocabulary of size ", nvocab)
 
         return
 

@@ -27,12 +27,24 @@ def testLSI(load_tfidf=True,
 
 #testLSI()
 
-def testEvaluator():
+def testEvaluator(
+        max_k=150,
+        load_tdm=True,
+        load_svd=False
+):
     evaluator = LSIEvaluator()
-    evaluator.train(bag_of_words="bow_porter.dict",
-                    max_k=150,
-                    load_svd=True) # False: forces recalculation of SVD
-    evaluator.evaluate(bag_of_words="bow_porter_testData.dict",
-                       load_tdm=True) # reuse TDM, if new bag of words stays same: set to False!
+    evaluator.train(bag_of_words="bow_lemmatization_train_data.dict",
+                    max_k=max_k,
+                    load_tdm=load_tdm, # False: forces recalculation of TFIDF TDM (case: new train bow)
+                    load_svd=load_svd) # False: forces recalculation of SVD (case: new bow or change of k)
+    evaluator.evaluate(bag_of_words="bow_lemmatization_test_data.dict",
+                       load_tdm=load_tdm) # False: forces recalculation of TFIDF TDM for test data
+                                            # (case: new test or train bow)
 
-testEvaluator()
+#run onces if new bow:
+testEvaluator(max_k=50,load_tdm=False) # forcing tdm re-calculation
+
+#run batch testing
+for k in [100,150,200,250]:
+    print("#### TEST RUN: k = ",k," ####")
+    testEvaluator(max_k=k)

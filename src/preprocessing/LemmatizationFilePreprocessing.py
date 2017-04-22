@@ -6,7 +6,7 @@ from nltk.stem import WordNetLemmatizer
 from nltk.corpus import wordnet
 from nltk.corpus import stopwords
 # if a syntax error is shown, right click the preprocessing directory and mark as source
-from preprocessing.AbstractFilePreprocessing import AbstractFilePreprocessing
+from src.preprocessing.AbstractFilePreprocessing import AbstractFilePreprocessing
 
 
 class LemmatizationFilePreprocessing(AbstractFilePreprocessing):
@@ -147,4 +147,4 @@ class LemmatizationFilePreprocessing(AbstractFilePreprocessing):
         print(result)
 
 
-LemmatizationFilePreprocessing.testing()
+# LemmatizationFilePreprocessing.testing()

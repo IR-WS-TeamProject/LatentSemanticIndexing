@@ -16,7 +16,7 @@ if module_path not in sys.path:
 
 class LSIHandler:
     def __init__(self,
-                 bag_of_words="bow_porter.dict",
+                 bag_of_words="bow_lemmatization_train_data.dict",
                  files_path=os.pardir + "/files/",
                  load_tdm=True, #set to False if TF-IDF Matrix should be recalculated rather than loaded from disk
                  load_svd=True, #set to False if SVD should be recalculated rather than loaded from disk

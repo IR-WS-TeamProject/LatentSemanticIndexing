@@ -1,5 +1,11 @@
 from lsi.lsiHandler import LSIHandler
 from lsi.evaluation import LSIEvaluator
+import os, sys
+
+#add src package as additional source of modules
+module_path = os.path.abspath(os.path.join('..'))
+if module_path not in sys.path:
+    sys.path.append(module_path)
 
 ############################## TESTING ################################################
 def testLSI(load_tfidf=True,

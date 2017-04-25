@@ -2,11 +2,17 @@ import lsi.tfidf as tfidf
 import lsi.svd as svd
 from preprocessing.PorterFilePreprocessing import PorterFilePreprocessing as fp
 import os
+import sys
 from scipy.sparse import save_npz , load_npz
 from scipy.sparse.linalg import norm
 
 import lsi.queryexec as qe
 import numpy as np
+
+#add src package as additional source of modules
+module_path = os.path.abspath(os.path.join('..'))
+if module_path not in sys.path:
+    sys.path.append(module_path)
 
 class LSIHandler:
     def __init__(self,

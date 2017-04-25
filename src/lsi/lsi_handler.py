@@ -9,7 +9,6 @@ import numpy as np
 from ..lsi.tfidf import TFIDFHandler
 from ..lsi.svd import SVDHandler
 from ..preprocessing.PorterFilePreprocessing import PorterFilePreprocessing as fp
-from ..lsi.queryexec import get_ranked_list
 
 class LSIHandler:
     """Main class of the module"""

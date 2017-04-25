@@ -9,11 +9,14 @@ import urllib
 import json
 import http.server
 import socketserver
-import queryexec
+from lsi.lsiHandler import LSIHandler
 
 PORT = 8000
 
 class MyHandler(http.server.BaseHTTPRequestHandler):
+    """Constructor"""
+    def __init__(self):
+        self.lsiHandler = LSIHandler()
     """Request Handler for the server"""
     def do_HEAD(self):
         """Check if server is running"""
@@ -37,9 +40,7 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
             query = self.path.replace('/api?query=', '')
             query = urllib.parse.unquote(query)
             print('query: ', query)
-            ## TODO resolve mock
-            ranked_list = queryexec.get_ranked_list_mock()
-            ##
+            ranked_list = self.lsiHandler.getRanking(query)
             contenttype = 'application/json'
             body = json.dumps(ranked_list)
             self.send_response(200)

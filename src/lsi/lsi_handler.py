@@ -14,8 +14,8 @@ from ..lsi.queryexec import get_ranked_list
 class LSIHandler:
     """Main class of the module"""
     def __init__(self,
-                 bag_of_words="bow_porter.dict",
-                 files_path=os.pardir + "/files/",
+                 bag_of_words="bow_lemmatization_train_data.dict",
+                 files_path="./src/files/",
                  load_tdm=True,
                  #set to False if TF-IDF Matrix should be recalculated rather than loaded from disk
                  load_svd=True,
@@ -121,15 +121,3 @@ class LSIHandler:
                                                    "similarities": result_similarities}
 
             return new_doc_topn
-
-
-    def get_ranking_2(self,
-                      query=""):
-        """Deprectated(?) get ranking method"""
-        return get_ranked_list(query=query,
-                               docs=self.tfidf_handler.getDocuments(),
-                               u_k=np.mat(self.svd_handler.Ut.transpose()),
-                               s_k=np.mat(np.diag(self.svd_handler.s)),
-                               v_k_transposed=np.mat(self.svd_handler.V.transpose()))
-
-

@@ -10,7 +10,7 @@ class TFIDFHandler:
                  docs=None,
                  path=None,
                  load=True):
-        self.isValid = True
+        self.is_valid = True
         if(load and path is not None): #try to load
             try:
                 self.__load__(path)
@@ -23,13 +23,13 @@ class TFIDFHandler:
             print("TF-IDF: Load docs from file")
             docs = self.__handleBoWInput__(docs)
             if (docs is None):
-                self.isValid = False
+                self.is_valid = False
                 return
             self.__createTFIDF__(docs)
             if(path is not None):
                 self.__save__(path)
         elif(not load and docs is None):
-            self.isValid = False
+            self.is_valid = False
             print("TF-IDF: Error: No load of existing TF-IDF and no Docs specified")
         return
 

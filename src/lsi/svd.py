@@ -4,31 +4,37 @@ from scipy.sparse.linalg import svds
 from scipy.linalg import inv, norm
 from scipy import matrix
 import sys
-import lsi.tfidf
+
+from ..lsi.tfidf import TFIDFHandler
 
 
 class SVDHandler:
-
-    # Input: Term-Document-Matrix (Sparse COO), vector of DocPaths , maximum k, path to save to/load from file, indicator if load should be used (false = re-calculation)
+    """
+        Input: Term-Document-Matrix (Sparse COO), vector of DocPaths , maximum k,
+        path to save to/load from file,
+        indicator if load should be used (false = re-calculation)
+    """
     def __init__(self, tdm,
                  max_k=100,
                  path=None,
                  load=True):
 
-        self.isValid = True
-        if(load):
-            if(path is not None):
+        self.is_valid = True
+        if load:
+            if path is not None:
                 try:
                     self.__load__(path)
                     print("SVD: Loaded from files")
-                except:
-                    print("SVD: Load from files failed - ", sys.exc_info()[0], " (",sys.exc_info()[1],")")
+                except Exception:
+                    print("SVD: Load from files failed - ",
+                          sys.exc_info()[0],
+                          " (", sys.exc_info()[1], ")")
                     load = False
             else:
                 print("SVD: Load from files failed - please specify path")
                 load = False
 
-        if(not load):
+        if not load:
             print("SVD: Start calculation")
             if isinstance(tdm, coo_matrix):
                 #self.docs = docs
@@ -42,8 +48,8 @@ class SVDHandler:
                 s_min = np.min(s.nonzero())
                 self.s = s[s_min:]#-1]
                 self.k = len(self.s)
-                U = U[:,s_min:]#-1]
-                Vt = Vt[s_min:,:]#-1,:]
+                U = U[:, s_min:]#-1]
+                Vt = Vt[s_min:, :]#-1,:]
 
                 #Further precalculations:
                 self.Ut = U.transpose()
@@ -54,11 +60,11 @@ class SVDHandler:
                 #self.docNorms = np.sqrt(tempNorms)
                 self.docNorms = np.linalg.norm(self.V,axis=1)#np.sum(self.V**2,axis=-1)**(1./2)
 
-                if(path is not None):
+                if path is not None:
                     self.__save__(path)
             else:
                 print("SVD: Error: Please provide Matrix in sparse COO format and docs")
-                self.isValid = False
+                self.is_valid = False
         return
 
     def __save__(self,path):
@@ -86,7 +92,7 @@ class SVDHandler:
 
     #input: dense topic vector, # of top ranked docs
     #output: ranking
-    def getRanking(self,vec,n = 10):
+    def get_ranking(self, vec, number = 10):
         #convert to dense vector
         dv = self.SiUt.dot(vec)
 
@@ -94,12 +100,12 @@ class SVDHandler:
         sim = (self.V.dot(dv))/(self.docNorms * norm(dv))
 
         #Top-n result indices
-        topn = np.argsort(sim)[::-1][:n] #descending order, taking top N
+        topn = np.argsort(sim)[::-1][:number] #descending order, taking top N
 
         #return sorted results
         return topn, sim[topn]
 
-    def getRankingBatch(self, matrix):
+    def get_ranking_batch(self, matrix):
         # convert to dense vectors (matrix)
         # - bit complicated because of elementwise dot product between dense and sparse matrix needed!
         # - COO Matrix no appropriate - but CSC and SCR is supporting vector products.
@@ -131,7 +137,7 @@ def testSVD(docs = {
         'file3': ['alle', 'guten', 'Dinge', 'sind', 'drei'],
         'file4': ['ein', 'test', 'für', 'Dokument', 'drei'],
     }):
-    tfidfHandler = lsi.tfidf.TFIDFHandler(docs= docs, load = False)
+    tfidfHandler = TFIDFHandler(docs= docs, load = False)
     #tfidf.convertDocToVec()   pick first instead:
     query = ['ein', 'ein', 'weiteres', 'Dokument']
     print("Query:", query)
@@ -139,7 +145,7 @@ def testSVD(docs = {
     print("Vec:", vec)
 
     svdHandler = SVDHandler(tfidfHandler.getTDM(), max_k= 3)
-    docs, sims = svdHandler.getRanking(vec)
+    docs, sims = svdHandler.get_ranking(vec)
 #matrix.
     print("Ranked Docs:", docs )
     print("Similarities:", sims)

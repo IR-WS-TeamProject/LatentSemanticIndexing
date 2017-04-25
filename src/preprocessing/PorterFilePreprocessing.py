@@ -5,7 +5,7 @@ import json
 from nltk.stem import porter
 from nltk.corpus import stopwords
 # if a syntax error is shown, right click the preprocessing directory and mark as source
-from preprocessing.AbstractFilePreprocessing import AbstractFilePreprocessing
+from ..preprocessing.AbstractFilePreprocessing import AbstractFilePreprocessing
 
 
 class PorterFilePreprocessing(AbstractFilePreprocessing):

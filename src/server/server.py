@@ -38,7 +38,12 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
             query = urllib.parse.unquote(query)
             print('query: ', query)
             lsi_handler = LSIHandler()
-            ranked_list = lsi_handler.get_ranking_2(query)
+            documents, similarities = lsi_handler.get_ranking(query)
+
+            ranked_list = []
+            for i in range(0, len(similarities)):
+                ranked_list.append({'doc': documents[i], 'rank': "{:.9f}".format(similarities[i])})
+
             contenttype = 'application/json'
             body = json.dumps(ranked_list)
             self.send_response(200)

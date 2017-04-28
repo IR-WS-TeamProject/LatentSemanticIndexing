@@ -40,6 +40,8 @@ __pycache__
 # data
 data
 *.dict
+!/src/files/bow_lemmatization_test_data.dict
+!/src/files/bow_lemmatization_train_data.dict
 *.zip
 *.npy
 *.npz

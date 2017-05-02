@@ -125,14 +125,14 @@ class LemmatizationFilePreprocessing(AbstractFilePreprocessing):
 
 
     @staticmethod
-    def testing():
+    def main():
         """this method is just for testing purposes"""
 
-        # my_root_directory = "/Users/alexandrahofmann/Documents/Master Uni MA/2. Semester/" \
-        #                    "Information Retrieval and Web Search/Team Project/20news-bydate-train"
-        my_root_directory = "C:/Users/D060249/Documents/Mannheim/Semester 2/" \
-                            "Information Retrieval and Web Search/IR Team Project/" \
-                            "20news-bydate-test"
+        my_root_directory = "/Users/alexandrahofmann/Documents/Master Uni MA/2. Semester/" \
+                            "Information Retrieval and Web Search/Team Project/20news-bydate-train"
+        # my_root_directory = "C:/Users/D060249/Documents/Mannheim/Semester 2/" \
+         #                   "Information Retrieval and Web Search/IR Team Project/" \
+         #                   "20news-bydate-test"
 
         name_of_target_file = "bow_lemmatization_test_data.dict"
 
@@ -147,4 +147,5 @@ class LemmatizationFilePreprocessing(AbstractFilePreprocessing):
         print(result)
 
 
-LemmatizationFilePreprocessing.testing()
+if __name__ == '__main__':
+    LemmatizationFilePreprocessing.main()

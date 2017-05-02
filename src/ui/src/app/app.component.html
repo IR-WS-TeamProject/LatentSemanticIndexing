@@ -3,6 +3,7 @@
 		{{title}}
 	</h1>
 	<input [(ngModel)]="query" placeholder="Query" (keyup.enter)="updateSearchResults(query)">
+	<button (click)="switchMode()">{{buttonText}}</button><span>{{labelText}}</span>
 	<div class="content">
 		<ul>
 			<li *ngFor="let result of results">

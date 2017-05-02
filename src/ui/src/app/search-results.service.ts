@@ -13,10 +13,10 @@ export class SearchResultsService {
 
   constructor(private http: Http) { }
 
-  getSearchResults(query: string): Promise<SearchResult[]> {
+  getSearchResults(query: string, withSVD: boolean = true): Promise<SearchResult[]> {
     console.log(`Find documents for: ${query}`)
   	// return Promise.resolve(SEARCH_RESULTS)
-  	const url = `${this.apiUrl}${encodeURI(query)}`
+	const url = `${this.apiUrl}${encodeURI(query)}&svd=${withSVD}`
   	return this.http.get(url)
      .toPromise()
      .then(response => response.json() as SearchResult[])

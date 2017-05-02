@@ -34,11 +34,15 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
             self.wfile.write(file.read())
             file.close()
         elif self.path.startswith('/api?query='):
-            query = self.path.replace('/api?query=', '')
+            query = self.path.split('&svd=')[0].replace('/api?query=', '')
             query = urllib.parse.unquote(query)
             print('query: ', query)
+            with_svd = self.path.split('&svd=')[1]
             lsi_handler = LSIHandler()
-            documents, similarities = lsi_handler.get_ranking(query)
+            if with_svd == 'true':
+                documents, similarities = lsi_handler.get_ranking(query)
+            else: #TODO
+                documents, similarities = lsi_handler.get_ranking(query)
 
             ranked_list = []
             for i in range(0, len(similarities)):

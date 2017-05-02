@@ -14,6 +14,9 @@ export class AppComponent implements OnInit {
   private query: string = null
   private results: SearchResult[] = null
   private document: string = ''
+  private buttonText: string = 'Use VSM'
+  private labelText: string = 'SVD Mode'
+  private svdMode: boolean = true
 
   constructor(
     private searchResultService: SearchResultsService,
@@ -27,7 +30,7 @@ export class AppComponent implements OnInit {
   }
 
   updateSearchResults(query: string): void {
-    this.searchResultService.getSearchResults(query)
+    this.searchResultService.getSearchResults(query, this.svdMode)
       .then(searchResults => this.results = searchResults)
       .catch(() => {}) // nice error handling tho
   }
@@ -36,5 +39,16 @@ export class AppComponent implements OnInit {
     this.documentService.getDocument(documentPath)
       .then(document => this.document = document)
       .catch(() => {})
+  }
+
+  switchMode(): void {
+    this.svdMode = !this.svdMode
+    if (this.svdMode) {
+      this.buttonText = 'Use VSM'
+      this.labelText = 'SVD Mode'
+    } else {
+      this.buttonText = 'Use SVD'
+      this.labelText = 'VSM Mode'
+    } 
   }
 }

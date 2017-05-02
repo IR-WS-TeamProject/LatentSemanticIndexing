@@ -8,7 +8,7 @@ exports = module.exports = __webpack_require__(45)();
 
 
 // module
-exports.push([module.i, ".content, input {\r\n\tmargin: 0 0 0 20px;\r\n}\r\n\r\ninput {\r\n\tfont-size: 1.2em;\r\n\tborder: none;\r\n}\r\n\r\nul {\r\n\tlist-style-type: none;\r\n\tpadding: 0;\r\n\tmargin: 15px 0 0 0;\r\n\twidth: 40%;\r\n\tfloat: left;\r\n}\r\n\r\nli {\r\n\tmargin: 0 0 8px 0;\r\n\tbackground-color: white;\r\n\tpadding: 7px 15px 10px 15px;\r\n}\r\n\r\nli:hover {\r\n\tbox-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);\r\n}\r\n\r\nli h2 {\r\n\tmargin: 0 0 4px 0;\r\n}\r\n\r\n.document {\r\n\twhite-space: pre-wrap;\r\n\tfloat: right;\r\n\twidth: 40%;\r\n\tmargin: 0 15% 0 0;\r\n}", ""]);
+exports.push([module.i, ".content, input {\n\tmargin: 0 0 0 20px;\n}\n\ninput {\n\tfont-size: 1.2em;\n\tborder: none;\n}\n\nul {\n\tlist-style-type: none;\n\tpadding: 0;\n\tmargin: 15px 0 0 0;\n\twidth: 40%;\n\tfloat: left;\n}\n\nli {\n\tmargin: 0 0 8px 0;\n\tbackground-color: white;\n\tpadding: 7px 15px 10px 15px;\n}\n\nli:hover {\n\tbox-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);\n}\n\nli h2 {\n\tmargin: 0 0 4px 0;\n}\n\n.document {\n\twhite-space: pre-wrap;\n\tfloat: right;\n\twidth: 40%;\n\tmargin: 0 15% 0 0;\n}", ""]);
 
 // exports
 
@@ -21,7 +21,7 @@ module.exports = module.exports.toString();
 /***/ 138:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"app\">\r\n\t<h1>\r\n\t\t{{title}}\r\n\t</h1>\r\n\t<input [(ngModel)]=\"query\" placeholder=\"Query\" (keyup.enter)=\"updateSearchResults(query)\">\r\n\t<div class=\"content\">\r\n\t\t<ul>\r\n\t\t\t<li *ngFor=\"let result of results\">\r\n\t\t\t\t<a (click)=\"updateDocument(result.doc)\">\r\n\t\t\t\t\t<h2>{{result.doc}}</h2>\r\n\t\t\t\t\t<p>{{result.rank}}</p>\r\n\t\t\t  \t</a>\r\n\t\t\t</li>\r\n\t\t</ul>\r\n\t\t<div class=\"document\">\r\n\t\t\t{{document}}\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n"
+module.exports = "<div class=\"app\">\n\t<h1>\n\t\t{{title}}\n\t</h1>\n\t<input [(ngModel)]=\"query\" placeholder=\"Query\" (keyup.enter)=\"updateSearchResults(query)\">\n\t<button (click)=\"switchMode()\">{{buttonText}}</button><span>{{labelText}}</span>\n\t<div class=\"content\">\n\t\t<ul>\n\t\t\t<li *ngFor=\"let result of results\">\n\t\t\t\t<a (click)=\"updateDocument(result.doc)\">\n\t\t\t\t\t<h2>{{result.doc}}</h2>\n\t\t\t\t\t<p>{{result.rank}}</p>\n\t\t\t  \t</a>\n\t\t\t</li>\n\t\t</ul>\n\t\t<div class=\"document\">\n\t\t\t{{document}}\n\t\t</div>\n\t</div>\n</div>\n"
 
 /***/ }),
 
@@ -108,10 +108,11 @@ var SearchResultsService = (function () {
         this.http = http;
         this.apiUrl = '/api?query=';
     }
-    SearchResultsService.prototype.getSearchResults = function (query) {
+    SearchResultsService.prototype.getSearchResults = function (query, withSVD) {
+        if (withSVD === void 0) { withSVD = true; }
         console.log("Find documents for: " + query);
         // return Promise.resolve(SEARCH_RESULTS)
-        var url = "" + this.apiUrl + encodeURI(query);
+        var url = "" + this.apiUrl + encodeURI(query) + "&svd=" + withSVD;
         return this.http.get(url)
             .toPromise()
             .then(function (response) { return response.json(); })
@@ -195,6 +196,9 @@ var AppComponent = (function () {
         this.query = null;
         this.results = null;
         this.document = '';
+        this.buttonText = 'Use VSM';
+        this.labelText = 'SVD Mode';
+        this.svdMode = true;
     }
     AppComponent.prototype.ngOnInit = function () {
         /* this.searchResultService.getSearchResults('initial query?')
@@ -203,7 +207,7 @@ var AppComponent = (function () {
     };
     AppComponent.prototype.updateSearchResults = function (query) {
         var _this = this;
-        this.searchResultService.getSearchResults(query)
+        this.searchResultService.getSearchResults(query, this.svdMode)
             .then(function (searchResults) { return _this.results = searchResults; })
             .catch(function () { }); // nice error handling tho
     };
@@ -213,10 +217,21 @@ var AppComponent = (function () {
             .then(function (document) { return _this.document = document; })
             .catch(function () { });
     };
+    AppComponent.prototype.switchMode = function () {
+        this.svdMode = !this.svdMode;
+        if (this.svdMode) {
+            this.buttonText = 'Use VSM';
+            this.labelText = 'SVD Mode';
+        }
+        else {
+            this.buttonText = 'Use SVD';
+            this.labelText = 'VSM Mode';
+        }
+    };
     return AppComponent;
 }());
 AppComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_4" /* Component */])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_3" /* Component */])({
         selector: 'app-root',
         template: __webpack_require__(138),
         styles: [__webpack_require__(136)]

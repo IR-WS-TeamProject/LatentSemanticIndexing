@@ -118,14 +118,14 @@ class PorterFilePreprocessing(AbstractFilePreprocessing):
         return collection
 
     @staticmethod
-    def testing():
+    def main():
         """ method used for testing purposes """
 
-        # my_root_directory = "/Users/alexandrahofmann/Documents/Master Uni MA/2. Semester/" \
-        #                    "Information Retrieval and Web Search/Team Project/20news-bydate-train"
-        my_root_directory = "C:/Users/D060249/Documents/Mannheim/Semester 2/" \
-                            "Information Retrieval and Web Search/IR Team Project/" \
-                            "20news-bydate-train"
+        my_root_directory = "/Users/alexandrahofmann/Documents/Master Uni MA/2. Semester/" \
+                            "Information Retrieval and Web Search/Team Project/20news-bydate-train"
+        # my_root_directory = "C:/Users/D060249/Documents/Mannheim/Semester 2/" \
+         #                   "Information Retrieval and Web Search/IR Team Project/" \
+          #                  "20news-bydate-train"
 
         name_of_target_file = "bow_porter.dict"
 
@@ -151,4 +151,6 @@ class PorterFilePreprocessing(AbstractFilePreprocessing):
 # search for "stopwords" and download only the stopwords list.
 # nltk.download()
 
-#PorterFilePreprocessing.testing()
+
+if __name__ == '__main__':
+    PorterFilePreprocessing.main()

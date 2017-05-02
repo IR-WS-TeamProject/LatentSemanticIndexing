@@ -8,7 +8,7 @@ import numpy as np
 
 from ..lsi.tfidf import TFIDFHandler
 from ..lsi.svd import SVDHandler
-from ..preprocessing.PorterFilePreprocessing import PorterFilePreprocessing as fp
+from ..preprocessing.LemmatizationFilePreprocessing import LemmatizationFilePreprocessing as fp
 
 class LSIHandler:
     """Main class of the module"""

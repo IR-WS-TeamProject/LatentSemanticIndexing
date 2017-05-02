@@ -38,25 +38,39 @@ class LSIHandler:
 
     def get_ranking(self,
                     query="",
-                    number=10):
+                    number=10,
+                    use_SVD=True  #if false: VSM based similarity used
+                   ):
         """Retrieve top-n ranking based on query string."""
         if self.is_valid:
             print("Ranking - Query: ", query)
 
-            #Preprocess string: Convert into bag of words
+            # Preprocess string: Convert into bag of words
             bow = fp.string_transformation(query)
-            #bow  = ['underground','underwater','wireless','communications']
+            # bow  = ['underground','underwater','wireless','communications']
             # Doc sci.electronics/52434
             print("Ranking - BoW: ", bow)
 
-            #Convert into term vector (SVD)
+            # Convert into term vector
             term_vec = self.tfidf_handler.convertBoWToTermVector(bow)
             print("Ranking - Term Vector: Non-Zero positions:", term_vec.nonzero())
             print("Ranking - Term Vector: Non-Zero values:", term_vec[term_vec.nonzero()])
             print("Ranking - Term Vector: Size:", term_vec.size)
 
-            #Calc. LSI ranking
-            doc_ind, similarities = self.svd_handler.get_ranking(vec=term_vec, number=number)
+            if(use_SVD):
+                # Calc. LSI ranking (SVD)
+                doc_ind, similarities = self.svd_handler.get_ranking(vec=term_vec, number=number)
+            else:
+                # Calc. VSM ranking
+                train_dtm = self.tfidf_handler.getTDM().transpose().tocsr()
+                norms = norm(train_dtm, axis=1) * norm(term_vec)  # Normalize
+                sims = np.array(train_dtm.dot(term_vec) / norms)
+
+                # Derive top-n
+                topn = np.argsort(sims)[::-1][:number]
+                similarities = sims[topn]
+                doc_ind = topn
+
             return self.tfidf_handler.getDocuments(doc_ind), similarities
         else:
             print("Ranking: Error - Instantiation of LSI failed")

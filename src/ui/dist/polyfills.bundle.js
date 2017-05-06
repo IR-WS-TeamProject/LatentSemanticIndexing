@@ -88,10 +88,10 @@ module.exports = function(it, key){
 /* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Map     = __webpack_require__(109)
+var Map     = __webpack_require__(110)
   , $export = __webpack_require__(1)
   , shared  = __webpack_require__(40)('metadata')
-  , store   = shared.store || (shared.store = new (__webpack_require__(125)));
+  , store   = shared.store || (shared.store = new (__webpack_require__(126)));
 
 var getOrCreateMetadataMap = function(target, targetKey, create){
   var targetMetadata = store.get(target);
@@ -173,7 +173,7 @@ module.exports = function(exec){
 /***/ (function(module, exports, __webpack_require__) {
 
 var anObject       = __webpack_require__(0)
-  , IE8_DOM_DEFINE = __webpack_require__(54)
+  , IE8_DOM_DEFINE = __webpack_require__(55)
   , toPrimitive    = __webpack_require__(44)
   , dP             = Object.defineProperty;
 
@@ -263,12 +263,12 @@ module.exports = function(fn, that, length){
 /* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var pIE            = __webpack_require__(59)
+var pIE            = __webpack_require__(60)
   , createDesc     = __webpack_require__(24)
   , toIObject      = __webpack_require__(41)
   , toPrimitive    = __webpack_require__(44)
   , has            = __webpack_require__(6)
-  , IE8_DOM_DEFINE = __webpack_require__(54)
+  , IE8_DOM_DEFINE = __webpack_require__(55)
   , gOPD           = Object.getOwnPropertyDescriptor;
 
 exports.f = __webpack_require__(11) ? gOPD : function getOwnPropertyDescriptor(O, P){
@@ -323,11 +323,11 @@ __webpack_require__(16).inspectSource = function(it){
 /***/ (function(module, exports, __webpack_require__) {
 
 var ctx         = __webpack_require__(17)
-  , call        = __webpack_require__(97)
-  , isArrayIter = __webpack_require__(95)
+  , call        = __webpack_require__(98)
+  , isArrayIter = __webpack_require__(96)
   , anObject    = __webpack_require__(0)
   , toLength    = __webpack_require__(42)
-  , getIterFn   = __webpack_require__(108)
+  , getIterFn   = __webpack_require__(109)
   , BREAK       = {}
   , RETURN      = {};
 var exports = module.exports = function(iterable, entries, fn, that, ITERATOR){
@@ -506,9 +506,9 @@ var global            = __webpack_require__(5)
   , anInstance        = __webpack_require__(29)
   , isObject          = __webpack_require__(2)
   , fails             = __webpack_require__(9)
-  , $iterDetect       = __webpack_require__(99)
+  , $iterDetect       = __webpack_require__(100)
   , setToStringTag    = __webpack_require__(38)
-  , inheritIfRequired = __webpack_require__(93);
+  , inheritIfRequired = __webpack_require__(94);
 
 module.exports = function(NAME, wrapper, methods, common, IS_MAP, IS_WEAK){
   var Base  = global[NAME]
@@ -623,7 +623,7 @@ module.exports = {};
 
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
 var anObject    = __webpack_require__(0)
-  , dPs         = __webpack_require__(103)
+  , dPs         = __webpack_require__(104)
   , enumBugKeys = __webpack_require__(33)
   , IE_PROTO    = __webpack_require__(39)('IE_PROTO')
   , Empty       = function(){ /* empty */ }
@@ -632,13 +632,13 @@ var anObject    = __webpack_require__(0)
 // Create object with fake `null` prototype: use iframe Object with cleared prototype
 var createDict = function(){
   // Thrash, waste and sodomy: IE GC bug
-  var iframe = __webpack_require__(53)('iframe')
+  var iframe = __webpack_require__(54)('iframe')
     , i      = enumBugKeys.length
     , lt     = '<'
     , gt     = '>'
     , iframeDocument;
   iframe.style.display = 'none';
-  __webpack_require__(92).appendChild(iframe);
+  __webpack_require__(93).appendChild(iframe);
   iframe.src = 'javascript:'; // eslint-disable-line no-script-url
   // createDict = iframe.contentWindow.Object;
   // html.removeChild(iframe);
@@ -723,7 +723,7 @@ module.exports = function(it){
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.15 ToLength
-var toInteger = __webpack_require__(61)
+var toInteger = __webpack_require__(62)
   , min       = Math.min;
 module.exports = function(it){
   return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
@@ -763,7 +763,8 @@ module.exports = function(it, S){
 /* 48 */,
 /* 49 */,
 /* 50 */,
-/* 51 */
+/* 51 */,
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 0 -> Array#forEach
@@ -777,7 +778,7 @@ var ctx      = __webpack_require__(17)
   , IObject  = __webpack_require__(34)
   , toObject = __webpack_require__(43)
   , toLength = __webpack_require__(42)
-  , asc      = __webpack_require__(88);
+  , asc      = __webpack_require__(89);
 module.exports = function(TYPE, $create){
   var IS_MAP        = TYPE == 1
     , IS_FILTER     = TYPE == 2
@@ -812,7 +813,7 @@ module.exports = function(TYPE, $create){
 };
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -824,9 +825,9 @@ var dP          = __webpack_require__(10).f
   , anInstance  = __webpack_require__(29)
   , defined     = __webpack_require__(32)
   , forOf       = __webpack_require__(21)
-  , $iterDefine = __webpack_require__(98)
-  , step        = __webpack_require__(100)
-  , setSpecies  = __webpack_require__(106)
+  , $iterDefine = __webpack_require__(99)
+  , step        = __webpack_require__(101)
+  , setSpecies  = __webpack_require__(107)
   , DESCRIPTORS = __webpack_require__(11)
   , fastKey     = __webpack_require__(23).fastKey
   , SIZE        = DESCRIPTORS ? '_s' : 'size';
@@ -960,7 +961,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(2)
@@ -972,15 +973,15 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = !__webpack_require__(11) && !__webpack_require__(9)(function(){
-  return Object.defineProperty(__webpack_require__(53)('div'), 'a', {get: function(){ return 7; }}).a != 7;
+  return Object.defineProperty(__webpack_require__(54)('div'), 'a', {get: function(){ return 7; }}).a != 7;
 });
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -999,18 +1000,18 @@ module.exports = function(Constructor, NAME, next){
 };
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports) {
 
 exports.f = Object.getOwnPropertySymbols;
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var has          = __webpack_require__(6)
   , toIObject    = __webpack_require__(41)
-  , arrayIndexOf = __webpack_require__(86)(false)
+  , arrayIndexOf = __webpack_require__(87)(false)
   , IE_PROTO     = __webpack_require__(39)('IE_PROTO');
 
 module.exports = function(object, names){
@@ -1027,11 +1028,11 @@ module.exports = function(object, names){
 };
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.14 / 15.2.3.14 Object.keys(O)
-var $keys       = __webpack_require__(57)
+var $keys       = __webpack_require__(58)
   , enumBugKeys = __webpack_require__(33);
 
 module.exports = Object.keys || function keys(O){
@@ -1039,13 +1040,13 @@ module.exports = Object.keys || function keys(O){
 };
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports) {
 
 exports.f = {}.propertyIsEnumerable;
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Works with __proto__ only. Old v8 can't work with null proto objects.
@@ -1075,7 +1076,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports) {
 
 // 7.1.4 ToInteger
@@ -1086,7 +1087,6 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 62 */,
 /* 63 */,
 /* 64 */,
 /* 65 */,
@@ -1099,16 +1099,18 @@ module.exports = function(it){
 /* 72 */,
 /* 73 */,
 /* 74 */,
-/* 75 */
+/* 75 */,
+/* 76 */,
+/* 77 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_core_js_es6_reflect__ = __webpack_require__(83);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_core_js_es6_reflect__ = __webpack_require__(84);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_core_js_es6_reflect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_core_js_es6_reflect__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_core_js_es7_reflect__ = __webpack_require__(84);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_core_js_es7_reflect__ = __webpack_require__(85);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_core_js_es7_reflect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_core_js_es7_reflect__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_zone_js_dist_zone__ = __webpack_require__(163);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_zone_js_dist_zone__ = __webpack_require__(166);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_zone_js_dist_zone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_zone_js_dist_zone__);
 /**
  * This file includes polyfills needed by Angular and is loaded before the app.
@@ -1166,50 +1168,49 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //# sourceMappingURL=polyfills.js.map
 
 /***/ }),
-/* 76 */,
-/* 77 */,
 /* 78 */,
 /* 79 */,
 /* 80 */,
 /* 81 */,
 /* 82 */,
-/* 83 */
+/* 83 */,
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(110);
 __webpack_require__(111);
 __webpack_require__(112);
 __webpack_require__(113);
 __webpack_require__(114);
-__webpack_require__(117);
 __webpack_require__(115);
-__webpack_require__(116);
 __webpack_require__(118);
+__webpack_require__(116);
+__webpack_require__(117);
 __webpack_require__(119);
 __webpack_require__(120);
 __webpack_require__(121);
-__webpack_require__(123);
 __webpack_require__(122);
+__webpack_require__(124);
+__webpack_require__(123);
 module.exports = __webpack_require__(16).Reflect;
-
-/***/ }),
-/* 84 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(126);
-__webpack_require__(127);
-__webpack_require__(129);
-__webpack_require__(128);
-__webpack_require__(131);
-__webpack_require__(130);
-__webpack_require__(132);
-__webpack_require__(133);
-__webpack_require__(134);
-module.exports = __webpack_require__(16).Reflect;
-
 
 /***/ }),
 /* 85 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(127);
+__webpack_require__(128);
+__webpack_require__(130);
+__webpack_require__(129);
+__webpack_require__(132);
+__webpack_require__(131);
+__webpack_require__(133);
+__webpack_require__(134);
+__webpack_require__(135);
+module.exports = __webpack_require__(16).Reflect;
+
+
+/***/ }),
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var forOf = __webpack_require__(21);
@@ -1222,14 +1223,14 @@ module.exports = function(iter, ITERATOR){
 
 
 /***/ }),
-/* 86 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // false -> Array#indexOf
 // true  -> Array#includes
 var toIObject = __webpack_require__(41)
   , toLength  = __webpack_require__(42)
-  , toIndex   = __webpack_require__(107);
+  , toIndex   = __webpack_require__(108);
 module.exports = function(IS_INCLUDES){
   return function($this, el, fromIndex){
     var O      = toIObject($this)
@@ -1248,11 +1249,11 @@ module.exports = function(IS_INCLUDES){
 };
 
 /***/ }),
-/* 87 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(2)
-  , isArray  = __webpack_require__(96)
+  , isArray  = __webpack_require__(97)
   , SPECIES  = __webpack_require__(8)('species');
 
 module.exports = function(original){
@@ -1269,25 +1270,25 @@ module.exports = function(original){
 };
 
 /***/ }),
-/* 88 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 9.4.2.3 ArraySpeciesCreate(originalArray, length)
-var speciesConstructor = __webpack_require__(87);
+var speciesConstructor = __webpack_require__(88);
 
 module.exports = function(original, length){
   return new (speciesConstructor(original))(length);
 };
 
 /***/ }),
-/* 89 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var aFunction  = __webpack_require__(15)
   , isObject   = __webpack_require__(2)
-  , invoke     = __webpack_require__(94)
+  , invoke     = __webpack_require__(95)
   , arraySlice = [].slice
   , factories  = {};
 
@@ -1310,7 +1311,7 @@ module.exports = Function.bind || function bind(that /*, args... */){
 };
 
 /***/ }),
-/* 90 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // getting tag from 19.1.3.6 Object.prototype.toString()
@@ -1338,7 +1339,7 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 91 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1349,7 +1350,7 @@ var redefineAll       = __webpack_require__(37)
   , isObject          = __webpack_require__(2)
   , anInstance        = __webpack_require__(29)
   , forOf             = __webpack_require__(21)
-  , createArrayMethod = __webpack_require__(51)
+  , createArrayMethod = __webpack_require__(52)
   , $has              = __webpack_require__(6)
   , arrayFind         = createArrayMethod(5)
   , arrayFindIndex    = createArrayMethod(6)
@@ -1427,17 +1428,17 @@ module.exports = {
 };
 
 /***/ }),
-/* 92 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(5).document && document.documentElement;
 
 /***/ }),
-/* 93 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject       = __webpack_require__(2)
-  , setPrototypeOf = __webpack_require__(60).set;
+  , setPrototypeOf = __webpack_require__(61).set;
 module.exports = function(that, target, C){
   var P, S = target.constructor;
   if(S !== C && typeof S == 'function' && (P = S.prototype) !== C.prototype && isObject(P) && setPrototypeOf){
@@ -1446,7 +1447,7 @@ module.exports = function(that, target, C){
 };
 
 /***/ }),
-/* 94 */
+/* 95 */
 /***/ (function(module, exports) {
 
 // fast apply, http://jsperf.lnkit.com/fast-apply/5
@@ -1467,7 +1468,7 @@ module.exports = function(fn, args, that){
 };
 
 /***/ }),
-/* 95 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // check on default Array iterator
@@ -1480,7 +1481,7 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 96 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.2.2 IsArray(argument)
@@ -1490,7 +1491,7 @@ module.exports = Array.isArray || function isArray(arg){
 };
 
 /***/ }),
-/* 97 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // call something on iterator step with safe closing on error
@@ -1507,18 +1508,18 @@ module.exports = function(iterator, fn, value, entries){
 };
 
 /***/ }),
-/* 98 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var LIBRARY        = __webpack_require__(101)
+var LIBRARY        = __webpack_require__(102)
   , $export        = __webpack_require__(1)
   , redefine       = __webpack_require__(19)
   , hide           = __webpack_require__(22)
   , has            = __webpack_require__(6)
   , Iterators      = __webpack_require__(35)
-  , $iterCreate    = __webpack_require__(55)
+  , $iterCreate    = __webpack_require__(56)
   , setToStringTag = __webpack_require__(38)
   , getPrototypeOf = __webpack_require__(12)
   , ITERATOR       = __webpack_require__(8)('iterator')
@@ -1583,7 +1584,7 @@ module.exports = function(Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCED
 };
 
 /***/ }),
-/* 99 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ITERATOR     = __webpack_require__(8)('iterator')
@@ -1609,7 +1610,7 @@ module.exports = function(exec, skipClosing){
 };
 
 /***/ }),
-/* 100 */
+/* 101 */
 /***/ (function(module, exports) {
 
 module.exports = function(done, value){
@@ -1617,21 +1618,21 @@ module.exports = function(done, value){
 };
 
 /***/ }),
-/* 101 */
+/* 102 */
 /***/ (function(module, exports) {
 
 module.exports = false;
 
 /***/ }),
-/* 102 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 // 19.1.2.1 Object.assign(target, source, ...)
-var getKeys  = __webpack_require__(58)
-  , gOPS     = __webpack_require__(56)
-  , pIE      = __webpack_require__(59)
+var getKeys  = __webpack_require__(59)
+  , gOPS     = __webpack_require__(57)
+  , pIE      = __webpack_require__(60)
   , toObject = __webpack_require__(43)
   , IObject  = __webpack_require__(34)
   , $assign  = Object.assign;
@@ -1662,12 +1663,12 @@ module.exports = !$assign || __webpack_require__(9)(function(){
 } : $assign;
 
 /***/ }),
-/* 103 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var dP       = __webpack_require__(10)
   , anObject = __webpack_require__(0)
-  , getKeys  = __webpack_require__(58);
+  , getKeys  = __webpack_require__(59);
 
 module.exports = __webpack_require__(11) ? Object.defineProperties : function defineProperties(O, Properties){
   anObject(O);
@@ -1680,11 +1681,11 @@ module.exports = __webpack_require__(11) ? Object.defineProperties : function de
 };
 
 /***/ }),
-/* 104 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
-var $keys      = __webpack_require__(57)
+var $keys      = __webpack_require__(58)
   , hiddenKeys = __webpack_require__(33).concat('length', 'prototype');
 
 exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O){
@@ -1692,12 +1693,12 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O){
 };
 
 /***/ }),
-/* 105 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // all object keys, includes non-enumerable and symbols
-var gOPN     = __webpack_require__(104)
-  , gOPS     = __webpack_require__(56)
+var gOPN     = __webpack_require__(105)
+  , gOPS     = __webpack_require__(57)
   , anObject = __webpack_require__(0)
   , Reflect  = __webpack_require__(5).Reflect;
 module.exports = Reflect && Reflect.ownKeys || function ownKeys(it){
@@ -1707,7 +1708,7 @@ module.exports = Reflect && Reflect.ownKeys || function ownKeys(it){
 };
 
 /***/ }),
-/* 106 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1726,10 +1727,10 @@ module.exports = function(KEY){
 };
 
 /***/ }),
-/* 107 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toInteger = __webpack_require__(61)
+var toInteger = __webpack_require__(62)
   , max       = Math.max
   , min       = Math.min;
 module.exports = function(index, length){
@@ -1738,10 +1739,10 @@ module.exports = function(index, length){
 };
 
 /***/ }),
-/* 108 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var classof   = __webpack_require__(90)
+var classof   = __webpack_require__(91)
   , ITERATOR  = __webpack_require__(8)('iterator')
   , Iterators = __webpack_require__(35);
 module.exports = __webpack_require__(16).getIteratorMethod = function(it){
@@ -1751,12 +1752,12 @@ module.exports = __webpack_require__(16).getIteratorMethod = function(it){
 };
 
 /***/ }),
-/* 109 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var strong = __webpack_require__(52);
+var strong = __webpack_require__(53);
 
 // 23.1 Map Objects
 module.exports = __webpack_require__(31)('Map', function(get){
@@ -1774,7 +1775,7 @@ module.exports = __webpack_require__(31)('Map', function(get){
 }, strong, true);
 
 /***/ }),
-/* 110 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.1 Reflect.apply(target, thisArgument, argumentsList)
@@ -1795,7 +1796,7 @@ $export($export.S + $export.F * !__webpack_require__(9)(function(){
 });
 
 /***/ }),
-/* 111 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.2 Reflect.construct(target, argumentsList [, newTarget])
@@ -1805,7 +1806,7 @@ var $export    = __webpack_require__(1)
   , anObject   = __webpack_require__(0)
   , isObject   = __webpack_require__(2)
   , fails      = __webpack_require__(9)
-  , bind       = __webpack_require__(89)
+  , bind       = __webpack_require__(90)
   , rConstruct = (__webpack_require__(5).Reflect || {}).construct;
 
 // MS Edge supports only 2 arguments and argumentsList argument is optional
@@ -1847,7 +1848,7 @@ $export($export.S + $export.F * (NEW_TARGET_BUG || ARGS_BUG), 'Reflect', {
 });
 
 /***/ }),
-/* 112 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.3 Reflect.defineProperty(target, propertyKey, attributes)
@@ -1874,7 +1875,7 @@ $export($export.S + $export.F * __webpack_require__(9)(function(){
 });
 
 /***/ }),
-/* 113 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.4 Reflect.deleteProperty(target, propertyKey)
@@ -1890,7 +1891,7 @@ $export($export.S, 'Reflect', {
 });
 
 /***/ }),
-/* 114 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1905,7 +1906,7 @@ var Enumerate = function(iterated){
     , key;
   for(key in iterated)keys.push(key);
 };
-__webpack_require__(55)(Enumerate, 'Object', function(){
+__webpack_require__(56)(Enumerate, 'Object', function(){
   var that = this
     , keys = that._k
     , key;
@@ -1922,7 +1923,7 @@ $export($export.S, 'Reflect', {
 });
 
 /***/ }),
-/* 115 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.7 Reflect.getOwnPropertyDescriptor(target, propertyKey)
@@ -1937,7 +1938,7 @@ $export($export.S, 'Reflect', {
 });
 
 /***/ }),
-/* 116 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.8 Reflect.getPrototypeOf(target)
@@ -1952,7 +1953,7 @@ $export($export.S, 'Reflect', {
 });
 
 /***/ }),
-/* 117 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.6 Reflect.get(target, propertyKey [, receiver])
@@ -1978,7 +1979,7 @@ function get(target, propertyKey/*, receiver*/){
 $export($export.S, 'Reflect', {get: get});
 
 /***/ }),
-/* 118 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.9 Reflect.has(target, propertyKey)
@@ -1991,7 +1992,7 @@ $export($export.S, 'Reflect', {
 });
 
 /***/ }),
-/* 119 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.10 Reflect.isExtensible(target)
@@ -2007,16 +2008,16 @@ $export($export.S, 'Reflect', {
 });
 
 /***/ }),
-/* 120 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.11 Reflect.ownKeys(target)
 var $export = __webpack_require__(1);
 
-$export($export.S, 'Reflect', {ownKeys: __webpack_require__(105)});
+$export($export.S, 'Reflect', {ownKeys: __webpack_require__(106)});
 
 /***/ }),
-/* 121 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.12 Reflect.preventExtensions(target)
@@ -2037,12 +2038,12 @@ $export($export.S, 'Reflect', {
 });
 
 /***/ }),
-/* 122 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.14 Reflect.setPrototypeOf(target, proto)
 var $export  = __webpack_require__(1)
-  , setProto = __webpack_require__(60);
+  , setProto = __webpack_require__(61);
 
 if(setProto)$export($export.S, 'Reflect', {
   setPrototypeOf: function setPrototypeOf(target, proto){
@@ -2057,7 +2058,7 @@ if(setProto)$export($export.S, 'Reflect', {
 });
 
 /***/ }),
-/* 123 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.13 Reflect.set(target, propertyKey, V [, receiver])
@@ -2093,12 +2094,12 @@ function set(target, propertyKey, V/*, receiver*/){
 $export($export.S, 'Reflect', {set: set});
 
 /***/ }),
-/* 124 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var strong = __webpack_require__(52);
+var strong = __webpack_require__(53);
 
 // 23.2 Set Objects
 module.exports = __webpack_require__(31)('Set', function(get){
@@ -2111,16 +2112,16 @@ module.exports = __webpack_require__(31)('Set', function(get){
 }, strong);
 
 /***/ }),
-/* 125 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var each         = __webpack_require__(51)(0)
+var each         = __webpack_require__(52)(0)
   , redefine     = __webpack_require__(19)
   , meta         = __webpack_require__(23)
-  , assign       = __webpack_require__(102)
-  , weak         = __webpack_require__(91)
+  , assign       = __webpack_require__(103)
+  , weak         = __webpack_require__(92)
   , isObject     = __webpack_require__(2)
   , getWeak      = meta.getWeak
   , isExtensible = Object.isExtensible
@@ -2173,7 +2174,7 @@ if(new $WeakMap().set((Object.freeze || Object)(tmp), 7).get(tmp) != 7){
 }
 
 /***/ }),
-/* 126 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var metadata                  = __webpack_require__(7)
@@ -2186,7 +2187,7 @@ metadata.exp({defineMetadata: function defineMetadata(metadataKey, metadataValue
 }});
 
 /***/ }),
-/* 127 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var metadata               = __webpack_require__(7)
@@ -2206,11 +2207,11 @@ metadata.exp({deleteMetadata: function deleteMetadata(metadataKey, target /*, ta
 }});
 
 /***/ }),
-/* 128 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Set                     = __webpack_require__(124)
-  , from                    = __webpack_require__(85)
+var Set                     = __webpack_require__(125)
+  , from                    = __webpack_require__(86)
   , metadata                = __webpack_require__(7)
   , anObject                = __webpack_require__(0)
   , getPrototypeOf          = __webpack_require__(12)
@@ -2230,7 +2231,7 @@ metadata.exp({getMetadataKeys: function getMetadataKeys(target /*, targetKey */)
 }});
 
 /***/ }),
-/* 129 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var metadata               = __webpack_require__(7)
@@ -2252,7 +2253,7 @@ metadata.exp({getMetadata: function getMetadata(metadataKey, target /*, targetKe
 }});
 
 /***/ }),
-/* 130 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var metadata                = __webpack_require__(7)
@@ -2265,7 +2266,7 @@ metadata.exp({getOwnMetadataKeys: function getOwnMetadataKeys(target /*, targetK
 }});
 
 /***/ }),
-/* 131 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var metadata               = __webpack_require__(7)
@@ -2279,7 +2280,7 @@ metadata.exp({getOwnMetadata: function getOwnMetadata(metadataKey, target /*, ta
 }});
 
 /***/ }),
-/* 132 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var metadata               = __webpack_require__(7)
@@ -2300,7 +2301,7 @@ metadata.exp({hasMetadata: function hasMetadata(metadataKey, target /*, targetKe
 }});
 
 /***/ }),
-/* 133 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var metadata               = __webpack_require__(7)
@@ -2314,7 +2315,7 @@ metadata.exp({hasOwnMetadata: function hasOwnMetadata(metadataKey, target /*, ta
 }});
 
 /***/ }),
-/* 134 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var metadata                  = __webpack_require__(7)
@@ -2334,9 +2335,11 @@ metadata.exp({metadata: function metadata(metadataKey, metadataValue){
 }});
 
 /***/ }),
-/* 135 */,
 /* 136 */,
-/* 137 */
+/* 137 */,
+/* 138 */,
+/* 139 */,
+/* 140 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -2522,9 +2525,6 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 138 */,
-/* 139 */,
-/* 140 */,
 /* 141 */,
 /* 142 */,
 /* 143 */,
@@ -2547,7 +2547,10 @@ process.umask = function() { return 0; };
 /* 160 */,
 /* 161 */,
 /* 162 */,
-/* 163 */
+/* 163 */,
+/* 164 */,
+/* 165 */,
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {/**
@@ -2970,7 +2973,6 @@ var Zone$1 = (function (global) {
                     this._hasTaskZS.onHasTask(this._hasTaskDlgt, this._hasTaskCurrZone, targetZone, isEmpty);
             }
             catch (err) {
-                this.handleError(targetZone, err);
             }
         };
         ZoneDelegate.prototype._updateTaskCount = function (type, count) {
@@ -2987,6 +2989,7 @@ var Zone$1 = (function (global) {
                     eventTask: counts.eventTask > 0,
                     change: type
                 };
+                // TODO(misko): what should happen if it throws?
                 this.hasTask(this.zone, isEmpty);
             }
         };
@@ -3064,6 +3067,7 @@ var Zone$1 = (function (global) {
                 type: this.type,
                 state: this.state,
                 source: this.source,
+                data: this.data,
                 zone: this.zone.name,
                 invoke: this.invoke,
                 scheduleFn: this.scheduleFn,
@@ -3084,6 +3088,7 @@ var Zone$1 = (function (global) {
     function __symbol__(name) {
         return '__zone_symbol__' + name;
     }
+    
     var symbolSetTimeout = __symbol__('setTimeout');
     var symbolPromise = __symbol__('Promise');
     var symbolThen = __symbol__('then');
@@ -3432,9 +3437,9 @@ var Zone$1 = (function (global) {
             if (resultPromise instanceof ZoneAwarePromise) {
                 return resultPromise;
             }
-            var ctor = resultPromise.constructor;
-            if (!ctor[symbolThenPatched]) {
-                patchThen(ctor);
+            var Ctor = resultPromise.constructor;
+            if (!Ctor[symbolThenPatched]) {
+                patchThen(Ctor);
             }
             return resultPromise;
         };
@@ -3446,7 +3451,7 @@ var Zone$1 = (function (global) {
             global['fetch'] = zoneify(fetch_1);
         }
     }
-    // This is not part of public API, but it is useful for tests, so we expose it.
+    // This is not part of public API, but it is usefull for tests, so we expose it.
     Promise[Zone.__symbol__('uncaughtPromiseErrors')] = _uncaughtPromiseErrors;
     var blacklistedStackFramesSymbol = Zone.__symbol__('blacklistedStackFrames');
     var NativeError = global[__symbol__('Error')] = global.Error;
@@ -3465,6 +3470,17 @@ var Zone$1 = (function (global) {
         var _this = this;
         // We always have to return native error otherwise the browser console will not work.
         var error = NativeError.apply(this, arguments);
+        if (!error.stack) {
+            // in IE, the error.stack will be undefined
+            // when error was constructed, it will only
+            // be available when throw
+            try {
+                throw error;
+            }
+            catch (err) {
+                error = err;
+            }
+        }
         // Save original stack trace
         var originalStack = error['originalStack'] = error.stack;
         // Process the stack trace and rewrite the frames.
@@ -3488,13 +3504,12 @@ var Zone$1 = (function (global) {
                         case 1 /* transition */:
                             if (zoneFrame.parent) {
                                 // This is the special frame where zone changed. Print and process it accordingly
+                                frames_1[i] += " [" + zoneFrame.parent.zone.name + " => " + zoneFrame.zone.name + "]";
                                 zoneFrame = zoneFrame.parent;
                             }
                             else {
                                 zoneFrame = null;
                             }
-                            frames_1.splice(i, 1);
-                            i--;
                             break;
                         default:
                             frames_1[i] += " [" + zoneFrame.zone.name + "]";
@@ -3594,11 +3609,15 @@ var Zone$1 = (function (global) {
         }
     });
     // Now we need to populate the `blacklistedStackFrames` as well as find the
-    // run/runGuarded/runTask frames. This is done by creating a detect zone and then threading
+    // run/runGuraded/runTask frames. This is done by creating a detect zone and then threading
     // the execution through all of the above methods so that we can look at the stack trace and
     // find the frames of interest.
     var detectZone = Zone.current.fork({
         name: 'detect',
+        onInvoke: function (parentZoneDelegate, currentZone, targetZone, delegate, applyThis, applyArgs, source) {
+            // Here only so that it will show up in the stack frame so that it can be black listed.
+            return parentZoneDelegate.invoke(targetZone, delegate, applyThis, applyArgs, source);
+        },
         onHandleError: function (parentZD, current, target, error) {
             if (error.originalStack && Error === ZoneAwareError) {
                 var frames_2 = error.originalStack.split(/\n/);
@@ -3648,51 +3667,17 @@ var Zone$1 = (function (global) {
     });
     // carefully constructor a stack frame which contains all of the frames of interest which
     // need to be detected and blacklisted.
-    var childDetectZone = detectZone.fork({
-        name: 'child',
-        onScheduleTask: function (delegate, curr, target, task) {
-            return delegate.scheduleTask(target, task);
-        },
-        onInvokeTask: function (delegate, curr, target, task, applyThis, applyArgs) {
-            return delegate.invokeTask(target, task, applyThis, applyArgs);
-        },
-        onCancelTask: function (delegate, curr, target, task) {
-            return delegate.cancelTask(target, task);
-        },
-        onInvoke: function (delegate, curr, target, callback, applyThis, applyArgs, source) {
-            return delegate.invoke(target, callback, applyThis, applyArgs, source);
-        }
-    });
-    // we need to detect all zone related frames, it will
-    // exceed default stackTraceLimit, so we set it to
-    // larger number here, and restore it after detect finish.
-    var originalStackTraceLimit = Error.stackTraceLimit;
-    Error.stackTraceLimit = 100;
-    // we schedule event/micro/macro task, and invoke them
-    // when onSchedule, so we can get all stack traces for
-    // all kinds of tasks with one error thrown.
-    childDetectZone.run(function () {
-        childDetectZone.runGuarded(function () {
-            var fakeTransitionTo = function (toState, fromState1, fromState2) { };
-            childDetectZone.scheduleEventTask(blacklistedStackFramesSymbol, function () {
-                childDetectZone.scheduleMacroTask(blacklistedStackFramesSymbol, function () {
-                    childDetectZone.scheduleMicroTask(blacklistedStackFramesSymbol, function () {
-                        throw new ZoneAwareError(ZoneAwareError, NativeError);
-                    }, null, function (t) {
-                        t._transitionTo = fakeTransitionTo;
-                        t.invoke();
-                    });
-                }, null, function (t) {
-                    t._transitionTo = fakeTransitionTo;
-                    t.invoke();
-                }, function () { });
-            }, null, function (t) {
-                t._transitionTo = fakeTransitionTo;
-                t.invoke();
-            }, function () { });
+    // carefully constructor a stack frame which contains all of the frames of interest which
+    // need to be detected and blacklisted.
+    var detectRunFn = function () {
+        detectZone.run(function () {
+            detectZone.runGuarded(function () {
+                throw new ZoneAwareError(ZoneAwareError, NativeError);
+            });
         });
-    });
-    Error.stackTraceLimit = originalStackTraceLimit;
+    };
+    // Cause the error to extract the stack frames.
+    detectZone.runTask(detectZone.scheduleMacroTask('detect', detectRunFn, null, function () { return null; }, null));
     return global['Zone'] = Zone;
 })(typeof window !== 'undefined' && window || typeof self !== 'undefined' && self || global);
 
@@ -3725,11 +3710,9 @@ function patchPrototype(prototype, fnNames) {
         var delegate = prototype[name_1];
         if (delegate) {
             prototype[name_1] = (function (delegate) {
-                var patched = function () {
+                return function () {
                     return delegate.apply(this, bindArguments(arguments, source + '.' + name_1));
                 };
-                attachOriginToPatched(patched, delegate);
-                return patched;
             })(delegate);
         }
     };
@@ -3747,10 +3730,9 @@ var isMix = typeof process !== 'undefined' &&
     !!(typeof window !== 'undefined' && window['HTMLElement']);
 function patchProperty(obj, prop) {
     var desc = Object.getOwnPropertyDescriptor(obj, prop) || { enumerable: true, configurable: true };
-    // if the descriptor is not configurable
-    // just return
-    if (!desc.configurable) {
-        return;
+    var originalDesc = Object.getOwnPropertyDescriptor(obj, 'original' + prop);
+    if (!originalDesc && desc.get) {
+        Object.defineProperty(obj, 'original' + prop, { enumerable: false, configurable: true, get: desc.get });
     }
     // A property descriptor cannot have getter/setter and be writable
     // deleting the writable and value properties avoids this error:
@@ -3759,106 +3741,77 @@ function patchProperty(obj, prop) {
     // getter or setter has been specified
     delete desc.writable;
     delete desc.value;
-    var originalDescGet = desc.get;
     // substr(2) cuz 'onclick' -> 'click', etc
     var eventName = prop.substr(2);
     var _prop = zoneSymbol('_' + prop);
-    desc.set = function (newValue) {
-        // in some of windows's onproperty callback, this is undefined
-        // so we need to check it
-        var target = this;
-        if (!target && obj === _global$1) {
-            target = _global$1;
+    desc.set = function (fn) {
+        if (this[_prop]) {
+            this.removeEventListener(eventName, this[_prop]);
         }
-        if (!target) {
-            return;
-        }
-        var previousValue = target[_prop];
-        if (previousValue) {
-            target.removeEventListener(eventName, previousValue);
-        }
-        if (typeof newValue === 'function') {
+        if (typeof fn === 'function') {
             var wrapFn = function (event) {
-                var result = newValue.apply(this, arguments);
+                var result;
+                result = fn.apply(this, arguments);
                 if (result != undefined && !result) {
                     event.preventDefault();
                 }
                 return result;
             };
-            target[_prop] = wrapFn;
-            target.addEventListener(eventName, wrapFn, false);
+            this[_prop] = wrapFn;
+            this.addEventListener(eventName, wrapFn, false);
         }
         else {
-            target[_prop] = null;
+            this[_prop] = null;
         }
     };
     // The getter would return undefined for unassigned properties but the default value of an
     // unassigned property is null
     desc.get = function () {
-        // in some of windows's onproperty callback, this is undefined
-        // so we need to check it
-        var target = this;
-        if (!target && obj === _global$1) {
-            target = _global$1;
-        }
-        if (!target) {
-            return null;
-        }
-        if (target.hasOwnProperty(_prop)) {
-            return target[_prop];
-        }
-        else {
-            // result will be null when use inline event attribute,
-            // such as <button onclick="func();">OK</button>
-            // because the onclick function is internal raw uncompiled handler
-            // the onclick will be evaluated when first time event was triggered or
-            // the property is accessed, https://github.com/angular/zone.js/issues/525
-            // so we should use original native get to retrieve the handler
-            var value = originalDescGet.apply(this);
-            value = desc.set.apply(this, [value]);
-            if (typeof target['removeAttribute'] === 'function') {
-                target.removeAttribute(prop);
+        var r = this[_prop] || null;
+        // result will be null when use inline event attribute,
+        // such as <button onclick="func();">OK</button>
+        // because the onclick function is internal raw uncompiled handler
+        // the onclick will be evaluated when first time event was triggered or
+        // the property is accessed, https://github.com/angular/zone.js/issues/525
+        // so we should use original native get to retrieve the handler
+        if (r === null) {
+            if (originalDesc && originalDesc.get) {
+                r = originalDesc.get.apply(this, arguments);
+                if (r) {
+                    desc.set.apply(this, [r]);
+                    if (typeof this['removeAttribute'] === 'function') {
+                        this.removeAttribute(prop);
+                    }
+                }
             }
-            return value;
         }
+        return this[_prop] || null;
     };
     Object.defineProperty(obj, prop, desc);
 }
+
 function patchOnProperties(obj, properties) {
+    var onProperties = [];
+    for (var prop in obj) {
+        if (prop.substr(0, 2) == 'on') {
+            onProperties.push(prop);
+        }
+    }
+    for (var j = 0; j < onProperties.length; j++) {
+        patchProperty(obj, onProperties[j]);
+    }
     if (properties) {
         for (var i = 0; i < properties.length; i++) {
             patchProperty(obj, 'on' + properties[i]);
         }
     }
-    else {
-        var onProperties = [];
-        for (var prop in obj) {
-            if (prop.substr(0, 2) == 'on') {
-                onProperties.push(prop);
-            }
-        }
-        for (var j = 0; j < onProperties.length; j++) {
-            patchProperty(obj, onProperties[j]);
-        }
-    }
 }
+
 var EVENT_TASKS = zoneSymbol('eventTasks');
 // For EventTarget
 var ADD_EVENT_LISTENER = 'addEventListener';
 var REMOVE_EVENT_LISTENER = 'removeEventListener';
-// compare the EventListenerOptionsOrCapture
-// 1. if the options is usCapture: boolean, compare the useCpature values directly
-// 2. if the options is EventListerOptions, only compare the capture
-function compareEventListenerOptions(left, right) {
-    var leftCapture = (typeof left === 'boolean') ?
-        left :
-        ((typeof left === 'object') ? (left && left.capture) : false);
-    var rightCapture = (typeof right === 'boolean') ?
-        right :
-        ((typeof right === 'object') ? (right && right.capture) : false);
-    return !!leftCapture === !!rightCapture;
-}
-function findExistingRegisteredTask(target, handler, name, options, remove) {
+function findExistingRegisteredTask(target, handler, name, capture, remove) {
     var eventTasks = target[EVENT_TASKS];
     if (eventTasks) {
         for (var i = 0; i < eventTasks.length; i++) {
@@ -3866,7 +3819,7 @@ function findExistingRegisteredTask(target, handler, name, options, remove) {
             var data = eventTask.data;
             var listener = data.handler;
             if ((data.handler === handler || listener.listener === handler) &&
-                compareEventListenerOptions(data.options, options) && data.eventName === name) {
+                data.useCapturing === capture && data.eventName === name) {
                 if (remove) {
                     eventTasks.splice(i, 1);
                 }
@@ -3890,54 +3843,25 @@ function attachRegisteredEvent(target, eventTask, isPrepend) {
 }
 var defaultListenerMetaCreator = function (self, args) {
     return {
-        options: args[2],
+        useCapturing: args[2],
         eventName: args[0],
         handler: args[1],
         target: self || _global$1,
         name: args[0],
-        crossContext: false,
         invokeAddFunc: function (addFnSymbol, delegate) {
-            // check if the data is cross site context, if it is, fallback to
-            // remove the delegate directly and try catch error
-            if (!this.crossContext) {
-                if (delegate && delegate.invoke) {
-                    return this.target[addFnSymbol](this.eventName, delegate.invoke, this.options);
-                }
-                else {
-                    return this.target[addFnSymbol](this.eventName, delegate, this.options);
-                }
+            if (delegate && delegate.invoke) {
+                return this.target[addFnSymbol](this.eventName, delegate.invoke, this.useCapturing);
             }
             else {
-                // add a if/else branch here for performance concern, for most times
-                // cross site context is false, so we don't need to try/catch
-                try {
-                    return this.target[addFnSymbol](this.eventName, delegate, this.options);
-                }
-                catch (err) {
-                    // do nothing here is fine, because objects in a cross-site context are unusable
-                }
+                return this.target[addFnSymbol](this.eventName, delegate, this.useCapturing);
             }
         },
         invokeRemoveFunc: function (removeFnSymbol, delegate) {
-            // check if the data is cross site context, if it is, fallback to
-            // remove the delegate directly and try catch error
-            if (!this.crossContext) {
-                if (delegate && delegate.invoke) {
-                    return this.target[removeFnSymbol](this.eventName, delegate.invoke, this.options);
-                }
-                else {
-                    return this.target[removeFnSymbol](this.eventName, delegate, this.options);
-                }
+            if (delegate && delegate.invoke) {
+                return this.target[removeFnSymbol](this.eventName, delegate.invoke, this.useCapturing);
             }
             else {
-                // add a if/else branch here for performance concern, for most times
-                // cross site context is false, so we don't need to try/catch
-                try {
-                    return this.target[removeFnSymbol](this.eventName, delegate, this.options);
-                }
-                catch (err) {
-                    // do nothing here is fine, because objects in a cross-site context are unusable
-                }
+                return this.target[removeFnSymbol](this.eventName, delegate, this.useCapturing);
             }
         }
     };
@@ -3957,12 +3881,12 @@ function makeZoneAwareAddListener(addFnName, removeFnName, useCapturingParam, al
     }
     function cancelEventListener(eventTask) {
         var meta = eventTask.data;
-        findExistingRegisteredTask(meta.target, eventTask.invoke, meta.eventName, meta.options, true);
+        findExistingRegisteredTask(meta.target, eventTask.invoke, meta.eventName, meta.useCapturing, true);
         return meta.invokeRemoveFunc(removeFnSymbol, eventTask);
     }
     return function zoneAwareAddListener(self, args) {
         var data = metaCreator(self, args);
-        data.options = data.options || defaultUseCapturing;
+        data.useCapturing = data.useCapturing || defaultUseCapturing;
         // - Inside a Web Worker, `this` is undefined, the context is `global`
         // - When `addEventListener` is called on the global context in strict mode, `this` is undefined
         // see https://github.com/angular/zone.js/issues/190
@@ -3981,9 +3905,8 @@ function makeZoneAwareAddListener(addFnName, removeFnName, useCapturingParam, al
             validZoneHandler = data.handler && data.handler.toString() === '[object FunctionWrapper]';
         }
         catch (error) {
-            // we can still try to add the data.handler even we are in cross site context
-            data.crossContext = true;
-            return data.invokeAddFunc(addFnSymbol, data.handler);
+            // Returning nothing here is fine, because objects in a cross-site context are unusable
+            return;
         }
         // Ignore special listeners of IE11 & Edge dev tools, see
         // https://github.com/angular/zone.js/issues/150
@@ -3991,7 +3914,7 @@ function makeZoneAwareAddListener(addFnName, removeFnName, useCapturingParam, al
             return data.invokeAddFunc(addFnSymbol, data.handler);
         }
         if (!allowDuplicates) {
-            var eventTask = findExistingRegisteredTask(data.target, data.handler, data.eventName, data.options, false);
+            var eventTask = findExistingRegisteredTask(data.target, data.handler, data.eventName, data.useCapturing, false);
             if (eventTask) {
                 // we already registered, so this will have noop.
                 return data.invokeAddFunc(addFnSymbol, eventTask);
@@ -4009,34 +3932,11 @@ function makeZoneAwareRemoveListener(fnName, useCapturingParam, metaCreator) {
     var defaultUseCapturing = useCapturingParam ? false : undefined;
     return function zoneAwareRemoveListener(self, args) {
         var data = metaCreator(self, args);
-        data.options = data.options || defaultUseCapturing;
+        data.useCapturing = data.useCapturing || defaultUseCapturing;
         // - Inside a Web Worker, `this` is undefined, the context is `global`
         // - When `addEventListener` is called on the global context in strict mode, `this` is undefined
         // see https://github.com/angular/zone.js/issues/190
-        var delegate = null;
-        if (typeof data.handler == 'function') {
-            delegate = data.handler;
-        }
-        else if (data.handler && data.handler.handleEvent) {
-            delegate = function (event) { return data.handler.handleEvent(event); };
-        }
-        var validZoneHandler = false;
-        try {
-            // In cross site contexts (such as WebDriver frameworks like Selenium),
-            // accessing the handler object here will cause an exception to be thrown which
-            // will fail tests prematurely.
-            validZoneHandler = data.handler && data.handler.toString() === '[object FunctionWrapper]';
-        }
-        catch (error) {
-            data.crossContext = true;
-            return data.invokeRemoveFunc(symbol, data.handler);
-        }
-        // Ignore special listeners of IE11 & Edge dev tools, see
-        // https://github.com/angular/zone.js/issues/150
-        if (!delegate || validZoneHandler) {
-            return data.invokeRemoveFunc(symbol, data.handler);
-        }
-        var eventTask = findExistingRegisteredTask(data.target, data.handler, data.eventName, data.options, true);
+        var eventTask = findExistingRegisteredTask(data.target, data.handler, data.eventName, data.useCapturing, true);
         if (eventTask) {
             eventTask.zone.cancelTask(eventTask);
         }
@@ -4047,6 +3947,8 @@ function makeZoneAwareRemoveListener(fnName, useCapturingParam, metaCreator) {
 }
 
 
+var zoneAwareAddEventListener = makeZoneAwareAddListener(ADD_EVENT_LISTENER, REMOVE_EVENT_LISTENER);
+var zoneAwareRemoveEventListener = makeZoneAwareRemoveListener(REMOVE_EVENT_LISTENER);
 function patchEventTargetMethods(obj, addFnName, removeFnName, metaCreator) {
     if (addFnName === void 0) { addFnName = ADD_EVENT_LISTENER; }
     if (removeFnName === void 0) { removeFnName = REMOVE_EVENT_LISTENER; }
@@ -4066,8 +3968,6 @@ function patchClass(className) {
     var OriginalClass = _global$1[className];
     if (!OriginalClass)
         return;
-    // keep original class in global
-    _global$1[zoneSymbol(className)] = OriginalClass;
     _global$1[className] = function () {
         var a = bindArguments(arguments, className);
         switch (a.length) {
@@ -4090,8 +3990,6 @@ function patchClass(className) {
                 throw new Error('Arg list too long.');
         }
     };
-    // attach original delegate to patched function
-    attachOriginToPatched(_global$1[className], OriginalClass);
     var instance = new OriginalClass(function () { });
     var prop;
     for (prop in instance) {
@@ -4109,10 +4007,6 @@ function patchClass(className) {
                     set: function (fn) {
                         if (typeof fn === 'function') {
                             this[originalInstanceKey][prop] = Zone.current.wrap(fn, className + '.' + prop);
-                            // keep callback in wrapped function so we can
-                            // use it in Function.prototype.toString to return
-                            // the native one.
-                            attachOriginToPatched(this[originalInstanceKey][prop], fn);
                         }
                         else {
                             this[originalInstanceKey][prop] = fn;
@@ -4131,6 +4025,7 @@ function patchClass(className) {
         }
     }
 }
+
 function createNamedFn(name, delegate) {
     try {
         return (Function('f', "return function " + name + "(){return f(this, arguments)}"))(delegate);
@@ -4156,7 +4051,6 @@ function patchMethod(target, name, patchFn) {
     if (proto && !(delegate = proto[delegateName])) {
         delegate = proto[delegateName] = proto[name];
         proto[name] = createNamedFn(name, patchFn(delegate, delegateName, name));
-        attachOriginToPatched(proto[name], delegate);
     }
     return delegate;
 }
@@ -4177,9 +4071,6 @@ function findEventTask(target, evtName) {
         }
     }
     return result;
-}
-function attachOriginToPatched(patched, original) {
-    patched[zoneSymbol('OriginalDelegate')] = original;
 }
 Zone[zoneSymbol('patchEventTargetMethods')] = patchEventTargetMethods;
 Zone[zoneSymbol('patchOnProperties')] = patchOnProperties;
@@ -4207,6 +4098,7 @@ function patchTimer(window, setName, cancelName, nameSuffix) {
                 delete tasksByHandleId[data.handleId];
             }
         }
+        
         data.args[0] = timer;
         data.handleId = setNative.apply(window, data.args);
         tasksByHandleId[data.handleId] = task;
@@ -4270,49 +4162,6 @@ function patchTimer(window, setName, cancelName, nameSuffix) {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-// override Function.prototype.toString to make zone.js patched function
-// look like native function
-function patchFuncToString() {
-    var originalFunctionToString = Function.prototype.toString;
-    var g = typeof window !== 'undefined' && window || typeof self !== 'undefined' && self || global;
-    Function.prototype.toString = function () {
-        if (typeof this === 'function') {
-            if (this[zoneSymbol('OriginalDelegate')]) {
-                return originalFunctionToString.apply(this[zoneSymbol('OriginalDelegate')], arguments);
-            }
-            if (this === Promise) {
-                var nativePromise = g[zoneSymbol('Promise')];
-                if (nativePromise) {
-                    return originalFunctionToString.apply(nativePromise, arguments);
-                }
-            }
-            if (this === Error) {
-                var nativeError = g[zoneSymbol('Error')];
-                if (nativeError) {
-                    return originalFunctionToString.apply(nativeError, arguments);
-                }
-            }
-        }
-        return originalFunctionToString.apply(this, arguments);
-    };
-}
-function patchObjectToString() {
-    var originalObjectToString = Object.prototype.toString;
-    Object.prototype.toString = function () {
-        if (this instanceof Promise) {
-            return '[object Promise]';
-        }
-        return originalObjectToString.apply(this, arguments);
-    };
-}
-
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
 /*
  * This is necessary for Chrome and Chrome mobile, to enable
  * things like redefining `createdCallback` on an element.
@@ -4355,11 +4204,13 @@ function propertyPatch() {
         return desc;
     };
 }
+
 function _redefineProperty(obj, prop, desc) {
     var originalConfigurableFlag = desc.configurable;
     desc = rewriteDescriptor(obj, prop, desc);
     return _tryDefineProperty(obj, prop, desc, originalConfigurableFlag);
 }
+
 function isUnconfigurable(obj, prop) {
     return obj && obj[unconfigurablesKey] && obj[unconfigurablesKey][prop];
 }
@@ -4498,8 +4349,8 @@ function propertyDescriptorPatch(_global) {
         if (isBrowser) {
             patchOnProperties(window, eventNames);
             patchOnProperties(Document.prototype, eventNames);
-            if (typeof window['SVGElement'] !== 'undefined') {
-                patchOnProperties(window['SVGElement'].prototype, eventNames);
+            if (typeof SVGElement !== 'undefined') {
+                patchOnProperties(SVGElement.prototype, eventNames);
             }
             patchOnProperties(HTMLElement.prototype, eventNames);
         }
@@ -4539,40 +4390,18 @@ function canPatchViaPropertyDescriptor() {
     // by default XMLHttpRequest.prototype.onreadystatechange is undefined
     // without adding enumerable and configurable will cause onreadystatechange
     // non-configurable
-    // and if XMLHttpRequest.prototype.onreadystatechange is undefined,
-    // we should set a real desc instead a fake one
-    if (xhrDesc) {
-        Object.defineProperty(XMLHttpRequest.prototype, 'onreadystatechange', {
-            enumerable: true,
-            configurable: true,
-            get: function () {
-                return true;
-            }
-        });
-        var req = new XMLHttpRequest();
-        var result = !!req.onreadystatechange;
-        // restore original desc
-        Object.defineProperty(XMLHttpRequest.prototype, 'onreadystatechange', xhrDesc || {});
-        return result;
-    }
-    else {
-        Object.defineProperty(XMLHttpRequest.prototype, 'onreadystatechange', {
-            enumerable: true,
-            configurable: true,
-            get: function () {
-                return this[zoneSymbol('fakeonreadystatechange')];
-            },
-            set: function (value) {
-                this[zoneSymbol('fakeonreadystatechange')] = value;
-            }
-        });
-        var req = new XMLHttpRequest();
-        var detectFunc = function () { };
-        req.onreadystatechange = detectFunc;
-        var result = req[zoneSymbol('fakeonreadystatechange')] === detectFunc;
-        req.onreadystatechange = null;
-        return result;
-    }
+    Object.defineProperty(XMLHttpRequest.prototype, 'onreadystatechange', {
+        enumerable: true,
+        configurable: true,
+        get: function () {
+            return true;
+        }
+    });
+    var req = new XMLHttpRequest();
+    var result = !!req.onreadystatechange;
+    // restore original desc
+    Object.defineProperty(XMLHttpRequest.prototype, 'onreadystatechange', xhrDesc || {});
+    return result;
 }
 
 var unboundKey = zoneSymbol('unbound');
@@ -4604,6 +4433,7 @@ function patchViaCapturingAllTheEvents() {
     for (var i = 0; i < eventNames.length; i++) {
         _loop_1(i);
     }
+    
 }
 
 /**
@@ -4640,7 +4470,6 @@ function registerElementPatch(_global) {
         }
         return _registerElement.apply(document, [name, opts]);
     };
-    attachOriginToPatched(document.registerElement, _registerElement);
 }
 
 /**
@@ -4760,10 +4589,6 @@ function patchXHR(window) {
 if (_global['navigator'] && _global['navigator'].geolocation) {
     patchPrototype(_global['navigator'].geolocation, ['getCurrentPosition', 'watchPosition']);
 }
-// patch Func.prototype.toString to let them look like native
-patchFuncToString();
-// patch Object.prototype.toString to let them look like native
-patchObjectToString();
 // handle unhandled promise rejection
 function findPromiseRejectionHandler(evtName) {
     return function (e) {
@@ -4796,16 +4621,16 @@ if (_global['PromiseRejectionEvent']) {
 
 })));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27), __webpack_require__(137)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27), __webpack_require__(140)))
 
 /***/ }),
-/* 164 */,
-/* 165 */
+/* 167 */,
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(75);
+module.exports = __webpack_require__(77);
 
 
 /***/ })
-],[165]);
+],[168]);
 //# sourceMappingURL=polyfills.bundle.js.map

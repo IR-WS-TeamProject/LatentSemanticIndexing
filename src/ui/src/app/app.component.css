@@ -2,7 +2,13 @@
 	margin: 0 0 0 20px;
 }
 
+.svdSwitch {
+	margin: 0 0 13px 17px;
+	vertical-align: middle;
+}
+
 input {
+	font-family: serif;
 	font-size: 1.2em;
 	border: none;
 }

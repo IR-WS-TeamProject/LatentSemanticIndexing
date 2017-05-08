@@ -1,6 +1,6 @@
 webpackJsonp([2,4],{
 
-/***/ 135:
+/***/ 136:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(45)();
@@ -8,14 +8,14 @@ exports = module.exports = __webpack_require__(45)();
 
 
 // module
-exports.push([module.i, "/* You can add global styles to this file, and also import other style files */\nbody {\n\tbackground-color: #F8F8F8;\n\twidth: 100%;\n\theight: 100%;\n\tfont-family: serif;\n}\n\na {\n\tcursor: pointer;\n\tcolor: black;\n\ttext-decoration: none;\n}", ""]);
+exports.push([module.i, "/* You can add global styles to this file, and also import other style files */\r\nbody {\r\n\tbackground-color: #F8F8F8;\r\n\twidth: 100%;\r\n\theight: 100%;\r\n\tfont-family: serif;\r\n}\r\n\r\na {\r\n\tcursor: pointer;\r\n\tcolor: black;\r\n\ttext-decoration: none;\r\n}", ""]);
 
 // exports
 
 
 /***/ }),
 
-/***/ 162:
+/***/ 165:
 /***/ (function(module, exports) {
 
 /*
@@ -268,10 +268,10 @@ function updateLink(linkElement, obj) {
 
 /***/ }),
 
-/***/ 166:
+/***/ 169:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(76);
+module.exports = __webpack_require__(78);
 
 
 /***/ }),
@@ -333,16 +333,16 @@ module.exports = function() {
 
 /***/ }),
 
-/***/ 76:
+/***/ 78:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(135);
+var content = __webpack_require__(136);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(162)(content, {});
+var update = __webpack_require__(165)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -360,5 +360,5 @@ if(false) {
 
 /***/ })
 
-},[166]);
+},[169]);
 //# sourceMappingURL=styles.bundle.js.map

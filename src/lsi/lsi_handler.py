@@ -63,7 +63,7 @@ class LSIHandler:
             else:
                 # Calc. VSM ranking
                 train_dtm = self.tfidf_handler.getTDM().transpose().tocsr()
-                norms = norm(train_dtm, axis=1) * norm(term_vec)  # Normalize
+                norms = norm(train_dtm, axis=1) * np.linalg.norm(term_vec)  # Normalize
                 sims = np.array(train_dtm.dot(term_vec) / norms)
 
                 # Derive top-n

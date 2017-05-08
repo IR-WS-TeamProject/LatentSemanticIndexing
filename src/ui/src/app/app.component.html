@@ -2,8 +2,9 @@
 	<h1>
 		{{title}}
 	</h1>
+	<div class="svdSwitch">Use SVD:&nbsp;<ui-switch [(ngModel)]="useSVD" size="small"></ui-switch></div>
 	<input [(ngModel)]="query" placeholder="Query" (keyup.enter)="updateSearchResults(query)">
-	<button (click)="switchMode()">{{buttonText}}</button><span>{{labelText}}</span>
+	<button (click)="updateSearchResults(query)">Search</button>
 	<div class="content">
 		<ul>
 			<li *ngFor="let result of results">

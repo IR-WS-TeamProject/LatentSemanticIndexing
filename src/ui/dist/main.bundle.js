@@ -1,6 +1,6 @@
 webpackJsonp([1,4],{
 
-/***/ 136:
+/***/ 137:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(45)();
@@ -8,7 +8,7 @@ exports = module.exports = __webpack_require__(45)();
 
 
 // module
-exports.push([module.i, ".content, input {\n\tmargin: 0 0 0 20px;\n}\n\ninput {\n\tfont-size: 1.2em;\n\tborder: none;\n}\n\nul {\n\tlist-style-type: none;\n\tpadding: 0;\n\tmargin: 15px 0 0 0;\n\twidth: 40%;\n\tfloat: left;\n}\n\nli {\n\tmargin: 0 0 8px 0;\n\tbackground-color: white;\n\tpadding: 7px 15px 10px 15px;\n}\n\nli:hover {\n\tbox-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);\n}\n\nli h2 {\n\tmargin: 0 0 4px 0;\n}\n\n.document {\n\twhite-space: pre-wrap;\n\tfloat: right;\n\twidth: 40%;\n\tmargin: 0 15% 0 0;\n}", ""]);
+exports.push([module.i, ".content, input {\r\n\tmargin: 0 0 0 20px;\r\n}\r\n\r\n.svdSwitch {\r\n\tmargin: 0 0 13px 17px;\r\n\tvertical-align: middle;\r\n}\r\n\r\ninput {\r\n\tfont-family: serif;\r\n\tfont-size: 1.2em;\r\n\tborder: none;\r\n}\r\n\r\nul {\r\n\tlist-style-type: none;\r\n\tpadding: 0;\r\n\tmargin: 15px 0 0 0;\r\n\twidth: 40%;\r\n\tfloat: left;\r\n}\r\n\r\nli {\r\n\tmargin: 0 0 8px 0;\r\n\tbackground-color: white;\r\n\tpadding: 7px 15px 10px 15px;\r\n}\r\n\r\nli:hover {\r\n\tbox-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);\r\n}\r\n\r\nli h2 {\r\n\tmargin: 0 0 4px 0;\r\n}\r\n\r\n.document {\r\n\twhite-space: pre-wrap;\r\n\tfloat: right;\r\n\twidth: 40%;\r\n\tmargin: 0 15% 0 0;\r\n}\r\n", ""]);
 
 // exports
 
@@ -18,28 +18,28 @@ module.exports = module.exports.toString();
 
 /***/ }),
 
-/***/ 138:
+/***/ 141:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"app\">\n\t<h1>\n\t\t{{title}}\n\t</h1>\n\t<input [(ngModel)]=\"query\" placeholder=\"Query\" (keyup.enter)=\"updateSearchResults(query)\">\n\t<button (click)=\"switchMode()\">{{buttonText}}</button><span>{{labelText}}</span>\n\t<div class=\"content\">\n\t\t<ul>\n\t\t\t<li *ngFor=\"let result of results\">\n\t\t\t\t<a (click)=\"updateDocument(result.doc)\">\n\t\t\t\t\t<h2>{{result.doc}}</h2>\n\t\t\t\t\t<p>{{result.rank}}</p>\n\t\t\t  \t</a>\n\t\t\t</li>\n\t\t</ul>\n\t\t<div class=\"document\">\n\t\t\t{{document}}\n\t\t</div>\n\t</div>\n</div>\n"
+module.exports = "<div class=\"app\">\r\n\t<h1>\r\n\t\t{{title}}\r\n\t</h1>\r\n\t<div class=\"svdSwitch\">Use SVD:&nbsp;<ui-switch [(ngModel)]=\"useSVD\" size=\"small\"></ui-switch></div>\r\n\t<input [(ngModel)]=\"query\" placeholder=\"Query\" (keyup.enter)=\"updateSearchResults(query)\">\r\n\t<button (click)=\"updateSearchResults(query)\">Search</button>\r\n\t<div class=\"content\">\r\n\t\t<ul>\r\n\t\t\t<li *ngFor=\"let result of results\">\r\n\t\t\t\t<a (click)=\"updateDocument(result.doc)\">\r\n\t\t\t\t\t<h2>{{result.doc}}</h2>\r\n\t\t\t\t\t<p>{{result.rank}}</p>\r\n\t\t\t  \t</a>\r\n\t\t\t</li>\r\n\t\t</ul>\r\n\t\t<div class=\"document\">\r\n\t\t\t{{document}}\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n"
 
 /***/ }),
 
-/***/ 164:
+/***/ 167:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(74);
+module.exports = __webpack_require__(76);
 
 
 /***/ }),
 
-/***/ 49:
+/***/ 50:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(28);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_toPromise__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_toPromise__ = __webpack_require__(66);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_toPromise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_toPromise__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DocumentService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -82,13 +82,13 @@ var _a;
 
 /***/ }),
 
-/***/ 50:
+/***/ 51:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(28);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_toPromise__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_toPromise__ = __webpack_require__(66);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_toPromise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_toPromise__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SearchResultsService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -133,7 +133,7 @@ var _a;
 
 /***/ }),
 
-/***/ 73:
+/***/ 75:
 /***/ (function(module, exports) {
 
 function webpackEmptyContext(req) {
@@ -142,20 +142,20 @@ function webpackEmptyContext(req) {
 webpackEmptyContext.keys = function() { return []; };
 webpackEmptyContext.resolve = webpackEmptyContext;
 module.exports = webpackEmptyContext;
-webpackEmptyContext.id = 73;
+webpackEmptyContext.id = 75;
 
 
 /***/ }),
 
-/***/ 74:
+/***/ 76:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__ = __webpack_require__(79);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_app_module__ = __webpack_require__(81);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__(82);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__ = __webpack_require__(80);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_app_module__ = __webpack_require__(82);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__(83);
 
 
 
@@ -168,13 +168,13 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dyna
 
 /***/ }),
 
-/***/ 80:
+/***/ 81:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__search_results_service__ = __webpack_require__(50);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__document_service__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__search_results_service__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__document_service__ = __webpack_require__(50);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -196,18 +196,11 @@ var AppComponent = (function () {
         this.query = null;
         this.results = null;
         this.document = '';
-        this.buttonText = 'Use VSM';
-        this.labelText = 'SVD Mode';
-        this.svdMode = true;
+        this.useSVD = true;
     }
-    AppComponent.prototype.ngOnInit = function () {
-        /* this.searchResultService.getSearchResults('initial query?')
-            .then(searchResults => this.results = searchResults)
-          .catch(() => {}) // nice error handling tho */
-    };
     AppComponent.prototype.updateSearchResults = function (query) {
         var _this = this;
-        this.searchResultService.getSearchResults(query, this.svdMode)
+        this.searchResultService.getSearchResults(query, this.useSVD)
             .then(function (searchResults) { return _this.results = searchResults; })
             .catch(function () { }); // nice error handling tho
     };
@@ -217,24 +210,13 @@ var AppComponent = (function () {
             .then(function (document) { return _this.document = document; })
             .catch(function () { });
     };
-    AppComponent.prototype.switchMode = function () {
-        this.svdMode = !this.svdMode;
-        if (this.svdMode) {
-            this.buttonText = 'Use VSM';
-            this.labelText = 'SVD Mode';
-        }
-        else {
-            this.buttonText = 'Use SVD';
-            this.labelText = 'VSM Mode';
-        }
-    };
     return AppComponent;
 }());
 AppComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_3" /* Component */])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_2" /* Component */])({
         selector: 'app-root',
-        template: __webpack_require__(138),
-        styles: [__webpack_require__(136)]
+        template: __webpack_require__(141),
+        styles: [__webpack_require__(137)]
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__search_results_service__["a" /* SearchResultsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__search_results_service__["a" /* SearchResultsService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__document_service__["a" /* DocumentService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__document_service__["a" /* DocumentService */]) === "function" && _b || Object])
 ], AppComponent);
@@ -244,17 +226,18 @@ var _a, _b;
 
 /***/ }),
 
-/***/ 81:
+/***/ 82:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(78);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(49);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(28);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_component__ = __webpack_require__(80);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__search_results_service__ = __webpack_require__(50);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__document_service__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_ui_switch__ = __webpack_require__(138);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_component__ = __webpack_require__(81);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__search_results_service__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__document_service__ = __webpack_require__(50);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -262,6 +245,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -277,18 +261,19 @@ var AppModule = (function () {
 AppModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["b" /* NgModule */])({
         declarations: [
-            __WEBPACK_IMPORTED_MODULE_4__app_component__["a" /* AppComponent */]
+            __WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* AppComponent */]
         ],
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
             __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormsModule */],
-            __WEBPACK_IMPORTED_MODULE_3__angular_http__["a" /* HttpModule */]
+            __WEBPACK_IMPORTED_MODULE_3__angular_http__["a" /* HttpModule */],
+            __WEBPACK_IMPORTED_MODULE_4_ng2_ui_switch__["a" /* UiSwitchModule */]
         ],
         providers: [
-            __WEBPACK_IMPORTED_MODULE_5__search_results_service__["a" /* SearchResultsService */],
-            __WEBPACK_IMPORTED_MODULE_6__document_service__["a" /* DocumentService */]
+            __WEBPACK_IMPORTED_MODULE_6__search_results_service__["a" /* SearchResultsService */],
+            __WEBPACK_IMPORTED_MODULE_7__document_service__["a" /* DocumentService */]
         ],
-        bootstrap: [__WEBPACK_IMPORTED_MODULE_4__app_component__["a" /* AppComponent */]]
+        bootstrap: [__WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* AppComponent */]]
     })
 ], AppModule);
 
@@ -296,7 +281,7 @@ AppModule = __decorate([
 
 /***/ }),
 
-/***/ 82:
+/***/ 83:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -313,5 +298,5 @@ var environment = {
 
 /***/ })
 
-},[164]);
+},[167]);
 //# sourceMappingURL=main.bundle.js.map

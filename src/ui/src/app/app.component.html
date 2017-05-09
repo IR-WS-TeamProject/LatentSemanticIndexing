@@ -1,10 +1,13 @@
 <div class="app">
+	<ui-switch [(ngModel)]="evaluationMode" style="visibility:visible; position:absolute; right:50px;"></ui-switch>
 	<h1>
-		{{title}}
+		{{title}}<span *ngIf="evaluationMode"> (evaluation mode)</span>
 	</h1>
-	<div class="svdSwitch">Use SVD:&nbsp;<ui-switch [(ngModel)]="useSVD" size="small"></ui-switch></div>
+	<div *ngIf="!evaluationMode" class="svdSwitch">Use SVD:&nbsp;<ui-switch [(ngModel)]="useSVD" size="small"></ui-switch></div>
 	<input [(ngModel)]="query" placeholder="Query" (keyup.enter)="updateSearchResults(query)">
-	<button (click)="updateSearchResults(query)">Search</button>
+	<button (click)="updateSearchResults(query)">Search</button><span *ngIf="results">{{results.length}} results</span>
+	<span *ngIf="evaluationMode" style="margin: 0 0 0 20px">SVD R Precision: {{svdRPrecision}} - VSM R Precision: {{vsmRPrecision}}</span>
+	<span *ngIf="evaluationMode" style="margin: 0 0 0 20px">SVD Avg Precision: {{svdAvgPrecision}} - VSM Avg Precision: {{vsmAvgPrecision}}</span>
 	<div class="content">
 		<ul>
 			<li *ngFor="let result of results">
@@ -12,6 +15,7 @@
 					<h2>{{result.doc}}</h2>
 					<p>{{result.rank}}</p>
 			  	</a>
+				<ui-switch *ngIf="evaluationMode" (change)="calculatePrecision($event, result)"></ui-switch>
 			</li>
 		</ul>
 		<div class="document">

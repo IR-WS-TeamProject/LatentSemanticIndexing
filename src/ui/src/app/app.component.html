@@ -15,7 +15,7 @@
 					<h2>{{result.doc}}</h2>
 					<p>{{result.rank}}</p>
 			  	</a>
-				<ui-switch *ngIf="evaluationMode" (change)="calculatePrecision($event, result)"></ui-switch>
+				<ui-switch *ngIf="evaluationMode" (change)="calculatePrecision($event, result, query)"></ui-switch>
 			</li>
 		</ul>
 		<div class="document">

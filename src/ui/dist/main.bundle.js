@@ -8,7 +8,7 @@ exports = module.exports = __webpack_require__(45)();
 
 
 // module
-exports.push([module.i, ".content, input {\n\tmargin: 0 0 0 20px;\n}\n\n.svdSwitch {\n\tmargin: 0 0 13px 17px;\n\tvertical-align: middle;\n}\n\ninput {\n\tfont-family: serif;\n\tfont-size: 1.2em;\n\tborder: none;\n}\n\nul {\n\tlist-style-type: none;\n\tpadding: 0;\n\tmargin: 15px 0 0 0;\n\twidth: 40%;\n\tfloat: left;\n}\n\nli {\n\tmargin: 0 0 8px 0;\n\tbackground-color: white;\n\tpadding: 7px 15px 10px 15px;\n}\n\nli:hover {\n\tbox-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);\n}\n\nli h2 {\n\tmargin: 0 0 4px 0;\n}\n\n.document {\n\twhite-space: pre-wrap;\n\tfloat: right;\n\twidth: 40%;\n\tmargin: 0 15% 0 0;\n}\n", ""]);
+exports.push([module.i, ".content, input {\r\n\tmargin: 0 0 0 20px;\r\n}\r\n\r\n.svdSwitch {\r\n\tmargin: 0 0 13px 17px;\r\n\tvertical-align: middle;\r\n}\r\n\r\ninput {\r\n\tfont-family: serif;\r\n\tfont-size: 1.2em;\r\n\tborder: none;\r\n}\r\n\r\nul {\r\n\tlist-style-type: none;\r\n\tpadding: 0;\r\n\tmargin: 15px 0 0 0;\r\n\twidth: 40%;\r\n\tfloat: left;\r\n}\r\n\r\nli {\r\n\tmargin: 0 0 8px 0;\r\n\tbackground-color: white;\r\n\tpadding: 7px 15px 10px 15px;\r\n}\r\n\r\nli:hover {\r\n\tbox-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);\r\n}\r\n\r\nli h2 {\r\n\tmargin: 0 0 4px 0;\r\n}\r\n\r\n.document {\r\n\twhite-space: pre-wrap;\r\n\tfloat: right;\r\n\twidth: 40%;\r\n\tmargin: 0 15% 0 0;\r\n}\r\n", ""]);
 
 // exports
 
@@ -21,7 +21,7 @@ module.exports = module.exports.toString();
 /***/ 144:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"app\">\n\t<ui-switch [(ngModel)]=\"evaluationMode\" style=\"visibility:visible; position:absolute; right:50px;\"></ui-switch>\n\t<h1>\n\t\t{{title}}<span *ngIf=\"evaluationMode\"> (evaluation mode)</span>\n\t</h1>\n\t<div *ngIf=\"!evaluationMode\" class=\"svdSwitch\">Use SVD:&nbsp;<ui-switch [(ngModel)]=\"useSVD\" size=\"small\"></ui-switch></div>\n\t<input [(ngModel)]=\"query\" placeholder=\"Query\" (keyup.enter)=\"updateSearchResults(query)\">\n\t<button (click)=\"updateSearchResults(query)\">Search</button><span *ngIf=\"results\">{{results.length}} results</span>\n\t<span *ngIf=\"evaluationMode\" style=\"margin: 0 0 0 20px\">SVD R Precision: {{svdRPrecision}} - VSM R Precision: {{vsmRPrecision}}</span>\n\t<span *ngIf=\"evaluationMode\" style=\"margin: 0 0 0 20px\">SVD Avg Precision: {{svdAvgPrecision}} - VSM Avg Precision: {{vsmAvgPrecision}}</span>\n\t<div class=\"content\">\n\t\t<ul>\n\t\t\t<li *ngFor=\"let result of results\">\n\t\t\t\t<a (click)=\"updateDocument(result.doc)\">\n\t\t\t\t\t<h2>{{result.doc}}</h2>\n\t\t\t\t\t<p>{{result.rank}}</p>\n\t\t\t  \t</a>\n\t\t\t\t<ui-switch *ngIf=\"evaluationMode\" (change)=\"calculatePrecision($event, result)\"></ui-switch>\n\t\t\t</li>\n\t\t</ul>\n\t\t<div class=\"document\">\n\t\t\t{{document}}\n\t\t</div>\n\t</div>\n</div>\n"
+module.exports = "<div class=\"app\">\r\n\t<ui-switch [(ngModel)]=\"evaluationMode\" style=\"visibility:visible; position:absolute; right:50px;\"></ui-switch>\r\n\t<h1>\r\n\t\t{{title}}<span *ngIf=\"evaluationMode\"> (evaluation mode)</span>\r\n\t</h1>\r\n\t<div *ngIf=\"!evaluationMode\" class=\"svdSwitch\">Use SVD:&nbsp;<ui-switch [(ngModel)]=\"useSVD\" size=\"small\"></ui-switch></div>\r\n\t<input [(ngModel)]=\"query\" placeholder=\"Query\" (keyup.enter)=\"updateSearchResults(query)\">\r\n\t<button (click)=\"updateSearchResults(query)\">Search</button><span *ngIf=\"results\">{{results.length}} results</span>\r\n\t<span *ngIf=\"evaluationMode\" style=\"margin: 0 0 0 20px\">SVD R Precision: {{svdRPrecision}} - VSM R Precision: {{vsmRPrecision}}</span>\r\n\t<span *ngIf=\"evaluationMode\" style=\"margin: 0 0 0 20px\">SVD Avg Precision: {{svdAvgPrecision}} - VSM Avg Precision: {{vsmAvgPrecision}}</span>\r\n\t<div class=\"content\">\r\n\t\t<ul>\r\n\t\t\t<li *ngFor=\"let result of results\">\r\n\t\t\t\t<a (click)=\"updateDocument(result.doc)\">\r\n\t\t\t\t\t<h2>{{result.doc}}</h2>\r\n\t\t\t\t\t<p>{{result.rank}}</p>\r\n\t\t\t  \t</a>\r\n\t\t\t\t<ui-switch *ngIf=\"evaluationMode\" (change)=\"calculatePrecision($event, result, query)\"></ui-switch>\r\n\t\t\t</li>\r\n\t\t</ul>\r\n\t\t<div class=\"document\">\r\n\t\t\t{{document}}\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -108,11 +108,12 @@ var SearchResultsService = (function () {
         this.http = http;
         this.apiUrl = '/api?query=';
     }
-    SearchResultsService.prototype.getSearchResults = function (query, withSVD) {
+    SearchResultsService.prototype.getSearchResults = function (query, withSVD, count) {
         if (withSVD === void 0) { withSVD = true; }
         console.log("Find documents for: " + query);
         // return Promise.resolve(SEARCH_RESULTS)
-        var url = "" + this.apiUrl + encodeURI(query) + "&svd=" + withSVD;
+        var countString = count ? "&count=" + count : '';
+        var url = "" + this.apiUrl + encodeURI(query) + "&svd=" + withSVD + countString;
         return this.http.get(url)
             .toPromise()
             .then(function (response) { return response.json(); })
@@ -222,6 +223,8 @@ var AppComponent = (function () {
         this.title = 'Latent Semantic Indexing Search';
         this.query = null;
         this.results = null;
+        this.allSVDResults = null;
+        this.allVSMResults = null;
         this.document = '';
         this.useSVD = true;
         this.evaluationMode = false;
@@ -241,10 +244,18 @@ var AppComponent = (function () {
         }
         else {
             __WEBPACK_IMPORTED_MODULE_1_bluebird__["props"]({
-                svdResults: this.searchResultService.getSearchResults(query, true),
-                vsmResults: this.searchResultService.getSearchResults(query, false)
+                svdResults: this.searchResultService.getSearchResults(query, true, 11000),
+                vsmResults: this.searchResultService.getSearchResults(query, false, 11000)
             }).then(function (data) {
-                _this.results = __WEBPACK_IMPORTED_MODULE_2_lodash__["shuffle"](__WEBPACK_IMPORTED_MODULE_2_lodash__["unionBy"](data.svdResults, data.vsmResults, 'doc'));
+                _this.allSVDResults = __WEBPACK_IMPORTED_MODULE_2_lodash__["map"](data.svdResults, function (_a) {
+                    var doc = _a.doc;
+                    return doc;
+                });
+                _this.allVSMResults = __WEBPACK_IMPORTED_MODULE_2_lodash__["map"](data.vsmResults, function (_a) {
+                    var doc = _a.doc;
+                    return doc;
+                });
+                _this.results = __WEBPACK_IMPORTED_MODULE_2_lodash__["unionBy"](__WEBPACK_IMPORTED_MODULE_2_lodash__["slice"](data.svdResults, 0, 10), __WEBPACK_IMPORTED_MODULE_2_lodash__["slice"](data.vsmResults, 0, 10), 'doc');
                 _this.svdResults = data.svdResults;
                 _this.vsmResults = data.vsmResults;
             });
@@ -256,41 +267,61 @@ var AppComponent = (function () {
             .then(function (document) { return _this.document = document; })
             .catch(function () { });
     };
-    AppComponent.prototype.calculatePrecision = function (event, result) {
+    AppComponent.prototype.calculatePrecision = function (event, result, query) {
         result.relevant = event;
-        var numberOfRelevantDocs = Math.min(10, __WEBPACK_IMPORTED_MODULE_2_lodash__["countBy"](this.results, 'relevant')['true']);
-        var relevantDocs = __WEBPACK_IMPORTED_MODULE_2_lodash__["groupBy"](this.results, 'relevant')['true'];
-        var svdSum = 0;
-        var svdFoundCounter = 0;
-        var vsmSum = 0;
-        var vsmFoundCounter = 0;
-        for (var i = 0; i < numberOfRelevantDocs; i++) {
-            if (__WEBPACK_IMPORTED_MODULE_2_lodash__["includes"](relevantDocs, this.svdResults[i])) {
-                svdFoundCounter += 1;
-                svdSum += svdFoundCounter / (i + 1);
+        var relevantDocuments = __WEBPACK_IMPORTED_MODULE_2_lodash__["chain"](this.results)
+            .groupBy('relevant')
+            .filter(function (val, key) { return key === 'true'; })
+            .flatten()
+            .map(function (_a) {
+            var doc = _a.doc;
+            return doc;
+        })
+            .value();
+        var rankedDocumentsSVD = this.allSVDResults;
+        var rankedDocumentsVSM = this.allVSMResults;
+        var svdAvgPrecision = this.calculateAvgPrecision(rankedDocumentsSVD, relevantDocuments);
+        var vsmAvgPrecision = this.calculateAvgPrecision(rankedDocumentsVSM, relevantDocuments);
+        var svdRPrecision = this.calculateRPrecision(rankedDocumentsSVD, relevantDocuments);
+        var vsmRPrecision = this.calculateRPrecision(rankedDocumentsVSM, relevantDocuments);
+        this.svdAvgPrecision = parseFloat(svdAvgPrecision.toFixed(3));
+        this.vsmAvgPrecision = parseFloat(vsmAvgPrecision.toFixed(3));
+        this.svdRPrecision = parseFloat(svdRPrecision.toFixed(3));
+        this.vsmRPrecision = parseFloat(vsmRPrecision.toFixed(3));
+    };
+    AppComponent.prototype.calculateAvgPrecision = function (rankedDocuments, relevantDocuments) {
+        var sumOfPrecisions = __WEBPACK_IMPORTED_MODULE_2_lodash__["chain"](rankedDocuments)
+            .map(function (doc, rank) { return ({ doc: doc, rank: rank + 1 }); })
+            .filter(function (_a) {
+            var doc = _a.doc;
+            return __WEBPACK_IMPORTED_MODULE_2_lodash__["includes"](relevantDocuments, doc);
+        })
+            .map(function (_a, index) {
+            var rank = _a.rank;
+            return ((index + 1) / rank);
+        })
+            .tap(function (array) {
+            if (array.length !== relevantDocuments.length) {
+                console.log("Only found " + array.length + " relevant documents. Expected " + relevantDocuments.length + ".");
             }
-            if (__WEBPACK_IMPORTED_MODULE_2_lodash__["includes"](relevantDocs, this.vsmResults[i])) {
-                vsmFoundCounter += 1;
-                vsmSum += vsmFoundCounter / (i + 1);
-            }
-        }
-        if (numberOfRelevantDocs === 0 || numberOfRelevantDocs === NaN) {
-            this.svdRPrecision = 0;
-            this.vsmRPrecision = 0;
-            this.svdAvgPrecision = 0;
-            this.vsmAvgPrecision = 0;
-        }
-        else {
-            this.svdAvgPrecision = parseFloat((svdSum / numberOfRelevantDocs).toFixed(3));
-            this.vsmAvgPrecision = parseFloat((vsmSum / numberOfRelevantDocs).toFixed(3));
-            this.svdRPrecision = parseFloat((svdFoundCounter / numberOfRelevantDocs).toFixed(3));
-            this.vsmRPrecision = parseFloat((vsmFoundCounter / numberOfRelevantDocs).toFixed(3));
-        }
+        })
+            .sum()
+            .value();
+        var precision = sumOfPrecisions / relevantDocuments.length;
+        return precision;
+    };
+    AppComponent.prototype.calculateRPrecision = function (rankedDocuments, relevantDocuments) {
+        if (relevantDocuments.length > rankedDocuments.length)
+            return null;
+        var slicedRankedDocuments = __WEBPACK_IMPORTED_MODULE_2_lodash__["slice"](rankedDocuments, 0, relevantDocuments.length);
+        var countTruePositives = __WEBPACK_IMPORTED_MODULE_2_lodash__["sumBy"](slicedRankedDocuments, function (doc) { return __WEBPACK_IMPORTED_MODULE_2_lodash__["includes"](relevantDocuments, doc); });
+        var precision = countTruePositives / relevantDocuments.length;
+        return precision;
     };
     return AppComponent;
 }());
 AppComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_1" /* Component */])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_2" /* Component */])({
         selector: 'app-root',
         template: __webpack_require__(144),
         styles: [__webpack_require__(140)]

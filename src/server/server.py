@@ -37,12 +37,16 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
             query = self.path.split('&svd=')[0].replace('/api?query=', '')
             query = urllib.parse.unquote(query)
             print('query: ', query)
-            use_svd = self.path.split('&svd=')[1]
+            use_svd = self.path.split('&')[1].replace('svd=', '')
+            if "&count=" in self.path:
+                count = int(self.path.split('&')[2].replace('count=', ''))
+            else:
+                count = 10
             lsi_handler = LSIHandler()
             if use_svd == 'true':
-                documents, similarities = lsi_handler.get_ranking(query)
+                documents, similarities = lsi_handler.get_ranking(query, number=count)
             else:
-                documents, similarities = lsi_handler.get_ranking(query, use_SVD=False)
+                documents, similarities = lsi_handler.get_ranking(query, use_SVD=False, number=count)
 
             ranked_list = []
             for i in range(0, len(similarities)):

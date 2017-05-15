@@ -19,6 +19,8 @@ export class AppComponent {
   private title = 'Latent Semantic Indexing Search'
   private query: string = null
   private results: ExtendedSearchResult[] = null
+  private allSVDResults: string[] = null
+  private allVSMResults: string[] = null
   private document: string = ''
   private useSVD: boolean = true
 
@@ -42,10 +44,12 @@ export class AppComponent {
         .catch(() => {}) // nice error handling tho
     } else {
       P.props({
-        svdResults: this.searchResultService.getSearchResults(query, true),
-        vsmResults: this.searchResultService.getSearchResults(query, false)
+        svdResults: this.searchResultService.getSearchResults(query, true, 11000),
+        vsmResults: this.searchResultService.getSearchResults(query, false, 11000)
       }).then((data: any) => {
-          this.results = <ExtendedSearchResult[]> _.shuffle(_.unionBy(data.svdResults, data.vsmResults, 'doc'))
+          this.allSVDResults = _.map(data.svdResults, ({ doc }) => doc)
+          this.allVSMResults = _.map(data.vsmResults, ({ doc }) => doc)
+          this.results = <ExtendedSearchResult[]> _.unionBy(_.slice(data.svdResults, 0, 10), _.slice(data.vsmResults, 0, 10), 'doc')
           this.svdResults = data.svdResults
           this.vsmResults = data.vsmResults
         })
@@ -58,34 +62,54 @@ export class AppComponent {
       .catch(() => {})
   }
 
-  calculatePrecision(event, result): void {
+  calculatePrecision(event: boolean, result: ExtendedSearchResult, query: string): void {
     result.relevant = event
-    const numberOfRelevantDocs = Math.min(10, _.countBy(this.results, 'relevant')['true'])
-    const relevantDocs = _.groupBy(this.results, 'relevant')['true']
-    let svdSum = 0
-    let svdFoundCounter = 0
-    let vsmSum = 0
-    let vsmFoundCounter = 0
-    for(let i = 0; i < numberOfRelevantDocs; i++) {
-      if (_.includes(relevantDocs, this.svdResults[i])) {
-        svdFoundCounter += 1
-        svdSum += svdFoundCounter / (i + 1)
-      }
-      if (_.includes(relevantDocs, this.vsmResults[i])) {
-        vsmFoundCounter += 1
-        vsmSum += vsmFoundCounter / (i + 1)
-      }
-    }
-    if (numberOfRelevantDocs === 0 || numberOfRelevantDocs === NaN) {
-      this.svdRPrecision = 0
-      this.vsmRPrecision = 0
-      this.svdAvgPrecision = 0
-      this.vsmAvgPrecision = 0
-    } else {
-      this.svdAvgPrecision = parseFloat((svdSum / numberOfRelevantDocs).toFixed(3))
-      this.vsmAvgPrecision = parseFloat((vsmSum / numberOfRelevantDocs).toFixed(3))
-      this.svdRPrecision = parseFloat((svdFoundCounter / numberOfRelevantDocs).toFixed(3))
-      this.vsmRPrecision = parseFloat((vsmFoundCounter / numberOfRelevantDocs).toFixed(3))
-    }
-  } 
+    const relevantDocuments = _.chain(this.results)
+      .groupBy('relevant')
+      .filter((val, key) => key === 'true')
+      .flatten()
+      .map(({ doc }) => doc)
+      .value()
+
+    const rankedDocumentsSVD = this.allSVDResults
+    const rankedDocumentsVSM = this.allVSMResults
+
+    const svdAvgPrecision = this.calculateAvgPrecision(rankedDocumentsSVD, relevantDocuments)
+    const vsmAvgPrecision = this.calculateAvgPrecision(rankedDocumentsVSM, relevantDocuments)
+    const svdRPrecision = this.calculateRPrecision(rankedDocumentsSVD, relevantDocuments)
+    const vsmRPrecision = this.calculateRPrecision(rankedDocumentsVSM, relevantDocuments)
+
+    this.svdAvgPrecision = parseFloat(svdAvgPrecision.toFixed(3))
+    this.vsmAvgPrecision = parseFloat(vsmAvgPrecision.toFixed(3))
+    this.svdRPrecision = parseFloat(svdRPrecision.toFixed(3))
+    this.vsmRPrecision = parseFloat(vsmRPrecision.toFixed(3))
+  }
+
+  private calculateAvgPrecision(rankedDocuments: string[], relevantDocuments: string[]): number {    
+    const sumOfPrecisions = _.chain(rankedDocuments)
+     .map((doc, rank) => ({ doc, rank: rank + 1}))
+     .filter(({ doc }) => _.includes(relevantDocuments, doc))
+     .map(({ rank }, index) => ( (index + 1) / rank ))
+     .tap((array) => {
+        if(array.length !== relevantDocuments.length) {
+          console.log(`Only found ${array.length} relevant documents. Expected ${relevantDocuments.length}.`)
+        }
+     })
+     .sum()
+     .value()
+
+    const precision = sumOfPrecisions / relevantDocuments.length
+    return precision
+  }
+
+  private calculateRPrecision(rankedDocuments: string[], relevantDocuments: string[]): number {
+    if (relevantDocuments.length > rankedDocuments.length) return null
+
+    const slicedRankedDocuments = _.slice(rankedDocuments, 0, relevantDocuments.length)
+    const countTruePositives = _.sumBy(slicedRankedDocuments, doc => _.includes(relevantDocuments, doc))
+
+    const precision = countTruePositives / relevantDocuments.length
+    return precision
+  }
+
 }

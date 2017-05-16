@@ -8,7 +8,7 @@ exports = module.exports = __webpack_require__(45)();
 
 
 // module
-exports.push([module.i, ".content, input {\r\n\tmargin: 0 0 0 20px;\r\n}\r\n\r\n.svdSwitch {\r\n\tmargin: 0 0 13px 17px;\r\n\tvertical-align: middle;\r\n}\r\n\r\ninput {\r\n\tfont-family: serif;\r\n\tfont-size: 1.2em;\r\n\tborder: none;\r\n}\r\n\r\nul {\r\n\tlist-style-type: none;\r\n\tpadding: 0;\r\n\tmargin: 15px 0 0 0;\r\n\twidth: 40%;\r\n\tfloat: left;\r\n}\r\n\r\nli {\r\n\tmargin: 0 0 8px 0;\r\n\tbackground-color: white;\r\n\tpadding: 7px 15px 10px 15px;\r\n}\r\n\r\nli:hover {\r\n\tbox-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);\r\n}\r\n\r\nli h2 {\r\n\tmargin: 0 0 4px 0;\r\n}\r\n\r\n.document {\r\n\twhite-space: pre-wrap;\r\n\tfloat: right;\r\n\twidth: 40%;\r\n\tmargin: 0 15% 0 0;\r\n}\r\n", ""]);
+exports.push([module.i, ".content, input {\n\tmargin: 0 0 0 20px;\n}\n\n.svdSwitch {\n\tmargin: 0 0 13px 17px;\n\tvertical-align: middle;\n}\n\ninput {\n\tfont-family: serif;\n\tfont-size: 1.2em;\n\tborder: none;\n}\n\ntable {\n\tmargin: 10px 0 10px 20px;\n}\n\ntable, th, td {\n    border: 1px solid black;\n}\n\nul {\n\toverflow-y: scroll;\n\theight: 550px;\n\tlist-style-type: none;\n\tpadding: 0;\n\tmargin: 15px 0 0 0;\n\twidth: 40%;\n\tfloat: left;\n}\n\nli div {\n\tmargin: 0 0 8px 0;\n\tbackground-color: white;\n\tpadding: 7px 15px 10px 15px;\n}\n\n.bordered {\n\tborder: black;\n\tborder-style: solid;\n\tborder-width: thick;\n}\n\nli:hover {\n\tbox-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);\n}\n\nli h2 {\n\tmargin: 0 0 4px 0;\n}\n\n.document {\n\toverflow-y: scroll;\n\theight: 550px;\n\twhite-space: pre-wrap;\n\tfloat: right;\n\twidth: 40%;\n\tmargin: 0 15% 0 0;\n}\n", ""]);
 
 // exports
 
@@ -21,7 +21,7 @@ module.exports = module.exports.toString();
 /***/ 144:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"app\">\r\n\t<ui-switch [(ngModel)]=\"evaluationMode\" style=\"visibility:visible; position:absolute; right:50px;\"></ui-switch>\r\n\t<h1>\r\n\t\t{{title}}<span *ngIf=\"evaluationMode\"> (evaluation mode)</span>\r\n\t</h1>\r\n\t<div *ngIf=\"!evaluationMode\" class=\"svdSwitch\">Use SVD:&nbsp;<ui-switch [(ngModel)]=\"useSVD\" size=\"small\"></ui-switch></div>\r\n\t<input [(ngModel)]=\"query\" placeholder=\"Query\" (keyup.enter)=\"updateSearchResults(query)\">\r\n\t<button (click)=\"updateSearchResults(query)\">Search</button><span *ngIf=\"results\">{{results.length}} results</span>\r\n\t<span *ngIf=\"evaluationMode\" style=\"margin: 0 0 0 20px\">SVD R Precision: {{svdRPrecision}} - VSM R Precision: {{vsmRPrecision}}</span>\r\n\t<span *ngIf=\"evaluationMode\" style=\"margin: 0 0 0 20px\">SVD Avg Precision: {{svdAvgPrecision}} - VSM Avg Precision: {{vsmAvgPrecision}}</span>\r\n\t<div class=\"content\">\r\n\t\t<ul>\r\n\t\t\t<li *ngFor=\"let result of results\">\r\n\t\t\t\t<a (click)=\"updateDocument(result.doc)\">\r\n\t\t\t\t\t<h2>{{result.doc}}</h2>\r\n\t\t\t\t\t<p>{{result.rank}}</p>\r\n\t\t\t  \t</a>\r\n\t\t\t\t<ui-switch *ngIf=\"evaluationMode\" (change)=\"calculatePrecision($event, result, query)\"></ui-switch>\r\n\t\t\t</li>\r\n\t\t</ul>\r\n\t\t<div class=\"document\">\r\n\t\t\t{{document}}\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n"
+module.exports = "<div class=\"app\">\n\t<ui-switch [(ngModel)]=\"evaluationMode\" style=\"visibility:visible; position:absolute; right:50px;\"></ui-switch>\n\t<h1>\n\t\t{{title}}<span *ngIf=\"evaluationMode\"> (evaluation mode)</span>\n\t</h1>\n\t<div *ngIf=\"!evaluationMode\" class=\"svdSwitch\">Use SVD:&nbsp;<ui-switch [(ngModel)]=\"useSVD\" size=\"small\"></ui-switch></div>\n\t<input [(ngModel)]=\"query\" placeholder=\"Query\" (keyup.enter)=\"updateSearchResults(query)\">\n\t<button (click)=\"updateSearchResults(query)\">Search</button><span *ngIf=\"results\">{{results.length}} results</span>\n\t<table *ngIf=\"evaluationMode\">\n\t\t<thead>\n\t\t\t<th>SVD Avg</th>\n\t\t\t<th>SVD R</th>\n\t\t\t<th>VSM Avg</th>\n\t\t\t<th>VSM R</th>\n\t\t</thead>\n\t\t<tbody>\n\t\t\t<tr>\n\t\t\t\t<td>{{svdAvgPrecision}}</td>\n\t\t\t\t<td>{{svdRPrecision}}</td>\n\t\t\t\t<td>{{vsmAvgPrecision}}</td>\n\t\t\t\t<td>{{vsmRPrecision}}</td>\n\t\t\t</tr>\n\t\t</tbody>\n\t</table>\n\t<div class=\"content\">\n\t\t<ul>\n\t\t\t<li *ngFor=\"let result of results\">\n\t\t\t\t<div [ngClass]=\"{'bordered': result.doc === selected}\">\n\t\t\t\t\t<a (click)=\"updateDocument(result.doc)\">\n\t\t\t\t\t\t<h2>{{result.doc}}</h2>\n\t\t\t\t\t\t<p>{{result.rank}}</p>\n\t\t\t\t\t</a>\n\t\t\t\t\t<ui-switch *ngIf=\"evaluationMode\" (change)=\"calculatePrecision($event, result, query)\"></ui-switch>\n\t\t\t\t</div>\n\t\t\t</li>\n\t\t</ul>\n\t\t<div class=\"document\">\n\t\t\t{{document}}\n\t\t</div>\n\t</div>\n</div>\n"
 
 /***/ }),
 
@@ -225,6 +225,7 @@ var AppComponent = (function () {
         this.results = null;
         this.allSVDResults = null;
         this.allVSMResults = null;
+        this.selected = null;
         this.document = '';
         this.useSVD = true;
         this.evaluationMode = false;
@@ -263,6 +264,7 @@ var AppComponent = (function () {
     };
     AppComponent.prototype.updateDocument = function (documentPath) {
         var _this = this;
+        this.selected = documentPath;
         this.documentService.getDocument(documentPath)
             .then(function (document) { return _this.document = document; })
             .catch(function () { });
@@ -321,7 +323,7 @@ var AppComponent = (function () {
     return AppComponent;
 }());
 AppComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_2" /* Component */])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_1" /* Component */])({
         selector: 'app-root',
         template: __webpack_require__(144),
         styles: [__webpack_require__(140)]

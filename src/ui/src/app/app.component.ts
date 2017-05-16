@@ -21,6 +21,7 @@ export class AppComponent {
   private results: ExtendedSearchResult[] = null
   private allSVDResults: string[] = null
   private allVSMResults: string[] = null
+  private selected: string = null
   private document: string = ''
   private useSVD: boolean = true
 
@@ -57,6 +58,7 @@ export class AppComponent {
   }
 
   updateDocument(documentPath: string): void {
+    this.selected = documentPath
     this.documentService.getDocument(documentPath)
       .then(document => this.document = document)
       .catch(() => {})

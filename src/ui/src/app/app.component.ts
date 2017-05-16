@@ -50,7 +50,7 @@ export class AppComponent {
       }).then((data: any) => {
           this.allSVDResults = _.map(data.svdResults, ({ doc }) => doc)
           this.allVSMResults = _.map(data.vsmResults, ({ doc }) => doc)
-          this.results = <ExtendedSearchResult[]> _.unionBy(_.slice(data.svdResults, 0, 10), _.slice(data.vsmResults, 0, 10), 'doc')
+          this.results = <ExtendedSearchResult[]> _.shuffle(_.unionBy(_.slice(data.svdResults, 0, 10), _.slice(data.vsmResults, 0, 10), 'doc'))
           this.svdResults = data.svdResults
           this.vsmResults = data.vsmResults
         })

@@ -8,7 +8,7 @@ exports = module.exports = __webpack_require__(45)();
 
 
 // module
-exports.push([module.i, "/* You can add global styles to this file, and also import other style files */\r\nbody {\r\n\tbackground-color: #F8F8F8;\r\n\twidth: 100%;\r\n\theight: 100%;\r\n\tfont-family: serif;\r\n}\r\n\r\na {\r\n\tcursor: pointer;\r\n\tcolor: black;\r\n\ttext-decoration: none;\r\n}", ""]);
+exports.push([module.i, "/* You can add global styles to this file, and also import other style files */\nbody {\n\tbackground-color: #F8F8F8;\n\twidth: 100%;\n\theight: 100%;\n\tfont-family: serif;\n}\n\na {\n\tcursor: pointer;\n\tcolor: black;\n\ttext-decoration: none;\n}", ""]);
 
 // exports
 

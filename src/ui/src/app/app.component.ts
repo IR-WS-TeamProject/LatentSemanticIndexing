@@ -44,6 +44,10 @@ export class AppComponent {
         .then(searchResults => this.results = <ExtendedSearchResult[]> searchResults)
         .catch(() => {}) // nice error handling tho
     } else {
+      this.svdRPrecision = 0
+      this.vsmRPrecision = 0
+      this.svdAvgPrecision = 0
+      this.vsmAvgPrecision = 0
       P.props({
         svdResults: this.searchResultService.getSearchResults(query, true, 11000),
         vsmResults: this.searchResultService.getSearchResults(query, false, 11000)
@@ -76,10 +80,10 @@ export class AppComponent {
     const rankedDocumentsSVD = this.allSVDResults
     const rankedDocumentsVSM = this.allVSMResults
 
-    const svdAvgPrecision = this.calculateAvgPrecision(rankedDocumentsSVD, relevantDocuments)
-    const vsmAvgPrecision = this.calculateAvgPrecision(rankedDocumentsVSM, relevantDocuments)
-    const svdRPrecision = this.calculateRPrecision(rankedDocumentsSVD, relevantDocuments)
-    const vsmRPrecision = this.calculateRPrecision(rankedDocumentsVSM, relevantDocuments)
+    const svdAvgPrecision = this.calculateAvgPrecision(rankedDocumentsSVD, relevantDocuments) || 0
+    const vsmAvgPrecision = this.calculateAvgPrecision(rankedDocumentsVSM, relevantDocuments) || 0
+    const svdRPrecision = this.calculateRPrecision(rankedDocumentsSVD, relevantDocuments) || 0
+    const vsmRPrecision = this.calculateRPrecision(rankedDocumentsVSM, relevantDocuments) || 0
 
     this.svdAvgPrecision = parseFloat(svdAvgPrecision.toFixed(3))
     this.vsmAvgPrecision = parseFloat(vsmAvgPrecision.toFixed(3))

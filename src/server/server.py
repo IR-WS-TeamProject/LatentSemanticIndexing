@@ -15,6 +15,8 @@ PORT = 8000
 
 class MyHandler(http.server.BaseHTTPRequestHandler):
     """Request Handler for the server"""
+    lsi_handler = None
+
     def do_HEAD(self):
         """Check if server is running"""
         self.send_response(200)
@@ -42,11 +44,10 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
                 count = int(self.path.split('&')[2].replace('count=', ''))
             else:
                 count = 10
-            lsi_handler = LSIHandler()
             if use_svd == 'true':
-                documents, similarities = lsi_handler.get_ranking(query, number=count)
+                documents, similarities = self.lsi_handler.get_ranking(query, number=count)
             else:
-                documents, similarities = lsi_handler.get_ranking(query, use_SVD=False, number=count)
+                documents, similarities = self.lsi_handler.get_ranking(query, use_SVD=False, number=count)
 
             ranked_list = []
             for i in range(0, len(similarities)):
@@ -83,6 +84,8 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
 
 def run():
     """Start the server"""
+    lsi_handler = LSIHandler()
+    MyHandler.lsi_handler = lsi_handler
     with socketserver.TCPServer(("", PORT), MyHandler) as httpd:
         print("serving at port", PORT)
         httpd.serve_forever()

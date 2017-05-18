@@ -1,11 +1,11 @@
 """ import statements """
 import re
 import json
-# import porter stemmer
+# import porter stemmer and stopwords list
 from nltk.stem import porter
 from nltk.corpus import stopwords
-# if a syntax error is shown, right click the preprocessing directory and mark as source
-from ..preprocessing.AbstractFilePreprocessing import AbstractFilePreprocessing
+# if a syntax error is shown, right click the "src" directory and mark directory as source
+from src.preprocessing.AbstractFilePreprocessing import AbstractFilePreprocessing
 
 
 class PorterFilePreprocessing(AbstractFilePreprocessing):
@@ -121,6 +121,8 @@ class PorterFilePreprocessing(AbstractFilePreprocessing):
     def main():
         """ method used for testing purposes """
 
+        # specify your root directory with the news data here
+        # examples:
         my_root_directory = "/Users/alexandrahofmann/Documents/Master Uni MA/2. Semester/" \
                             "Information Retrieval and Web Search/Team Project/20news-bydate-train"
         # my_root_directory = "C:/Users/D060249/Documents/Mannheim/Semester 2/" \
@@ -146,9 +148,11 @@ class PorterFilePreprocessing(AbstractFilePreprocessing):
 
 # IMPORTANT:
 # When used first, you have to download the stopword list.
-# Therefore, uncomment the following line and execute.
+# Therefore, uncomment the following lines and execute.
 # A download explorer opens. Click on "Corpora",
 # search for "stopwords" and download only the stopwords list.
+# Uncomment the following:
+# import nltk
 # nltk.download()
 
 

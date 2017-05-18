@@ -13,10 +13,11 @@ export class SearchResultsService {
 
   constructor(private http: Http) { }
 
-  getSearchResults(query: string, withSVD: boolean = true): Promise<SearchResult[]> {
+  getSearchResults(query: string, withSVD: boolean = true, count?: number): Promise<SearchResult[]> {
     console.log(`Find documents for: ${query}`)
   	// return Promise.resolve(SEARCH_RESULTS)
-	const url = `${this.apiUrl}${encodeURI(query)}&svd=${withSVD}`
+    const countString = count ? `&count=${count}` : ''
+	  const url = `${this.apiUrl}${encodeURI(query)}&svd=${withSVD}${countString}`
   	return this.http.get(url)
      .toPromise()
      .then(response => response.json() as SearchResult[])

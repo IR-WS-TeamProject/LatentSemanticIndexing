@@ -2,11 +2,12 @@
 import json
 import re
 import nltk
+# import lemmatizer, wordnet and stopwords list
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import wordnet
 from nltk.corpus import stopwords
-# if a syntax error is shown, right click the preprocessing directory and mark as source
-from ..preprocessing.AbstractFilePreprocessing import AbstractFilePreprocessing
+# if a syntax error is shown, right click the "src" directory and mark directory as source
+from src.preprocessing.AbstractFilePreprocessing import AbstractFilePreprocessing
 
 
 class LemmatizationFilePreprocessing(AbstractFilePreprocessing):
@@ -128,6 +129,8 @@ class LemmatizationFilePreprocessing(AbstractFilePreprocessing):
     def main():
         """this method is just for testing purposes"""
 
+        # specify your root directory with the news data here
+        # examples:
         my_root_directory = "/Users/alexandrahofmann/Documents/Master Uni MA/2. Semester/" \
                             "Information Retrieval and Web Search/Team Project/20news-bydate-train"
         # my_root_directory = "C:/Users/D060249/Documents/Mannheim/Semester 2/" \
@@ -145,6 +148,22 @@ class LemmatizationFilePreprocessing(AbstractFilePreprocessing):
                       "He enjoys my jokes - that's what makes it so special to me."
         result = LemmatizationFilePreprocessing.string_transformation(test_string)
         print(result)
+
+
+######################################################################
+# Execute Preprocessing
+######################################################################
+
+# IMPORTANT:
+# When used first, you have to download the stopword list and wordnet.
+# Therefore, uncomment the following lines and execute.
+# A download explorer opens.
+# Click on "Corpora", search for "stopwords" and "wordnet" and download both.
+# Furthermore, click on "Models",
+# search for "averaged_perceptron_tagger" and "punkt" and download both.
+# Uncomment the following:
+# import nltk
+# nltk.download()
 
 
 if __name__ == '__main__':

@@ -13,7 +13,17 @@ input {
 	border: none;
 }
 
+table {
+	margin: 10px 0 10px 20px;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
 ul {
+	overflow-y: scroll;
+	height: 550px;
 	list-style-type: none;
 	padding: 0;
 	margin: 15px 0 0 0;
@@ -21,10 +31,16 @@ ul {
 	float: left;
 }
 
-li {
+li div {
 	margin: 0 0 8px 0;
 	background-color: white;
 	padding: 7px 15px 10px 15px;
+}
+
+.bordered {
+	border: black;
+	border-style: solid;
+	border-width: thick;
 }
 
 li:hover {
@@ -36,6 +52,8 @@ li h2 {
 }
 
 .document {
+	overflow-y: scroll;
+	height: 550px;
 	white-space: pre-wrap;
 	float: right;
 	width: 40%;

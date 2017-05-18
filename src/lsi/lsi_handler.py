@@ -15,11 +15,11 @@ class LSIHandler:
     def __init__(self,
                  bag_of_words="bow_lemmatization_train_data.dict",
                  files_path="./src/files/",
-                 load_tdm=True,
+                 load_tdm=False,
                  #set to False if TF-IDF Matrix should be recalculated rather than loaded from disk
-                 load_svd=True,
+                 load_svd=False,
                  #set to False if SVD should be recalculated rather than loaded from disk
-                 max_k=100):
+                 max_k=150):
         """Initialize all handlers (once and not per query)"""
         self.is_valid = False
         #TF-IDF

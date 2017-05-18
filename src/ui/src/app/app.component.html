@@ -6,16 +6,32 @@
 	<div *ngIf="!evaluationMode" class="svdSwitch">Use SVD:&nbsp;<ui-switch [(ngModel)]="useSVD" size="small"></ui-switch></div>
 	<input [(ngModel)]="query" placeholder="Query" (keyup.enter)="updateSearchResults(query)">
 	<button (click)="updateSearchResults(query)">Search</button><span *ngIf="results">{{results.length}} results</span>
-	<span *ngIf="evaluationMode" style="margin: 0 0 0 20px">SVD R Precision: {{svdRPrecision}} - VSM R Precision: {{vsmRPrecision}}</span>
-	<span *ngIf="evaluationMode" style="margin: 0 0 0 20px">SVD Avg Precision: {{svdAvgPrecision}} - VSM Avg Precision: {{vsmAvgPrecision}}</span>
+	<table *ngIf="evaluationMode">
+		<thead>
+			<th>SVD Avg</th>
+			<th>SVD R</th>
+			<th>VSM Avg</th>
+			<th>VSM R</th>
+		</thead>
+		<tbody>
+			<tr>
+				<td>{{svdAvgPrecision}}</td>
+				<td>{{svdRPrecision}}</td>
+				<td>{{vsmAvgPrecision}}</td>
+				<td>{{vsmRPrecision}}</td>
+			</tr>
+		</tbody>
+	</table>
 	<div class="content">
 		<ul>
 			<li *ngFor="let result of results">
-				<a (click)="updateDocument(result.doc)">
-					<h2>{{result.doc}}</h2>
-					<p>{{result.rank}}</p>
-			  	</a>
-				<ui-switch *ngIf="evaluationMode" (change)="calculatePrecision($event, result, query)"></ui-switch>
+				<div [ngClass]="{'bordered': result.doc === selected}">
+					<a (click)="updateDocument(result.doc)">
+						<h2>{{result.doc}}</h2>
+						<p>{{result.rank}}</p>
+					</a>
+					<ui-switch *ngIf="evaluationMode" (change)="calculatePrecision($event, result, query)"></ui-switch>
+				</div>
 			</li>
 		</ul>
 		<div class="document">

@@ -44,7 +44,7 @@ class LSIEvaluator:
 
 
     def calculate_NewsGroupRatio(self,ranking):
-        #KPI: Same news group ratio
+        #KPI: Average same news group ratio
         same_ng_ratio = np.empty(len(ranking.keys()), dtype=np.float32)
         ind = 0
         for test_doc, result in ranking.items():

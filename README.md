@@ -11,9 +11,21 @@ Used Technologies:
 ## Usage
 
 To learn the model please execute following steps:
-1. TODO
-2. TODO
-3. TODO
+1. Go to src/preprocessing/LemmatizationFilePreprocessing
+2. If you have never used the NLTK stopword removal list and the tokenizer:
+
+ Execute 
+ 
+    import nltk
+    nltk.download()
+
+- A download explorer opens.
+- Click on "Corpora", search for "stopwords" and "wordnet" and download both.
+- Furthermore, click on "Models",
+- Search for "averaged_perceptron_tagger" and "punkt" and download both.
+
+3. In the ``main`` method, set variable ``my_root_directory`` to the project path + ``/20news-bydate-train`` , otherwise the server will not be able to locate the files
+4. Run the program
 
 To use the model and execute queries please follow these steps:
 1. Learn the model as described above

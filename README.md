@@ -8,7 +8,7 @@ Used Technologies:
 - Webpage as UI build with Angular
 - We recommend using Anaconda as package manager and runtime (https://www.continuum.io/downloads)
 
-## Usage
+## How to Run
 
 To learn the model please execute following steps:
 1. Go to ``src/preprocessing/LemmatizationFilePreprocessing``

@@ -11,7 +11,7 @@ Used Technologies:
 ## Usage
 
 To learn the model please execute following steps:
-1. Go to src/preprocessing/LemmatizationFilePreprocessing
+1. Go to ``src/preprocessing/LemmatizationFilePreprocessing``
 2. If you have never used the NLTK stopword removal list and the tokenizer:
 
  Execute 

@@ -11,6 +11,9 @@ Used Technologies:
 ## Usage
 
 To learn the model please execute following steps:
+1. TODO
+2. TODO
+3. TODO
 
 To use the model and execute queries please follow these steps:
 1. Learn the model as described above

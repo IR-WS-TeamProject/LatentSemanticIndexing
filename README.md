@@ -4,8 +4,9 @@ Repository for Task 3 of the Information Retrival team project: Latent Semantic 
 ## General Information
 
 Used Technologies:
-- Python and the Natural Language ToolKit (nltk) for Pyton
+- Python and the Natural Language ToolKit (NLTK) for Pyton
 - Webpage as UI build with Angular
+- We recommend using Anaconda as package manager and runtime (https://www.continuum.io/downloads)
 
 ## Usage
 
@@ -14,4 +15,5 @@ To learn the model please execute following steps:
 To use the model and execute queries please follow these steps:
 1. Learn the model as described above
 2. Execute ``python /main.py``
-3. Navigate to http:\\\\localhost:8000 in ur web browser
+3. Navigate to http:\\\\localhost:8000 in your web browser.
+4. If successful, the user interface of the search should appear.

@@ -13,8 +13,8 @@ To learn the model please execute following steps:
 
 To use the model and execute queries please follow these steps:
 1. Learn the model as described above
-2. Execute the ``python /main.py``
-3. Navigate to http:\\localhost:8000 in ur web browser
+2. Execute ``python /main.py``
+3. Navigate to http:\\\\localhost:8000 in ur web browser
 
 #### Highlevel-Taks
 - speichern und retrieven von data-objekten (konkret: arrays und objekte) [Sascha] OUTPUT: Python Notebook (copy-paste Vorlage)

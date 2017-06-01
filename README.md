@@ -7,7 +7,7 @@ Used Technologies:
 - Python
 - Libraries
     - Natural Language ToolKit (NLTK) for Python
-    - Numpy, SciPy(v0.19)
+    - Numpy, SciPy (v0.19)
     - json
 - Webpage as UI build with Angular
 - We recommend using Anaconda as package manager and runtime (https://www.continuum.io/downloads)

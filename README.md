@@ -13,8 +13,16 @@ Used Technologies:
 - We recommend using Anaconda as package manager and runtime (https://www.continuum.io/downloads)
 
 ## How to Run
+Preprocessed files are persisted and already available in the project.
+If you want to re-preprocess, follow the steps of "How to Run from Scratch".
 
-To learn the model please execute following steps:
+1. Execute ``python /main.py``
+2. Navigate to [http://localhost:8000](http://localhost:8000 "Localhost - Port 8000") in your web browser.
+3. If successful, the user interface of the search should appear.
+
+
+## How to Run from Scratch
+
 1. Go to ``src/preprocessing/LemmatizationFilePreprocessing``
 2. If you have never used the NLTK stopword removal list and the tokenizer, follow the subsequet steps. Otherwise continue with step 3.
 
@@ -33,9 +41,3 @@ To learn the model please execute following steps:
 4. Run the program
 5. Copy the generated BOW Dictionary into "src/files/" and name it "bow_lemmatization_train_data.dict"
 6. [OPTIONAL] If you want to run the evalulation as well, please do the same process for the test data and copy the preprocessed BOW of test data in folder "src/files/" as well and name it "bow_lemmatization_test_data.dict"
-
-To use the model and execute queries please follow these steps:
-1. Learn the model as described above
-2. Execute ``python /main.py``
-3. Navigate to [http://localhost:8000](http://localhost:8000 "Localhost - Port 8000") in your web browser.
-4. If successful, the user interface of the search should appear.

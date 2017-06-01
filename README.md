@@ -1,4 +1,4 @@
-# LatentSemanticIndexing by Team 3 (Hofman, Portisch, Ulbrich, Hentschel) 
+# LatentSemanticIndexing by Team 3 (Hofmann, Portisch, Ulbrich, Hentschel) 
 Repository for Task 3 of the Information Retrival team project: Latent Semantic Indexing.
 
 ## General Information

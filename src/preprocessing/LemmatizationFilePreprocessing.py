@@ -129,19 +129,16 @@ class LemmatizationFilePreprocessing(AbstractFilePreprocessing):
     def main():
         """this method is just for testing purposes"""
 
-        # specify your root directory with the news data here
-        # examples:
-        my_root_directory = "/Users/alexandrahofmann/Documents/Master Uni MA/2. Semester/" \
-                            "Information Retrieval and Web Search/Team Project/20news-bydate-train"
-        # my_root_directory = "C:/Users/D060249/Documents/Mannheim/Semester 2/" \
-         #                   "Information Retrieval and Web Search/IR Team Project/" \
-         #                   "20news-bydate-test"
-
-        name_of_target_file = "bow_lemmatization_test_data.dict"
+        # include the news-by-date folder in a data folder below the project
+        my_root_directory_train = "../../data/20news-bydate/20news-bydate-train"
+        name_of_target_file_train = "../../src/files/bow_lemmatization_train_data.dict"
+        my_root_directory_test = "../../data/20news-bydate/20news-bydate-test"
+        name_of_target_file_test = "../../src/files/bow_lemmatization_test_data.dict"
 
         # This process might take a while.
         # If you already have a .dict file, you skip the following line.
-        LemmatizationFilePreprocessing.save_bag_of_words(my_root_directory, name_of_target_file)
+        LemmatizationFilePreprocessing.save_bag_of_words(my_root_directory_train, name_of_target_file_train)
+        LemmatizationFilePreprocessing.save_bag_of_words(my_root_directory_test, name_of_target_file_test)
 
         # testing the stringTransformation method
         test_string = "I just love dogs and cats and playing with them. 123I love it :)" \

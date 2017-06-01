@@ -1,52 +1,42 @@
-# LatentSemanticIndexing
-Repository for Task 3: Latent Semantic Indexing.
+# LatentSemanticIndexing by Team 3 (Hofmann, Portisch, Ulbrich, Hentschel) 
+Repository for Task 3 of the Information Retrival team project: Latent Semantic Indexing.
+
+## General Information
+
+Used Technologies:
+- Python (version 3.6)
+- Libraries
+    - Natural Language ToolKit (NLTK) for Python
+    - Numpy
+    - SciPy (v0.19)
+    - json
+- Webpage as UI build with Angular
+- We recommend using Anaconda as package manager and runtime (https://www.continuum.io/downloads)
+
+## How to Run
+Preprocessed files are persisted and already available in the project.
+If you want to re-preprocess, follow the steps of "How to Run from Scratch".
+
+1. Copy the ``20news-bydate`` folder into ``LatentSemanticIndexing/data`` 
+2. Execute ``python /main.py``
+3. Navigate to [http://localhost:8000](http://localhost:8000 "Localhost - Port 8000") in your web browser.
+4. If successful, the user interface of the search should appear.
 
 
+## How to Run from Scratch
+It is assumed that the newsgroup folder is available as described above in ``LatentSemanticIndexing/data`` .
 
-#### Highlevel-Taks
-- speichern und retrieven von data-objekten (konkret: arrays und objekte) [Sascha] OUTPUT: Python Notebook (copy-paste Vorlage)
-- read into Pooling Evaluation Method 
-- familiarize with SVD & LSI
+1. Go to ``src/preprocessing/LemmatizationFilePreprocessing``
+2. If you have never used the NLTK stopword removal list and the tokenizer, follow the subsequent steps. Otherwise continue with step 3.
 
+ Execute 
+ 
+    import nltk
+    nltk.download()
 
----------------------------------------------------------------------------------
-#### Concrete Tasks
+- A download explorer opens.
+- Click on "Corpora", search for "stopwords" and "wordnet" and download both.
+- Furthermore, click on "Models",
+- Search for "averaged_perceptron_tagger" and "punkt" and download both.
 
-##### 1) Files einlesen [Alex, Jan]
-- INPUT: Root Directory of Files
-- OUTPUT: Directory
-
-- one line: string sequence of 1 document (tokens -> you can decide which) 
-- Format CSV (use semicolons for separation!) -> if possible save array
-
-
-##### 2) Preprocessing [Alex, Jan]
-- INPUT: directory aus 1
-- OUTPUT: CSV ? aus 1 angepasst -> if possible save array
-
-- Lemmatization / Stemming 
-- Stopword Removal ?
-
-
-##### 3) TF-IDF [Sascha]
-- INPUT: CSV aus 2
-- OUTPUT: TF-IDF Matrix (sparse Format) -> save (X)
--> (eine Spalte = Ein Dokument; Eine Zeile = ein Token) 
-
-
-##### 4) SVD [Sascha]
-- apply SVD
-- set k
-- save U, S (dense)
-
-
-##### 5) "Search" [David]
-- INPUT: U, S, Query
-- OUTPUT: Document IDs
-
-- Query-Transformation
-- Cosine similarity
-
-
-##### 6) Connect to Frontend [David]
-- write service
+3. Run the program "LemmatizationFilePreprocessing.py"

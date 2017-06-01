@@ -38,7 +38,8 @@ __pycache__
 *.bat
 
 # data
-data
+data/*
+!data/copy_newsgroups_here
 *.dict
 !/src/files/bow_lemmatization_test_data.dict
 !/src/files/bow_lemmatization_train_data.dict

@@ -4,7 +4,7 @@ Repository for Task 3 of the Information Retrival team project: Latent Semantic 
 ## General Information
 
 Used Technologies:
-- Python
+- Python (version 3.6)
 - Libraries
     - Natural Language ToolKit (NLTK) for Python
     - Numpy

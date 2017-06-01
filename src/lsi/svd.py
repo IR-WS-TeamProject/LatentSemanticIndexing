@@ -37,12 +37,8 @@ class SVDHandler:
         if not load:
             print("SVD: Start calculation")
             if isinstance(tdm, coo_matrix):
-                #self.docs = docs
                 #calc SVD
                 U, s, Vt = svds(tdm, k = max_k)
-                # TODO: own k determination? -> set s = 0 for truncation (or just rely on k-tuning?)
-                #test (truncate lowest eigenvalue):
-                #s[:-22] = 0
 
                 #truncate SVD (s is ordered ascending! -> find min index where s is non-zero)
                 s_min = np.min(s.nonzero())
@@ -55,10 +51,9 @@ class SVDHandler:
                 self.Ut = U.transpose()
                 self.SiUt = inv(np.diag(self.s)).dot(self.Ut) #numpy.dot: For 2-D arrays it is the matrix product
                 self.V = Vt.transpose()
-                #tempNorms = np.diag(self.Vt).dot(self.V)
-                #tempNorms[tempNorms < 0] = 0
-                #self.docNorms = np.sqrt(tempNorms)
-                self.docNorms = np.linalg.norm(self.V,axis=1)#np.sum(self.V**2,axis=-1)**(1./2)
+
+                #Row-wise norm of V -> norm per document representation (needed for cosine)
+                self.docNorms = np.linalg.norm(self.V,axis=1)
 
                 if path is not None:
                     self.__save__(path)
@@ -71,10 +66,8 @@ class SVDHandler:
         np.save(path + "svd.k", self.k)
         np.save(path + "svd.s", self.s)
         np.save(path + "svd.Ut", self.Ut)
-        #np.save(path + "svd.SiUt", self.SiUt)
         np.save(path + "svd.V", self.V)
         np.save(path + "svd.docNorms", self.docNorms)
-        #np.save(path + "svd.docs", self.docs)
         print("SVD: Saved to files")
         return
 
@@ -82,10 +75,8 @@ class SVDHandler:
         self.k = np.load(path + "svd.k.npy")
         self.s = np.load(path + "svd.s.npy")
         self.Ut = np.load(path + "svd.Ut.npy")
-        # self.SiUt       = np.load(path + "svd.SiUt.npy")
         self.V = np.load(path + "svd.V.npy")
         self.docNorms = np.load(path + "svd.docNorms.npy")
-        # self.docs = np.load(path + "svd.docs.npy")
 
         self.SiUt = inv(np.diag(self.s)).dot(self.Ut)
         return
@@ -109,9 +100,9 @@ class SVDHandler:
         # convert to dense vectors (matrix)
         # - bit complicated because of elementwise dot product between dense and sparse matrix needed!
         # - COO Matrix no appropriate - but CSC and SCR is supporting vector products.
-        # -- Column compressed for input matrix because each column (doc) vector is neede
+        # -- Column compressed for input matrix because each column (doc) vector is needed
         # -- Row compressed for SiUt because each row (topics) is needed
-        #dm = self.SiUt.dot(matrix.tocsc()) -> dot product method of sparse matrix needed -> convert
+        #dot product method of sparse matrix needed -> convert
         topic_m = csr_matrix(self.SiUt).dot(matrix.tocsc()).todense()
 
         print("Ranking: Batch - calculated dense topic matrix (shape: ",topic_m.shape,")")

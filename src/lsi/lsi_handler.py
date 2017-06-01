@@ -33,8 +33,8 @@ class LSIHandler:
                                           path=files_path,
                                           load=load_svd)
 
-        if self.svd_handler.is_valid:
-            self.is_valid = True
+            if self.svd_handler.is_valid:
+                self.is_valid = True
 
     def get_ranking(self,
                     query="",

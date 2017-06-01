@@ -84,8 +84,7 @@ class TFIDFHandler:
             # count the unique terms of the document and get their vocabulary indices
             uniq_indices, counts = np.unique(term_indices, return_counts=True)
 
-            #adapt tf to consider doc length and dampen effect of large counts
-            #tf(t, d) = (1 + log10(ft, d)) / (1 + log10(max{ft’, d: t’ ∈ d}))
+            #adapt raw count to consider doc length and dampen effect of large counts
             tf = (1 + np.log10(counts) / (1 + np.log10(np.max(counts))))
 
             # add (unique) indices of current doc to a list which is later on used for df
@@ -112,7 +111,6 @@ class TFIDFHandler:
 
         # Construct DTM as COO Matrix
         self.tdm = coo_matrix((data, (rows, cols)), shape=(nvocab, ndocs), dtype=np.float32)
-        #self.vocab = vocab[vocab_sorter]
 
         print("TF-IDF: Finished creation based on ",ndocs," documents and vocabulary of size ", nvocab)
 

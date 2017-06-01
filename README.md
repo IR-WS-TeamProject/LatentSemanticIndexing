@@ -28,7 +28,7 @@ To learn the model please execute following steps:
 - Furthermore, click on "Models",
 - Search for "averaged_perceptron_tagger" and "punkt" and download both.
 
-3. Copy the newsgroup folder into ``<project path>/20news-bydate-train`` , otherwise the server will not be able to locate the files
+3. Copy the newsgroup folder into ``<project path>/20news-bydate`` , otherwise the server will not be able to locate the files
 3. In the ``main`` method, set variable ``my_root_directory`` to the project path + ``/20news-bydate-train`` 
 4. Run the program
 5. Copy the generated BOW Dictionary into "src/files/" and name it "bow_lemmatization_train_data.dict"

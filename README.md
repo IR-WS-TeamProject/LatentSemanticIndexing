@@ -24,7 +24,7 @@ If you want to re-preprocess, follow the steps of "How to Run from Scratch".
 
 
 ## How to Run from Scratch
-It is assumed that the newsgroup folder is available as described above.
+It is assumed that the newsgroup folder is available as described above in ``LatentSemanticIndexing/data`` .
 
 1. Go to ``src/preprocessing/LemmatizationFilePreprocessing``
 2. If you have never used the NLTK stopword removal list and the tokenizer, follow the subsequet steps. Otherwise continue with step 3.

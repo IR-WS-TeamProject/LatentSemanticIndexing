@@ -129,13 +129,8 @@ class LemmatizationFilePreprocessing(AbstractFilePreprocessing):
     def main():
         """this method is just for testing purposes"""
 
-        # specify your root directory with the news data here
-        # examples:
-        my_root_directory = "/Users/alexandrahofmann/Documents/Master Uni MA/2. Semester/" \
-                            "Information Retrieval and Web Search/Team Project/20news-bydate-train"
-        # my_root_directory = "C:/Users/D060249/Documents/Mannheim/Semester 2/" \
-         #                   "Information Retrieval and Web Search/IR Team Project/" \
-         #                   "20news-bydate-test"
+        # include the news-by-date folder in a data folder below the project
+        my_root_directory = "../../data/20news-bydate/20news-bydate-train"
 
         name_of_target_file = "bow_lemmatization_test_data.dict"
 

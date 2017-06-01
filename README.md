@@ -27,7 +27,7 @@ If you want to re-preprocess, follow the steps of "How to Run from Scratch".
 It is assumed that the newsgroup folder is available as described above in ``LatentSemanticIndexing/data`` .
 
 1. Go to ``src/preprocessing/LemmatizationFilePreprocessing``
-2. If you have never used the NLTK stopword removal list and the tokenizer, follow the subsequet steps. Otherwise continue with step 3.
+2. If you have never used the NLTK stopword removal list and the tokenizer, follow the subsequent steps. Otherwise continue with step 3.
 
  Execute 
  
@@ -38,4 +38,5 @@ It is assumed that the newsgroup folder is available as described above in ``Lat
 - Click on "Corpora", search for "stopwords" and "wordnet" and download both.
 - Furthermore, click on "Models",
 - Search for "averaged_perceptron_tagger" and "punkt" and download both.
+
 3. Run the program "LemmatizationFilePreprocessing.py"
